@@ -1,4 +1,4 @@
-package com.colson.dal;
+package com.colson.dal.dto;
 
 import java.io.Serializable;
 

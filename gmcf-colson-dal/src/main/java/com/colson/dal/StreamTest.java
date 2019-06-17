@@ -79,6 +79,7 @@ public class StreamTest {
         System.out.println("个数 : " + stats.getCount());
 
         //Integer a = 10,默认会执行Integer a = Integer.valueOf(10)的操作
+        //-128到127常用,==为true
         Integer a = 10;
         Integer b = Integer.valueOf(10);
         if (a==b){
@@ -88,10 +89,6 @@ public class StreamTest {
         StreamTest streamTest = new StreamTest();
         streamTest.setName("wang");
         System.out.println(streamTest.equals(streamTest));
-        int ee = 10;
-        System.out.println("124");
-        System.out.println("-------YouMeek-------ee值-" + ee + "," + "当前类-" + "StreamTest" + "," + "当前方法-" + "main");
-        System.out.println("-------YouMeek-------ee值-" + ee + "," + "当前类-" + "StreamTest" + "," + "当前方法-" + "main");
     }
 
     @Override
@@ -99,10 +96,6 @@ public class StreamTest {
         if (obj.toString().equals(this.toString())){
             return true;
         }
-
         return false;
-    }
-    public void testTem(String num){
-        int i=10;
     }
 }
