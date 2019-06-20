@@ -1,6 +1,7 @@
 package com.colson.dal;
 
 import com.colson.dal.bean.Student;
+import com.colson.dal.util.ArrayUtils;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +12,9 @@ public class MyTest {
         BigDecimal i = BigDecimal.ZERO;
         add(i);
         System.out.println(i);
+        int[] a1 = {1,3,5,10,11};
+        int[] a2 = {6,7,8,9,10};
+        System.out.println(ArrayUtils.getMiddleNum(a1, a2));
 //        Student student = new Student();
 //        List<Student> students = new ArrayList<>();
 //        add(student,students);

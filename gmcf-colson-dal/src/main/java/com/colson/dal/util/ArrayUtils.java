@@ -7,27 +7,38 @@ public class ArrayUtils {
      */
     public static int getMiddleNum(int[] arr1,int[] arr2) {
         int s1,e1,m1,s2,e2,m2;
-        int[] arr = new int[arr1.length+arr2.length];
-
         s1 = 0;
         e1 = arr1.length-1;
-        m1 = arr1.length%2==0?arr1[arr1.length/2-1]:arr1[arr1.length/2];
         s2 = 0;
         e2 = arr2.length-1;
-        m2 = arr2.length%2==0?arr2[arr2.length/2-1]:arr2[arr2.length/2];
-        if (m1==m2) {
-            return m1;
-        }
-        while (s1!=e1 && s2!=e2) {
-            if (m1<m2) {
-                s1 = (s1+e1)/2-1;
-                e2 = (s2+e2)/2;
+
+        while (s1!=e1 || s2!=e2) {
+            m1 = (s1+e1)/2;
+            m2 = (s2+e2)/2;
+
+            if (arr1[m1] == arr2[m2]) {
+                return arr1[m1];
+            }
+
+            if (arr1[m1]<arr2[m2]) {
+                if ((s1+e1)%2==0) {
+                    s1 = m1;
+                    e2 = m2;
+                } else {
+                    s1 = m1+1;
+                    e2 = m2;
+                }
             } else {
-                s2 = (s2+e2)/2-1;
-                e1 = (s1+e1)/2;
+                if ((s2+e2)%2==0) {
+                    s2 = m2;
+                    e1 = m1;
+                } else {
+                    s2 = m2+1;
+                    e1 = m1;
+                }
             }
         }
-        return m1;
+        return arr1[s1]<arr2[s2]?arr1[s1]:arr2[s2];
 
     }
 }
