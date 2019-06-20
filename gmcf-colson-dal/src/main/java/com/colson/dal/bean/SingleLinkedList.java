@@ -1,64 +1,73 @@
 package com.colson.dal.bean;
 
 
-import org.apache.poi.ss.formula.functions.T;
+import java.util.LinkedList;
 
-
-public class SingleLinkedList {
+public class SingleLinkedList<E> {
     /**
      * 头结点
      */
-    private Node tNode;
+    private Node<E> tNode;
 
     public SingleLinkedList() {
     }
 
-    public SingleLinkedList(Node tNode) {
-        this.tNode = tNode;
-    }
-
-    public Node gettNode() {
-        return tNode;
-    }
-
-    public void settNode(Node tNode) {
-        this.tNode = tNode;
-    }
-
+    /**
+     * 获取链表长度
+     * @return
+     */
     public int size() {
         if (null == tNode) {
             return 0;
         }
         int i = 1;
-        Node next = tNode.getNext();
+        Node<E> next = tNode.next;
         while (null != next) {
             i++;
-            next = next.getNext();
+            next = next.next;
         }
         return i;
     }
 
-    public Node getLastNode() {
+    /**
+     * 获取最后一个结点
+     * @return
+     */
+    private Node<E> getLastNode() {
         if (null == tNode) {
             return null;
         }
-        Node next = tNode;
-        while (null != next.getNext()) {
-            next = next.getNext();
+        Node node = tNode;
+        while (null != node.next) {
+            node = node.next;
         }
-        return next;
+        return node;
     }
 
     /**
-     * 向单链表插入元素
+     * 向表尾插入元素
      * @param data
      */
-    public void add(Object data) {
-        Node node = new Node(data,null);
+    public void addLast(E data) {
+        Node<E> node = new Node(data,null);
         if (null == tNode) {
             tNode = node;
         } else {
-            getLastNode().setNext(node);
+            getLastNode().next = node;
+        }
+    }
+
+    /**
+     * 向指定位置插入元素
+     * @param index
+     * @param data
+     */
+    public void addFrom(int index,E data) {
+        Node<E> node = new Node(data,null);
+        if (null == tNode) {
+            tNode = node;
+        } else {
+            getLastNode().next = node;
         }
     }
 
@@ -67,39 +76,98 @@ public class SingleLinkedList {
      * @param targetNode
      * @param data
      */
-    public void add(Node targetNode,Object data) {
-        Node node = new Node(data,null);
-        if (null != targetNode.getNext()) {
-            node.setNext(targetNode.getNext());
+    private void addAfter(Node<E> targetNode,E data) {
+        Node<E> node = new Node<E>(data,null);
+        if (null != targetNode.next) {
+            node.next = targetNode.next;
         }
-        targetNode.setNext(node);
+        targetNode.next = node;
     }
 
-    public void deleteNext(Node targetNode) {
-        if (null != targetNode.getNext()) {
-            if (null != targetNode.getNext().getNext()) {
-                targetNode.setNext(targetNode.getNext().getNext());
+    /**
+     * 删除目标结点的下一个结点
+     * @param targetNode
+     */
+    public void deleteNext(Node<E> targetNode) {
+        if (null != targetNode.next) {
+            if (null != targetNode.next.next) {
+                targetNode.next = targetNode.next.next;
             } else {
-                targetNode.setNext(null);
+                targetNode.next = null;
             }
         }
     }
 
-    public int indexOf(Object data) {
-        int index = 1;
-        Node node = tNode.getNext();
+    /**
+     * 获取指定下标的数据
+     * @param index
+     * @return
+     */
+    public E get(int index) {
+        return node(index).data;
+    }
+
+    Node<E> node(int index) {
+        if (index >= 0 && index < this.size()) {
+            if (null == tNode) {
+                return null;
+            }
+            Node<E> node = tNode;
+            for (int i=0;i<index;i++) {
+                node = node.next;
+            }
+            return node;
+        }
+        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    }
+
+    /**
+     * 返回指定数据的下标
+     * @param data
+     * @return
+     */
+    public int indexOf(E data) {
+        int index = 0;
+        Node<E> node = tNode;
         while (null != node) {
-            if (data.equals(node.getData())) {
+            if (data.equals(node.data)) {
                 return index;
             }
             index++;
-            node = node.getNext();
+            node = node.next;
         }
         return -1;
     }
 
     @Override
     public String toString() {
-        return tNode==null?"[]":"[" + tNode + ']';
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<this.size();i++) {
+            sb.append(this.get(i)+",");
+        }
+        return tNode==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
     }
+
+    private String outOfBoundsMsg(int index) {
+        return "Index: "+index+", Size: "+this.size();
+    }
+
+    /**
+     * 单链表结点内部类
+     */
+    private static class Node<E> {
+
+        E data;
+        Node<E> next;
+
+        Node() {
+            this.next = null;
+        }
+
+        Node(E data, Node<E> next) {
+            this.data = data;
+            this.next = next;
+        }
+    }
+
 }
