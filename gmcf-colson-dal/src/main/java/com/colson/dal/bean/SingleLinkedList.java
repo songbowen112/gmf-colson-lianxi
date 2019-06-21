@@ -3,6 +3,11 @@ package com.colson.dal.bean;
 
 import java.util.LinkedList;
 
+/**
+ * 单向链表
+ * @author songbowen
+ * @param <E>
+ */
 public class SingleLinkedList<E> {
     /**
      * 头结点
@@ -48,7 +53,7 @@ public class SingleLinkedList<E> {
      * 向表尾插入元素
      * @param data
      */
-    public void addLast(E data) {
+    public void add(E data) {
         Node<E> node = new Node(data,null);
         if (null == tNode) {
             tNode = node;
@@ -63,11 +68,22 @@ public class SingleLinkedList<E> {
      * @param data
      */
     public void addFrom(int index,E data) {
+        if (index<0 || index>this.size()) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        }
         Node<E> node = new Node(data,null);
         if (null == tNode) {
             tNode = node;
         } else {
-            getLastNode().next = node;
+            if (index == 0) {
+                node.next = tNode;
+                tNode = node;
+            } else if (index == this.size()) {
+                node(index-1).next = node;
+            } else {
+                node.next = node(index);
+                node(index-1).next = node;
+            }
         }
     }
 
@@ -78,17 +94,34 @@ public class SingleLinkedList<E> {
      */
     private void addAfter(Node<E> targetNode,E data) {
         Node<E> node = new Node<E>(data,null);
-        if (null != targetNode.next) {
+        if (null !=targetNode && null != targetNode.next) {
             node.next = targetNode.next;
         }
         targetNode.next = node;
     }
 
     /**
+     * 移除指定下标结点
+     * @param index
+     */
+    public void remove(int index) {
+        if (index<0 || index>=this.size()) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        }
+        if (index == 0) {
+            tNode = tNode.next;
+        } else if (index == this.size()-1) {
+            node(index-1).next = null;
+        } else {
+            node(index-1).next = node(index+1);
+        }
+    }
+
+    /**
      * 删除目标结点的下一个结点
      * @param targetNode
      */
-    public void deleteNext(Node<E> targetNode) {
+    private void deleteNext(Node<E> targetNode) {
         if (null != targetNode.next) {
             if (null != targetNode.next.next) {
                 targetNode.next = targetNode.next.next;
@@ -107,18 +140,21 @@ public class SingleLinkedList<E> {
         return node(index).data;
     }
 
+    /**
+     * 获取指点下标结点
+     * @param index
+     * @return
+     */
     Node<E> node(int index) {
-        if (index >= 0 && index < this.size()) {
-            if (null == tNode) {
-                return null;
-            }
-            Node<E> node = tNode;
-            for (int i=0;i<index;i++) {
-                node = node.next;
-            }
-            return node;
+        if (index<0 || index>=this.size()) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        Node<E> node = tNode;
+        for (int i=0;i<index;i++) {
+            node = node.next;
+        }
+        return node;
+
     }
 
     /**
@@ -148,6 +184,11 @@ public class SingleLinkedList<E> {
         return tNode==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
     }
 
+    /**
+     * 下标越界信息
+     * @param index
+     * @return
+     */
     private String outOfBoundsMsg(int index) {
         return "Index: "+index+", Size: "+this.size();
     }
