@@ -100,7 +100,7 @@ public class ArraysTest {
 				return list.get(j);
 			}
 		}
-		return 0;
+		return -1;
 	}
 
 }
