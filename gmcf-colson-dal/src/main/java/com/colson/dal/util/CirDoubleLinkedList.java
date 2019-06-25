@@ -34,9 +34,16 @@ public class CirDoubleLinkedList<E> implements Serializable {
         Node<E> l = last;
         Node<E> node = new Node<>(l,data,null);
         last = node;
-        if (null == l) {
+
+        if (size == 0) {
             first = node;
+        } else if (size == 1){
+            node.next = l;
+            l.next = node;
+            l.prev = node;
         } else {
+            node.next = l.next;
+            l.next.prev = node;
             l.next = node;
         }
         size++;

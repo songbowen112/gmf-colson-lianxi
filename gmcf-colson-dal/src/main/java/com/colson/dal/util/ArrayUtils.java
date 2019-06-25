@@ -3,7 +3,9 @@ package com.colson.dal.util;
 public class ArrayUtils {
 
     /**
-     * 俩个等长升序数组,求合并数组后的中位数(中位数在奇数长度数组是最中间的数,偶数长度数组中为第length/2个数)
+     * 俩个等长升序数组,求合并数组后的中位数。
+     * (中位数在奇数长度数组是最中间的数,偶数长度数组中为第length/2个数)
+     * 要求时间复杂度、空间复杂度最优。
      */
     public static int getMiddleNum(int[] arr1,int[] arr2) {
         int s1,e1,m1,s2,e2,m2;
