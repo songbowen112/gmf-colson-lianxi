@@ -1,6 +1,7 @@
-package com.colson.dal.bean;
+package com.colson.dal.util;
 
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 /**
@@ -8,11 +9,11 @@ import java.util.LinkedList;
  * @author songbowen
  * @param <E>
  */
-public class SingleLinkedList<E> {
+public class SingleLinkedList<E> implements Serializable {
     /**
      * 头结点
      */
-    private Node<E> tNode;
+    transient Node<E> tNode;
 
     public SingleLinkedList() {
     }

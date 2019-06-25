@@ -1,8 +1,6 @@
-package com.colson.dal;
+package com.colson.dal.linkTest;
 
-import com.colson.dal.bean.SingleLinkedList;
-
-import java.util.LinkedList;
+import com.colson.dal.util.SingleLinkedList;
 
 public class SingleLinkTest {
 

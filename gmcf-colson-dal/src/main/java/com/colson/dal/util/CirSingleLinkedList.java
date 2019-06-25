@@ -1,22 +1,19 @@
-package com.colson.dal.bean;
+package com.colson.dal.util;
 
-
-import java.util.LinkedList;
+import java.io.Serializable;
 
 /**
- * 双向链表
+ * 循环单链表
  * @author songbowen
  * @param <E>
  */
-public class DoubleLinkList<E> {
+public class CirSingleLinkedList<E> implements Serializable {
 
-    Node<E> first;
+    transient Node<E> last;
 
-    Node<E> last;
+    transient int size = 0;
 
-    private int size = 0;
-
-    public DoubleLinkList() {
+    public CirSingleLinkedList() {
     }
 
     /**
@@ -31,14 +28,16 @@ public class DoubleLinkList<E> {
      * @param data
      */
     public void add(E data) {
-        Node<E> node = new Node<>(null,data,null);
-        if (null == first) {
-            first = node;
-            last = node;
-        } else {
-            last.next = node;
-            node.prev = last;
-            last = node;
+        Node<E> l = last;
+        Node<E> node = new Node<>(null,data);
+        last = node;
+        if (size == 1) {
+            node.next = l;
+            l.next = node;
+        }
+        if (size > 1) {
+            node.next = l.next;
+            l.next = node;
         }
         size++;
     }
@@ -52,23 +51,19 @@ public class DoubleLinkList<E> {
         if (index<0 || index>this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        Node<E> node = new Node(null,data,null);
-        if (null == first) {
-            first = node;
+        Node<E> node = new Node(null,data);
+        if (null == last) {
             last = node;
         } else {
             if (index == 0) {
-                first.prev = node;
-                node.next = first;
-                first = node;
+                node.next = node(index);
+                last.next = node;
             } else if (index == this.size) {
+                node.next = node(index-1).next;
                 node(index-1).next = node;
-                node.prev = node(index-1);
                 last = node;
             } else {
-                node.prev = node(index-1);
                 node.next = node(index);
-                node(index).prev = node;
                 node(index-1).next = node;
             }
         }
@@ -84,13 +79,12 @@ public class DoubleLinkList<E> {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         if (index == 0) {
-            first = first.next;
+            last.next = last.next.next;
         } else if (index == this.size-1) {
-            node(index-1).next = null;
+            node(index-1).next = node(index).next;
             last = node(index-1);
         } else {
-            node(index+1).prev = node(index-1);
-            node(index-1).next = node(index+1);
+            node(index-1).next = node(index).next;
         }
         size--;
     }
@@ -113,7 +107,10 @@ public class DoubleLinkList<E> {
         if (index<0 || index>=this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        Node<E> node = first;
+        if (size == 1) {
+            return last;
+        }
+        Node<E> node = last.next;
         for (int i=0;i<index;i++) {
             node = node.next;
         }
@@ -126,7 +123,7 @@ public class DoubleLinkList<E> {
      * @return
      */
     public int indexOf(E data) {
-        if (first != null) {
+        if (last != null) {
             for (int i=0;i<size;i++) {
                 if (get(i).equals(data)) {
                     return i;
@@ -156,14 +153,11 @@ public class DoubleLinkList<E> {
 
     private static class Node<E>{
 
-        Node<E> prev;
-
         Node<E> next;
 
         E data;
 
-        private Node(Node<E> prev, E data, Node<E> next) {
-            this.prev = prev;
+        private Node(Node<E> next,E data) {
             this.next = next;
             this.data = data;
         }
