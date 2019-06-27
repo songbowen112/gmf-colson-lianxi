@@ -22,8 +22,12 @@ public class CirDoubleLinkedListTest {
         list.add(3);
         System.out.println(list);
 
-
-        System.out.println(list.indexOf(99));
+        System.out.println(list.get(4));
+        System.out.println(list.get(0));
+        list.remove(4);
+        list.remove(list.size()-1);
+        System.out.println(list);
+        System.out.println(list.indexOf(5));
         System.out.println(list);
 
     }
