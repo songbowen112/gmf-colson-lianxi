@@ -78,14 +78,19 @@ public class CirSingleLinkedList<E> implements Serializable {
         if (index<0 || index>=this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        if (index == 0) {
-            last.next = last.next.next;
-        } else if (index == this.size-1) {
-            node(index-1).next = node(index).next;
-            last = node(index-1);
+        if (size == 1) {
+            last = null;
         } else {
-            node(index-1).next = node(index).next;
+            if (index == 0) {
+                last.next = last.next.next;
+            } else if (index == this.size-1) {
+                node(index-1).next = node(index).next;
+                last = node(index-1);
+            } else {
+                node(index-1).next = node(index).next;
+            }
         }
+
         size--;
     }
 

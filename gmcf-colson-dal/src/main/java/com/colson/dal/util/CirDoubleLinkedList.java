@@ -50,38 +50,6 @@ public class CirDoubleLinkedList<E> implements Serializable {
     }
 
     /**
-     * 向指定位置插入元素
-     * @param index
-     * @param data
-     */
-    public void addFrom(int index,E data) {
-        if (index<0 || index>this.size) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-        }
-        Node<E> node = new Node(null,data,null);
-        if (null == first) {
-            first = node;
-            last = node;
-        } else {
-            if (index == 0) {
-                first.prev = node;
-                node.next = first;
-                first = node;
-            } else if (index == this.size) {
-                node(index-1).next = node;
-                node.prev = node(index-1);
-                last = node;
-            } else {
-                node.prev = node(index-1);
-                node.next = node(index);
-                node(index).prev = node;
-                node(index-1).next = node;
-            }
-        }
-        size++;
-    }
-
-    /**
      * 移除指定下标结点
      * @param index
      */
@@ -89,15 +57,24 @@ public class CirDoubleLinkedList<E> implements Serializable {
         if (index<0 || index>=this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        if (index == 0) {
-            first = first.next;
-            first.prev = null;
-        } else if (index == this.size-1) {
-            node(index-1).next = null;
-            last = node(index-1);
+        if (size == 1) {
+            first = null;
+            last = null;
         } else {
-            node(index+1).prev = node(index-1);
-            node(index-1).next = node(index+1);
+            Node<E> f = first;
+            Node<E> l = last;
+            if (index == 0) {
+                first = f.next;
+                first.prev = f.prev;
+                f.prev.next = first;
+            } else if (index == this.size-1) {
+                last = l.prev;
+                last.next = l.next;
+                l.next.prev = last;
+            } else {
+                node(index+1).prev = node(index-1);
+                node(index-1).next = node(index+1);
+            }
         }
         size--;
     }

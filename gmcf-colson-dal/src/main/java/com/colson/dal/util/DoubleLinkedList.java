@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * @author songbowen
  * @param <E>
  */
-public class DoubleLinkList<E> implements Serializable {
+public class DoubleLinkedList<E> implements Serializable {
 
     transient Node<E> first;
 
@@ -17,7 +17,7 @@ public class DoubleLinkList<E> implements Serializable {
 
     transient int size = 0;
 
-    public DoubleLinkList() {
+    public DoubleLinkedList() {
     }
 
     /**
@@ -78,15 +78,20 @@ public class DoubleLinkList<E> implements Serializable {
         if (index<0 || index>=this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        if (index == 0) {
-            first = first.next;
-            first.prev = null;
-        } else if (index == this.size-1) {
-            node(index-1).next = null;
-            last = node(index-1);
+        if (size == 1) {
+            first = null;
+            last = null;
         } else {
-            node(index+1).prev = node(index-1);
-            node(index-1).next = node(index+1);
+            if (index == 0) {
+                first.prev = null;
+                first = first.next;
+            } else if (index == this.size-1) {
+                node(index-1).next = null;
+                last = node(index-1);
+            } else {
+                node(index+1).prev = node(index-1);
+                node(index-1).next = node(index+1);
+            }
         }
         size--;
     }
