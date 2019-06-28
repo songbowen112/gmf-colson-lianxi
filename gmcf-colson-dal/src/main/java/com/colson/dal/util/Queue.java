@@ -1,14 +1,13 @@
 package com.colson.dal.util;
 
-
 import java.io.Serializable;
 
 /**
- * 双向链表
+ * 队列
  * @author songbowen
  * @param <E>
  */
-public class DoubleLinkedList<E> implements Serializable {
+public class Queue<E> implements Serializable {
 
     transient Node<E> first;
 
@@ -16,7 +15,7 @@ public class DoubleLinkedList<E> implements Serializable {
 
     transient int size = 0;
 
-    public DoubleLinkedList() {
+    public Queue() {
     }
 
     /**
@@ -34,37 +33,17 @@ public class DoubleLinkedList<E> implements Serializable {
         Node<E> l = last;
         Node<E> node = new Node<>(l,data,null);
         last = node;
-        if (null == l) {
-            first = node;
-        } else {
-            l.next = node;
-        }
-        size++;
-    }
 
-    /**
-     * 向指定位置插入元素
-     * @param index
-     * @param data
-     */
-    public void addFrom(int index,E data) {
-        if (index<0 || index>this.size) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-        }
-        Node<E> node = new Node(null,data,null);
-        if (index == 0) {
-            first.prev = node;
-            node.next = first;
+        if (size == 0) {
             first = node;
-        } else if (index == this.size) {
-            node.prev = node(index-1);
-            node(index-1).next = node;
-            last = node;
+        } else if (size == 1){
+            node.next = l;
+            l.next = node;
+            l.prev = node;
         } else {
-            node.prev = node(index-1);
-            node.next = node(index);
-            node(index).prev = node;
-            node(index-1).next = node;
+            node.next = l.next;
+            l.next.prev = node;
+            l.next = node;
         }
         size++;
     }
@@ -81,12 +60,16 @@ public class DoubleLinkedList<E> implements Serializable {
             first = null;
             last = null;
         } else {
+            Node<E> f = first;
+            Node<E> l = last;
             if (index == 0) {
-                first.prev = null;
-                first = first.next;
+                first = f.next;
+                first.prev = f.prev;
+                f.prev.next = first;
             } else if (index == this.size-1) {
-                node(index-1).next = null;
-                last = node(index-1);
+                last = l.prev;
+                last.next = l.next;
+                l.next.prev = last;
             } else {
                 node(index+1).prev = node(index-1);
                 node(index-1).next = node(index+1);

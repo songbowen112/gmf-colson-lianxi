@@ -2,7 +2,6 @@ package com.colson.dal.util;
 
 
 import java.io.Serializable;
-import java.util.LinkedList;
 
 /**
  * 单向链表
