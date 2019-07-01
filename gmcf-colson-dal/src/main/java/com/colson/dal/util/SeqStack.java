@@ -53,7 +53,7 @@ public class SeqStack<E> implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         if (null != datas) {
-            for (int i=datas.length-1;i>0;i--) {
+            for (int i=datas.length-1;i>=0;i--) {
                 sb.append(datas[i]+",");
             }
         }
