@@ -3,7 +3,7 @@ package com.colson.dal.util;
 import java.io.Serializable;
 
 /**
- * 链式栈
+ * 链式栈(先进后出)
  * @author songbowen
  * @param <E>
  */

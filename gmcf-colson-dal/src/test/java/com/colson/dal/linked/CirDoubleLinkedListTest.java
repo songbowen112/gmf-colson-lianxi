@@ -1,4 +1,4 @@
-package com.colson.dal.linkTest;
+package com.colson.dal.linked;
 
 import com.colson.dal.util.CirDoubleLinkedList;
 

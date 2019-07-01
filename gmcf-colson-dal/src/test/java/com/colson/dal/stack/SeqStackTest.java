@@ -1,12 +1,13 @@
-package com.colson.dal.linkTest;
+package com.colson.dal.stack;
 
-import com.colson.dal.util.LinkedStack;
+import com.colson.dal.util.SeqStack;
 
-public class LinkedStackTest {
+public class SeqStackTest {
     public static void main(String[] args) {
-        LinkedStack stack = new LinkedStack();
+        SeqStack stack = new SeqStack();
         System.out.println(stack);
         stack.push(12);
+        System.out.println(stack);
         System.out.println(stack.pop());
         System.out.println(stack);
         System.out.println("此栈长度为："+stack.size());
@@ -22,8 +23,11 @@ public class LinkedStackTest {
 
         System.out.println(stack.pop());
         System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+        System.out.println(stack.pop());
+
         System.out.println(stack);
 
     }
-    
 }
