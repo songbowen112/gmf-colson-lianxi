@@ -3,11 +3,11 @@ package com.colson.dal.util;
 import java.io.Serializable;
 
 /**
- * 队列
+ * 链式队列
  * @author songbowen
  * @param <E>
  */
-public class Queue<E> implements Serializable {
+public class LinkedQueue<E> implements Serializable {
 
     transient Node<E> first;
 
@@ -15,18 +15,18 @@ public class Queue<E> implements Serializable {
 
     transient int size = 0;
 
-    public Queue() {
+    public LinkedQueue() {
     }
 
     /**
-     * 获取链表的长度
+     * 获取队列的长度
      */
     public int size() {
         return size;
     }
 
     /**
-     * 向表尾插入元素
+     * 插入元素
      * @param data
      */
     public void add(E data) {
