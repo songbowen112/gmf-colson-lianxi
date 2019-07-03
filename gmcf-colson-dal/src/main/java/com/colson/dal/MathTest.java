@@ -1,6 +1,11 @@
 package com.colson.dal;
 
+import com.colson.dal.bean.MyNumber;
+
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MathTest {
     public static void main(String[] args) {
@@ -34,5 +39,13 @@ public class MathTest {
         System.out.println(decimal1.divide(decimal,6,BigDecimal.ROUND_HALF_UP));
         //BigDecimal的乘法
         System.out.println(decimal.multiply(decimal1));
+
+        MyNumber<Number> i = new MyNumber<>();
+        i.num = new Integer(1);
+        i.num = new Double(11.1);
+        i.ts.add(new Integer(12));
+        i.ts.add(new Double(12));
+        i.ts.add(new Long(12));
+        Map map = new HashMap();
     }
 }

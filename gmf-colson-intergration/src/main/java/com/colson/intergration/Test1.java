@@ -11,10 +11,10 @@ public class Test1 {
     public static void main(String[] args) {
         int[] array = {1,2,3,4,2,5,7,1,3,1,6,8,2,3,66};
         int[] array2 = new int[array.length+1];
-        ArrayUtils.addElem(array,array2,3,999);
+        ArrayUtils.addElem(array,3,999);
         ArrayUtils.printArr(array2);
 
-        ArrayUtils.addElem(array,array2,3,999);
+        ArrayUtils.addElem(array,3,999);
         ArrayUtils.sort(array2);
         ArrayUtils.printArr(array2);
         ArrayUtils.reverse(array);
@@ -31,6 +31,8 @@ public class Test1 {
         ArrayUtils.printArr(array3);
         int[] array7 = ArrayUtils.cycleLeft2(array3,1);
         ArrayUtils.printArr(array7);
+
+        System.out.println(1 << 5);
     }
 
 

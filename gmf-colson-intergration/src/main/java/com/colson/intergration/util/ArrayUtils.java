@@ -7,23 +7,23 @@ public class ArrayUtils {
 
     /**
      * 在指定位置插入一个整数
-     * @param array1
-     * @param array2
-     * @param index
+     * @param array
+     * @param index 数组第index的位置插入
      * @param num
      * @return
      */
-    public static boolean addElem(int[] array1,int[] array2,int index,int num) {
-        if (index<1 || index>array1.length+1) {
+    public static boolean addElem(int[] array,int index,int num) {
+        if (index<1 || index>array.length+1) {
             return false;
         }
-        for (int i=0;i<array1.length;i++) {
-            array2[i] = array1[i];
+        int[] result = new int[array.length+1];
+        for (int i=0;i<array.length;i++) {
+            result[i] = array[i];
         }
-        for (int i=array2.length-1;i>=index;i--) {
-            array2[i] = array2[i-1];
+        for (int i=result.length-1;i>=index;i--) {
+            result[i] = result[i-1];
         }
-        array2[index-1] = num;
+        result[index-1] = num;
         return true;
     }
 
