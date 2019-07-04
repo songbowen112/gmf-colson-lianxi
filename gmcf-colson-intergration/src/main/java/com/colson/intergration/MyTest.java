@@ -20,6 +20,10 @@ public class MyTest {
 //        add(student,students);
 //        students.stream().forEach(i -> System.out.println(i.getName()+" "+i.getAge()));
 //        System.out.println(student);
+
+        for (int a=0;a<100;a++) {
+            System.out.println((int)(Math.random() * 20));
+        }
     }
 
     public static void add(Student student, List<Student> students){
