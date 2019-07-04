@@ -3,7 +3,7 @@ package com.colson.dal.util;
 import java.io.Serializable;
 
 /**
- * 链式队列
+ * 链式队列(先进先出）!!
  * @author songbowen
  * @param <E>
  */
@@ -30,20 +30,20 @@ public class LinkedQueue<E> implements Serializable {
      * @param data
      */
     public void add(E data) {
-        Node<E> l = last;
-        Node<E> node = new Node<>(l,data,null);
-        last = node;
+        Node<E> f = first;
+        Node<E> node = new Node<>(null,data,f);
+        first = node;
 
         if (size == 0) {
-            first = node;
+            last = node;
         } else if (size == 1){
-            node.next = l;
-            l.next = node;
-            l.prev = node;
+            node.prev = f;
+            f.next = node;
+            f.prev = node;
         } else {
-            node.next = l.next;
-            l.next.prev = node;
-            l.next = node;
+            node.prev = last;
+            last.next = node;
+            f.prev = node;
         }
         size++;
     }

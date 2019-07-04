@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 /**
- * 顺序队列
+ * 顺序队列（先进先出）
  * @author songbowen
  * @param <E>
  */
