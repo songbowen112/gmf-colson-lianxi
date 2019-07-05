@@ -14,10 +14,13 @@ public class SingleLinkedListTest {
         list.add(1);
         list.add(2);
         list.add(3);
-        list.add(30);
-        list.add(23);
+        list.add(6);
+        list.add(8);
+        list.add(7);
         list.add(4);
         System.out.println("单链表的结构为："+list);
+        list.reverse();
+        System.out.println(list);
         System.out.println("单链表的长度为："+list.size());
         System.out.println("单链表下标为"+index+"的数据为："+list.get(index));
         System.out.println("单链表中数据为"+data+"的下标为："+list.indexOf(data));

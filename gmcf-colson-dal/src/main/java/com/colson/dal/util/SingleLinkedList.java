@@ -12,7 +12,7 @@ public class SingleLinkedList<E> implements Serializable {
     /**
      * 头结点
      */
-    transient Node<E> tNode;
+    transient Node<E> first;
 
     public SingleLinkedList() {
     }
@@ -22,11 +22,11 @@ public class SingleLinkedList<E> implements Serializable {
      * @return
      */
     public int size() {
-        if (null == tNode) {
+        if (null == first) {
             return 0;
         }
         int i = 1;
-        Node<E> next = tNode.next;
+        Node<E> next = first.next;
         while (null != next) {
             i++;
             next = next.next;
@@ -35,14 +35,68 @@ public class SingleLinkedList<E> implements Serializable {
     }
 
     /**
+     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
+     * k 是一个正整数，它的值小于或等于链表的长度。
+     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
+     *
+     * 示例 :
+     * 给定这个链表：1->2->3->4->5
+     * 当 k = 2 时，应当返回: 2->1->4->3->5
+     * 当 k = 3 时，应当返回: 3->2->1->4->5
+     * @param k
+     * @return
+     */
+    public void reverseKGroup(int k) {
+        if(first.next == null) {
+            return;
+        }
+        int time = size()/k;
+        for (int i=0;i<time;i++) {
+            Node n = first;
+            first = node(i+k);
+        }
+
+    }
+
+    /**
+     * 翻转链表(p:pre ; f:first ; n:next)
+     * 1. 1 > 2 > 3 > 4 > 5 > null
+     * 2. null 1 > 2 > 3 > 4 > 5 > null
+     *     p   f   n
+     * 3. null < 1   2 > 3 > 4 > 5 > null
+     *           p   f   n
+     * 4. null < 1 < 2   3 > 4 > 5 > null
+     *               p   f   n
+     * 5. null < 1 < 2 < 3   4 > 5 > null
+     *                   p   f   n
+     * 6. null < 1 < 2 < 3 < 4   5 > null
+     *                       p   f    n
+     * 7. null < 1 < 2 < 3 < 4 < 5   null //不满足遍历条件
+     */
+    public void reverse() {
+        if(first == null) {
+            return;
+        }
+        Node pre = null;
+        Node next = first.next;
+        while (first.next != null) {
+            first.next = pre;
+            pre = first;
+            first = next;
+            next = first.next;
+        }
+        first.next = pre;
+    }
+
+    /**
      * 获取最后一个结点
      * @return
      */
     private Node<E> getLastNode() {
-        if (null == tNode) {
+        if (null == first) {
             return null;
         }
-        Node node = tNode;
+        Node node = first;
         while (null != node.next) {
             node = node.next;
         }
@@ -55,8 +109,8 @@ public class SingleLinkedList<E> implements Serializable {
      */
     public void add(E data) {
         Node<E> node = new Node(data,null);
-        if (null == tNode) {
-            tNode = node;
+        if (null == first) {
+            first = node;
         } else {
             getLastNode().next = node;
         }
@@ -72,12 +126,12 @@ public class SingleLinkedList<E> implements Serializable {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         Node<E> node = new Node(data,null);
-        if (null == tNode) {
-            tNode = node;
+        if (null == first) {
+            first = node;
         } else {
             if (index == 0) {
-                node.next = tNode;
-                tNode = node;
+                node.next = first;
+                first = node;
             } else if (index == this.size()) {
                 node(index-1).next = node;
             } else {
@@ -109,7 +163,7 @@ public class SingleLinkedList<E> implements Serializable {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         if (index == 0) {
-            tNode = tNode.next;
+            first = first.next;
         } else if (index == this.size()-1) {
             node(index-1).next = null;
         } else {
@@ -149,7 +203,7 @@ public class SingleLinkedList<E> implements Serializable {
         if (index<0 || index>=this.size()) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        Node<E> node = tNode;
+        Node<E> node = first;
         for (int i=0;i<index;i++) {
             node = node.next;
         }
@@ -164,7 +218,7 @@ public class SingleLinkedList<E> implements Serializable {
      */
     public int indexOf(E data) {
         int index = 0;
-        Node<E> node = tNode;
+        Node<E> node = first;
         while (null != node) {
             if (data.equals(node.data)) {
                 return index;
@@ -181,7 +235,7 @@ public class SingleLinkedList<E> implements Serializable {
         for (int i=0;i<this.size();i++) {
             sb.append(this.get(i)+",");
         }
-        return tNode==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
+        return first ==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
     }
 
     /**
