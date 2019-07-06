@@ -35,41 +35,18 @@ public class SingleLinkedList<E> implements Serializable {
     }
 
     /**
-     * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
-     * k 是一个正整数，它的值小于或等于链表的长度。
-     * 如果节点总数不是 k 的整数倍，那么请将最后剩余的节点保持原有顺序。
-     *
-     * 示例 :
-     * 给定这个链表：1->2->3->4->5
-     * 当 k = 2 时，应当返回: 2->1->4->3->5
-     * 当 k = 3 时，应当返回: 3->2->1->4->5
-     * @param k
-     * @return
-     */
-    public void reverseKGroup(int k) {
-        if(first.next == null) {
-            return;
-        }
-        int time = size()/k;
-        for (int i=0;i<time;i++) {
-            Node n = first;
-            first = node(i+k);
-        }
-
-    }
-
-    /**
      * 翻转链表(p:pre ; f:first ; n:next)
      * 1. 1 > 2 > 3 > 4 > 5 > null
-     * 2. null 1 > 2 > 3 > 4 > 5 > null
+     *
+     * 2. null 1 > 2 > 3 > 4 > 5 > null //初始位置
      *     p   f   n
-     * 3. null < 1   2 > 3 > 4 > 5 > null
+     * 3. null < 1   2 > 3 > 4 > 5 > null //第一次遍历
      *           p   f   n
-     * 4. null < 1 < 2   3 > 4 > 5 > null
+     * 4. null < 1 < 2   3 > 4 > 5 > null //第二次遍历
      *               p   f   n
-     * 5. null < 1 < 2 < 3   4 > 5 > null
+     * 5. null < 1 < 2 < 3   4 > 5 > null //第三次遍历
      *                   p   f   n
-     * 6. null < 1 < 2 < 3 < 4   5 > null
+     * 6. null < 1 < 2 < 3 < 4   5 > null //第四次遍历
      *                       p   f    n
      * 7. null < 1 < 2 < 3 < 4 < 5   null //不满足遍历条件
      */
