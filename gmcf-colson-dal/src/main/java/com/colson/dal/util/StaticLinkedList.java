@@ -18,7 +18,7 @@ public class StaticLinkedList<E> {
 
     transient int size;
 
-    transient Set set = new HashSet();
+    transient Set<Integer> set = new HashSet();
 
     public StaticLinkedList() {
     }
@@ -55,14 +55,31 @@ public class StaticLinkedList<E> {
      * 移除指定下标结点
      */
     public void remove(int index) {
-        if (null==datas || size==0) {
+        if (null==datas || size==0 || index>=size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(0));
         }
-        for (int i=0;i<index;i++){
+        if (size == 1) {
+            set.remove(head);
+            datas[head] = null;
+            head = -1;
+        } else {
+            Node first = datas[head];
+            if (index == 0) {
+                set.remove(head);
+                datas[head] = null;
+                head = first.next;
 
+            } else {
+                for (int i=0;i<index-1;i++){//获取目标节点前面的那个节点
+                    first = datas[first.next];
+                }
+                int i = first.next;
+                first.next = datas[i].next;
+                set.remove(i);
+                datas[i] = null;
+            }
         }
-
-
+        size--;
     }
 
     /**
@@ -71,10 +88,14 @@ public class StaticLinkedList<E> {
      * @return
      */
     public E get(int index) {
-        if (null==datas || datas.length==0) {
+        if (null==datas || size==0 || size<=index) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        return (E) datas[index].data;
+        Node node = datas[head];
+        for (int i=0;i<index;i++) {
+            node = datas[node.next];
+        }
+        return (E) node.data;
     }
 
     /**
@@ -86,7 +107,7 @@ public class StaticLinkedList<E> {
         if (null==datas || datas.length==0) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(0));
         }
-        for (int i=0;i<datas.length;i++) {
+        for (int i=0;i<size;i++) {
             if (get(i).equals(data)) {
                 return i;
             }
@@ -95,9 +116,9 @@ public class StaticLinkedList<E> {
     }
 
     public int getRandomIndex() {
-        int i = (int)Math.random()*(datas.length);
+        int i = (int)(Math.random()*(datas.length));
         while (set.contains(i)) {
-            i = (int)Math.random()*(datas.length);
+            i = (int)(Math.random()*(datas.length));
         }
         set.add(i);
         return i;
@@ -109,7 +130,7 @@ public class StaticLinkedList<E> {
             return "[]";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i=0;i<datas.length;i++) {
+        for (int i=0;i<size;i++) {
             sb.append(this.get(i)+",");
         }
         return sb.toString().isEmpty()?"[]":"[" + sb.substring(0,sb.length()-1) + ']';

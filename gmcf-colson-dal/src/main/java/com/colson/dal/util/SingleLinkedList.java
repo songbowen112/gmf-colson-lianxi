@@ -69,7 +69,7 @@ public class SingleLinkedList<E> implements Serializable {
      * 获取最后一个结点
      * @return
      */
-    private Node<E> getLastNode() {
+    public Node<E> getLastNode() {
         if (null == first) {
             return null;
         }
@@ -123,7 +123,7 @@ public class SingleLinkedList<E> implements Serializable {
      * @param targetNode
      * @param data
      */
-    private void addAfter(Node<E> targetNode,E data) {
+    public void addAfter(Node<E> targetNode,E data) {
         Node<E> node = new Node<E>(data,null);
         if (null !=targetNode && null != targetNode.next) {
             node.next = targetNode.next;
@@ -152,7 +152,7 @@ public class SingleLinkedList<E> implements Serializable {
      * 删除目标结点的下一个结点
      * @param targetNode
      */
-    private void deleteNext(Node<E> targetNode) {
+    public void deleteNext(Node<E> targetNode) {
         if (null != targetNode.next) {
             if (null != targetNode.next.next) {
                 targetNode.next = targetNode.next.next;
@@ -176,7 +176,7 @@ public class SingleLinkedList<E> implements Serializable {
      * @param index
      * @return
      */
-    Node<E> node(int index) {
+    public Node<E> node(int index) {
         if (index<0 || index>=this.size()) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
@@ -227,7 +227,7 @@ public class SingleLinkedList<E> implements Serializable {
     /**
      * 单链表结点内部类
      */
-    private static class Node<E> {
+    public static class Node<E> {
 
         E data;
         Node<E> next;

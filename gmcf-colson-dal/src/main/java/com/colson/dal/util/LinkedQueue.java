@@ -3,7 +3,7 @@ package com.colson.dal.util;
 import java.io.Serializable;
 
 /**
- * 链式队列(先进先出）!!
+ * 链式队列(先进先出）
  * @author songbowen
  * @param <E>
  */
@@ -49,12 +49,11 @@ public class LinkedQueue<E> implements Serializable {
     }
 
     /**
-     * 移除指定下标结点
-     * @param index
+     * 移除最后一个结点
      */
-    public void remove(int index) {
-        if (index<0 || index>=this.size) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    public void remove() {
+        if (0 == this.size) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(size));
         }
         if (size == 1) {
             first = null;
@@ -62,18 +61,10 @@ public class LinkedQueue<E> implements Serializable {
         } else {
             Node<E> f = first;
             Node<E> l = last;
-            if (index == 0) {
-                first = f.next;
-                first.prev = f.prev;
-                f.prev.next = first;
-            } else if (index == this.size-1) {
-                last = l.prev;
-                last.next = l.next;
-                l.next.prev = last;
-            } else {
-                node(index+1).prev = node(index-1);
-                node(index-1).next = node(index+1);
-            }
+
+            last = l.prev;
+            last.next = l.next;
+            f.prev = last;
         }
         size--;
     }
