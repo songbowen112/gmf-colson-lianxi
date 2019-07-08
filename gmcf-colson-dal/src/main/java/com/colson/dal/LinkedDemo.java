@@ -102,12 +102,8 @@ public class LinkedDemo {
 
     public static int size(ListNode head) {
         int size = 0;
-        if(head == null) {
-            return size;
-        }
-        size = 1;
         ListNode node = head;
-        while(node.next != null) {
+        while(node != null) {
             node = node.next;
             size++;
         }
