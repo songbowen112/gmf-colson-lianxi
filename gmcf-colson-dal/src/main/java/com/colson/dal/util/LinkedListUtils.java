@@ -1,10 +1,7 @@
 package com.colson.dal.util;
 
 
-import com.colson.dal.LinkedDemo;
 import com.colson.dal.bean.ListNode;
-
-import java.util.LinkedList;
 
 /**
  * Created by Administrator on 2019/7/7.
@@ -69,8 +66,8 @@ public class LinkedListUtils {
         if (head1==null || head2==null) {
             return null;
         }
-        int size1 = LinkedDemo.size(head1);
-        int size2 = LinkedDemo.size(head2);
+        int size1 = LinkedListUtils.size(head1);
+        int size2 = LinkedListUtils.size(head2);
 
         while (head1.next!=null) {
             head1 = head1.next;
@@ -87,14 +84,83 @@ public class LinkedListUtils {
         ListNode f2 = head2;
 
         if (last1.val.equals(last2.val)) {
-            for (int i=0;i<size1-1-i;i++) {
+            for (int i=0;i<size1-1;i++) {
                 f1 = f1.next;
             }
-            for (int j=0;j<size2-1-j;j++) {
+            for (int j=0;j<size2-1;j++) {
                 f2 = f2.next;
             }
             findLetter(f1,f2,head1,head2,size1,size2);
         }
         return last1.next;
+    }
+
+    /**
+     * 计算链表长度
+     * @param head
+     * @return
+     */
+    public static int size(ListNode head) {
+        int size = 0;
+        ListNode node = head;
+        while(node != null) {
+            node = node.next;
+            size++;
+        }
+        return size;
+    }
+
+    /**
+     * 翻转单链表
+     * @param head
+     * @return
+     */
+    public static ListNode reverse(ListNode head) {
+        if(head==null || head.next==null) {
+            return head;
+        }
+        ListNode pre = null;
+        ListNode curr = head;
+        ListNode next = head.next;
+        while (curr.next!=null) {
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+            next = curr.next;
+        }
+        curr.next = pre;
+        return curr;
+    }
+
+    public static ListNode reverse2(ListNode head) {
+        if(head==null || head.next==null) {
+            return head;
+        }
+        ListNode pre = null;
+        ListNode curr = head;
+        ListNode next;
+        while (curr != null) {
+            next = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = next;
+        }
+        head = pre;
+        return head;
+    }
+
+    /**
+     * 输出单链表
+     * @param head
+     * @return
+     */
+    public static String printLink(ListNode head) {
+        StringBuilder sb = new StringBuilder();
+        ListNode node = head;
+        while(node != null) {
+            sb.append(node.val+",");
+            node = node.next;
+        }
+        return sb.toString().isEmpty()?"[]":"["+sb.toString().substring(0,sb.length()-1)+"]";
     }
 }

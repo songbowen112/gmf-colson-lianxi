@@ -1,6 +1,8 @@
-package com.colson.dal;
+package com.colson.dal.demo;
 
 import com.colson.dal.bean.ListNode;
+import com.colson.dal.util.LinkedListUtils;
+
 
 /**
  * 给你一个链表，每 k 个节点一组进行翻转，请你返回翻转后的链表。
@@ -15,6 +17,8 @@ import com.colson.dal.bean.ListNode;
 public class LinkedDemo {
     public static void main(String[] args) {
         ListNode head = new ListNode(0);
+//        System.out.println(LinkedListUtils.printLink(head));
+
         ListNode node = head;
 
         for (int i=1;i<10;i++) {
@@ -22,16 +26,25 @@ public class LinkedDemo {
             node.next = l;
             node = node.next;
         }
-        System.out.println(size(head));
+//        System.out.println(LinkedListUtils.size(head));
+        System.out.println(LinkedListUtils.printLink(head));
 
-        System.out.println(printLink(head));
+        head = LinkedListUtils.reverse2(head);
+        System.out.println(LinkedListUtils.printLink(head));
+
+        head = LinkedListUtils.reverse(head);
+        System.out.println(LinkedListUtils.printLink(head));
+
+
+        System.out.println(LinkedListUtils.printLink(head));
         head = reverseKGroup(head,3);
-        System.out.println(printLink(head));
-        System.out.println(size(head));
+
+        System.out.println(LinkedListUtils.printLink(head));
+
     }
 
     /**
-     * 步骤分解（D:\repositories\gmf-colson-lianxi\gmcf-colson-dal\src\main\resources\msg\k个一组翻转链表.png）
+     * 步骤分解（D:\repositories\gmf-colson-lianxi\gmcf-colson-dal\src\main\resources\image\k个一组翻转链表.png）
      *
      * 1.链表分区为 已翻转部分+待翻转部分+未翻转部分
      * 2.每次翻转前，要确定翻转链表的范围，这个必须通过k次循环来确定
@@ -60,7 +73,7 @@ public class LinkedDemo {
             ListNode start = pre.next;
             ListNode next = end.next;
             end.next = null;
-            pre.next = reverse(start);
+            pre.next = LinkedListUtils.reverse(start);
             start.next = next;
             pre = start;
 
@@ -69,46 +82,9 @@ public class LinkedDemo {
         return dummy.next;
     }
 
-    public static ListNode reverse(ListNode head) {
-        if(head == null) {
-            return head;
-        }
-        ListNode pre = null;
-        ListNode curr = head;
-        ListNode next = head.next;
-        while (curr.next!=null) {
-            curr.next = pre;
-            pre = curr;
-            curr = next;
-            next = curr.next;
-        }
-        curr.next = pre;
-        return curr;
-    }
 
-    public static String printLink(ListNode head) {
-        if(head == null) {
-            return "[]";
-        }
-        StringBuilder sb = new StringBuilder();
-        ListNode node = head;
-        while(node.next != null) {
-            sb.append(node.val+",");
-            node = node.next;
-        }
-        sb.append(node.val);
-        return "["+sb.toString()+"]";
-    }
 
-    public static int size(ListNode head) {
-        int size = 0;
-        ListNode node = head;
-        while(node != null) {
-            node = node.next;
-            size++;
-        }
-        return size;
-    }
+
 }
 
 

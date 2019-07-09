@@ -229,8 +229,8 @@ public class SingleLinkedList<E> implements Serializable {
      */
     public static class Node<E> {
 
-        E data;
-        Node<E> next;
+        public E data;
+        public Node<E> next;
 
         Node() {
             this.next = null;
