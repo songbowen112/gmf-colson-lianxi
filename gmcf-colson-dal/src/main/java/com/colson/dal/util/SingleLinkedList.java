@@ -12,7 +12,7 @@ public class SingleLinkedList<E> implements Serializable {
     /**
      * 头结点
      */
-    transient Node<E> first;
+    public transient Node<E> first;
 
     public SingleLinkedList() {
     }
