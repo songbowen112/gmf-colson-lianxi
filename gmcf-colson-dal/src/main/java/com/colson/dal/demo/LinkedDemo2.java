@@ -3,7 +3,7 @@ package com.colson.dal.demo;
 import com.colson.dal.util.SingleLinkedList;
 
 /**
- * 1.设计一个递归算法，删除不带头结点的单链表l中所有值为x的结点
+ * 设计一个递归算法，删除不带头结点的单链表l中所有值为x的结点
  */
 public class LinkedDemo2 {
     public static void main(String[] args) {
@@ -19,10 +19,7 @@ public class LinkedDemo2 {
 
         delNodeIs(list.first,2);
         System.out.println(list);
-
-
     }
-
 
     public static void delNodeIs(SingleLinkedList.Node node, Integer x) {
         if (node==null || node.next==null) {

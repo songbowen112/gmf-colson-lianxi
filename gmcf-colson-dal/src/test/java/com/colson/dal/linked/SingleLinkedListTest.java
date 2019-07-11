@@ -43,11 +43,6 @@ public class SingleLinkedListTest {
         System.out.println("单链表的结构为："+list);
         list.remove(4);
         System.out.println("单链表的结构为："+list);
-        LinkedListUtils.delNodeIs(list.node(0),3);
-        System.out.println("单链表的结构为："+list);
-        System.out.println(LinkedListUtils.printDesc(list));
-
-        System.out.println(LinkedListUtils.printDesc2(list.node(0),new StringBuilder()));
 
     }
 }
