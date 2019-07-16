@@ -76,4 +76,21 @@ public class LinkedListUtils {
         }
         return sb.toString().isEmpty()?"[]":"["+sb.toString().substring(0,sb.length()-1)+"]";
     }
+
+    /**
+     * 获取带头结点的单链表倒数第k个结点的值
+     * @param list
+     * @param k
+     * @return
+     */
+    public static Object getLastData(ListNode list, int k) {
+        ListNode head = list.next;
+        if (k<1 || k>LinkedListUtils.size(head)) {
+            return null;
+        }
+        for (int i=0;i<LinkedListUtils.size(list.next)-k;i++) {
+            head = head.next;
+        }
+        return head.val;
+    }
 }

@@ -11,21 +11,20 @@ import com.colson.dal.util.LinkedListUtils;
 public class LinkedDemo4 {
 
     public static void main(String[] args) {
-        ListNode head = new ListNode('n');
+        ListNode head = new ListNode(null);//第一个单链表的头结点
         ListNode node = head;
-        char letter = 'a';
-        for (int i=1;i<10;i++) {
-
-            ListNode l = new ListNode(letter++);
+        char[] c1 = {'p','s','y','c','h','o','l','o','g','y'};
+        for (int i=0;i<c1.length;i++) {
+            ListNode l = new ListNode(c1[i]);
             node.next = l;
             node = node.next;
         }
 
-        ListNode head2 = new ListNode('m');
+        ListNode head2 = new ListNode(null);//第二个单链表的头结点
         ListNode node2 = head2;
-        letter = 'c';
-        for (int i=1;i<10;i++) {
-            ListNode l = new ListNode(letter++);
+        char[] c2 = {'b','i','o','l','o','g','y'};
+        for (int i=0;i<c2.length;i++) {
+            ListNode l = new ListNode(c2[i]);
             node2.next = l;
             node2 = node2.next;
         }
@@ -36,39 +35,31 @@ public class LinkedDemo4 {
         System.out.println(findSameLocation(head,head2));
     }
 
-    public static ListNode findSameLocation(ListNode str1, ListNode str2) {
-        ListNode head1 = str1.next;
-        ListNode head2 = str2.next;
-
-        if (head1==null || head2==null) {
-            return null;
-        }
-        int size1 = LinkedListUtils.size(head1);
-        int size2 = LinkedListUtils.size(head2);
-
-        while (head1.next!=null) {
-            head1 = head1.next;
-        }
-        while (head2.next!=null) {
-            head2 = head2.next;
+    public static int findSameLocation(ListNode str1, ListNode str2) {
+        if (str1.next==null || str2.next==null) {
+            return 0;
         }
 
-        return findLetter(head1,head2,str1.next,str2.next,size1,size2);
+        return findLetter(str1,str2);
     }
 
-    public static ListNode findLetter(ListNode last1,ListNode last2,ListNode head1,ListNode head2,int size1,int size2) {
-        ListNode f1 = head1;
-        ListNode f2 = head2;
+    public static int findLetter(ListNode str1,ListNode str2) {
+        int size1 = LinkedListUtils.size(str1.next);//第一个单链表的长度
+        int size2 = LinkedListUtils.size(str2.next);//第二个单链表的长度
 
-        if (last1.val.equals(last2.val)) {
-            for (int i=0;i<size1-1;i++) {
-                f1 = f1.next;
+        int length = size1>size2?size2:size1;
+
+        for (int i=1;i<=length;i++) {
+            char a1 = (char)LinkedListUtils.getLastData(str1,i);
+            char a2 = (char)LinkedListUtils.getLastData(str2,i);
+            if (i==length && a1==a2) {
+                return i;
             }
-            for (int j=0;j<size2-1;j++) {
-                f2 = f2.next;
+            if (a1!=a2) {
+                return --i;
             }
-            findLetter(f1,f2,head1,head2,size1,size2);
         }
-        return last1;
+
+        return 0;
     }
 }
