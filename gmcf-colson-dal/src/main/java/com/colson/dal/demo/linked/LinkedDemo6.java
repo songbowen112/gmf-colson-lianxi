@@ -1,4 +1,4 @@
-package com.colson.dal.demo;
+package com.colson.dal.demo.linked;
 
 import com.colson.dal.bean.ListNode;
 import com.colson.dal.util.LinkedListUtils;
