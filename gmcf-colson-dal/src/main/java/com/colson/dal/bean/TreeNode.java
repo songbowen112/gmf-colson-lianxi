@@ -9,12 +9,12 @@ public class TreeNode<E> {
     /**
      * 左节点
      */
-    private transient TreeNode leftTreeNode;
+    private transient TreeNode<E> leftTreeNode;
 
     /**
      * 右节点
      */
-    private transient TreeNode rightTreeNode;
+    private transient TreeNode<E> rightTreeNode;
 
     /**
      * 存储数据

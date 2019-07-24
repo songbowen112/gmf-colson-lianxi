@@ -39,15 +39,10 @@ public class LinkedDemo4 {
         if (str1.next==null || str2.next==null) {
             return 0;
         }
-
-        return findLetter(str1,str2);
-    }
-
-    public static int findLetter(ListNode str1,ListNode str2) {
         int size1 = LinkedListUtils.size(str1.next);//第一个单链表的长度
         int size2 = LinkedListUtils.size(str2.next);//第二个单链表的长度
 
-        int length = size1>size2?size2:size1;
+        int length = size1>=size2?size2:size1;
 
         for (int i=1;i<=length;i++) {
             char a1 = (char)LinkedListUtils.getLastData(str1,i);
@@ -62,4 +57,5 @@ public class LinkedDemo4 {
 
         return 0;
     }
+
 }
