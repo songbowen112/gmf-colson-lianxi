@@ -10,6 +10,7 @@ public class stackDemo {
 
     public static void main(String[] args) {
         SeqStack seqStack = new SeqStack();
+
     }
 
 
