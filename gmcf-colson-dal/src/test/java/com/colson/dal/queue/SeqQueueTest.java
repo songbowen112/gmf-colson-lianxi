@@ -15,17 +15,17 @@ public class SeqQueueTest {
         seqQueue.add(6);
         System.out.println("队列的长度为："+seqQueue.size());
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
-        seqQueue.remove();
+        seqQueue.del();
         System.out.println(seqQueue);
         System.out.println("队列的长度为："+seqQueue.size());
 

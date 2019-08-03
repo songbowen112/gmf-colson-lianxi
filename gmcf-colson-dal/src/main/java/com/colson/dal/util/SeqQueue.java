@@ -1,10 +1,13 @@
 package com.colson.dal.util;
 
+import com.colson.dal.util.constant.IndexConstant;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
 /**
  * 顺序队列（先进先出）
+ * 队首为下标为0的位置
  * @author songbowen
  * @param <E>
  */
@@ -23,7 +26,7 @@ public class SeqQueue<E> implements Serializable {
     }
 
     /**
-     * 向表尾插入元素
+     * 向队头插入元素
      * @param data
      */
     public void add(E data) {
@@ -43,11 +46,11 @@ public class SeqQueue<E> implements Serializable {
     }
 
     /**
-     * 移除指定下标结点
+     * 移除队尾元素
      */
-    public E remove() {
+    public E del() {
         if (null==datas || datas.length==0) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(0));
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO));
         }
         E result = datas[datas.length-1];
         datas = Arrays.copyOf(datas, datas.length - 1);
@@ -74,7 +77,7 @@ public class SeqQueue<E> implements Serializable {
      */
     public int indexOf(E data) {
         if (null==datas || datas.length==0) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(0));
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO));
         }
         for (int i=0;i<datas.length;i++) {
             if (get(i).equals(data)) {

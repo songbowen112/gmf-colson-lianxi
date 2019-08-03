@@ -1,6 +1,6 @@
 package com.colson.dal;
 
-import com.colson.dal.emum.Week;
+import com.colson.dal.util.emum.Week;
 
 import java.util.*;
 
