@@ -32,19 +32,16 @@ public class CirDoubleLinkedList<E> implements Serializable {
      */
     public void add(E data) {
         Node<E> l = last;
+        Node<E> f = first;
         Node<E> node = new Node<>(l,data,null);
         last = node;
 
         if (size == 0) {
             first = node;
-        } else if (size == 1){
-            node.next = l;
-            l.next = node;
-            l.prev = node;
         } else {
-            node.next = l.next;
-            l.next.prev = node;
+            node.next = f;
             l.next = node;
+            f.prev = node;
         }
         size++;
     }
@@ -65,12 +62,12 @@ public class CirDoubleLinkedList<E> implements Serializable {
             Node<E> l = last;
             if (index == 0) {
                 first = f.next;
-                first.prev = f.prev;
-                f.prev.next = first;
+                first.prev = l;
+                l.next = first;
             } else if (index == this.size-1) {
                 last = l.prev;
-                last.next = l.next;
-                l.next.prev = last;
+                last.next = f;
+                f.prev = last;
             } else {
                 node(index+1).prev = node(index-1);
                 node(index-1).next = node(index+1);

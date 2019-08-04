@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 /**
  * 顺序栈(先进后出)
+ * 栈顶为数组最后一位
  * @author songbowen
  * @param <E>
  */
@@ -46,8 +47,21 @@ public class SeqStack<E> implements Serializable {
      * 获取栈的大小
      */
     public int size() {
-        return datas.length;
+        return datas==null?0:datas.length;
     }
+
+    /**
+     * 获取指定下标的数据
+     * @param index
+     * @return
+     */
+    public E get(int index) {
+        if (null==datas || datas.length==0) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+        }
+        return datas[index];
+    }
+
 
     @Override
     public String toString() {

@@ -10,7 +10,9 @@ public class CirDoubleLinkedListTest {
     public static void main(String[] args) {
         CirDoubleLinkedList list = new CirDoubleLinkedList();
         System.out.println(list);
+        list.add(11);
         list.add(12);
+
         list.remove(0);
         System.out.println(list);
 
@@ -20,6 +22,7 @@ public class CirDoubleLinkedListTest {
         list.add(2);
         list.add(6);
         list.add(3);
+
         System.out.println(list);
 
         System.out.println(list.get(4));

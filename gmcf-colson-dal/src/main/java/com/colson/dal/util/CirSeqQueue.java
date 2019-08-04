@@ -2,18 +2,20 @@ package com.colson.dal.util;
 
 import com.colson.dal.util.constant.IndexConstant;
 
+import java.io.Serializable;
+
 /**
  * 循环顺序队列（先进先出）
  * 不要求从下标为0的位置存储队首
  * @author songbowen
  * @param <E>
  */
-public class CirSeqQueue<E> {
+public class CirSeqQueue<E> implements Serializable {
 
     /**
      * 初始数据长度为100
      */
-    transient Object[] datas = new Object[10];
+    transient Object[] datas = new Object[9];
 
     /**
      * 队头指针
@@ -45,7 +47,7 @@ public class CirSeqQueue<E> {
      * @param data
      */
     public void add(E data) {
-        if (Math.abs(end-begin) == 1 && size==datas.length) {
+        if (size==datas.length) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(datas.length));
         }
         if (end == -1) {
@@ -63,11 +65,11 @@ public class CirSeqQueue<E> {
      * 出队操作:队不空时,先取队头元素值,再将队头指针+1
      */
     public E del() {
-        if (begin==-1 || end==begin) {
+        if (begin==-1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO));
         }
         E result;
-        if (Math.abs(end-begin) == 1) {
+        if (size == 1) {
             result = (E) datas[begin];
             begin = -1;
             end = -1;
@@ -97,9 +99,12 @@ public class CirSeqQueue<E> {
      * @return
      */
     public E find(int which) {
-        if (begin==-1 || (begin+which)%datas.length==end) {
+        if (begin==-1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(which));
         }
+//        if ((begin+which)%datas.length==end) {
+//            flag = true;
+//        }
         return (E) datas[(begin+which)%datas.length];
     }
 

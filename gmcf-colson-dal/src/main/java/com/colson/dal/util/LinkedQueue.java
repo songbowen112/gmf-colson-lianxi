@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 /**
  * 链式队列(先进先出）
+ * 双链式循环队列
  * @author songbowen
  * @param <E>
  */
@@ -36,15 +37,20 @@ public class LinkedQueue<E> implements Serializable {
 
         if (size == 0) {
             last = node;
-        } else if (size == 1){
-            node.prev = f;
-            f.next = node;
-            f.prev = node;
         } else {
             node.prev = last;
             last.next = node;
             f.prev = node;
         }
+//        } else if (size == 1){
+//            node.prev = f;
+//            f.next = node;
+//            f.prev = node;
+//        } else {
+//            node.prev = last;
+//            last.next = node;
+//            f.prev = node;
+//        }
         size++;
     }
 
