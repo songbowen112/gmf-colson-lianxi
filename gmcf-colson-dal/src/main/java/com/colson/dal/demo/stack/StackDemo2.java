@@ -13,7 +13,7 @@ import java.util.Map;
 public class StackDemo2 {
 
     public static void main(String[] args) {
-        String s = "><<{}>[{}]{<[]>}";
+        String s = "<{}>[{}]{<[]>}";
         System.out.println(checkLegal(s));
     }
 
