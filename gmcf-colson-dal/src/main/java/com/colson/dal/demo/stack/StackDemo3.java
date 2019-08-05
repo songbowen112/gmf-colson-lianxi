@@ -30,7 +30,7 @@ public class StackDemo3 {
     }
 
     /**
-     * calculate the value of the reverse Polish expression
+     * 运算后缀表达式
      * @param rp - reverse Polish expression
      * @return - result of the expression
      */
