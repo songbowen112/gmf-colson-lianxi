@@ -1,6 +1,6 @@
 package com.colson.dal.demo.stack;
 
-import com.colson.dal.util.SeqStack;
+import com.colson.dal.util.stack.SeqStack;
 
 /**
  * 设有两个栈s1，s2都采用顺序栈方式，并共享一个存储区[0,...,maxsize-1]，为了尽量利用空间，减少溢出的可能，

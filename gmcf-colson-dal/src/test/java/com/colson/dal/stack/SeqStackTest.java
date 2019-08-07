@@ -1,6 +1,6 @@
 package com.colson.dal.stack;
 
-import com.colson.dal.util.SeqStack;
+import com.colson.dal.util.stack.SeqStack;
 
 public class SeqStackTest {
     public static void main(String[] args) {

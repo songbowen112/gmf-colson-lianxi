@@ -1,6 +1,6 @@
 package com.colson.dal.linked;
 
-import com.colson.dal.util.CirSingleLinkedList;
+import com.colson.dal.util.linked.CirSingleLinkedList;
 
 public class CirSingleLinkedListTest {
 

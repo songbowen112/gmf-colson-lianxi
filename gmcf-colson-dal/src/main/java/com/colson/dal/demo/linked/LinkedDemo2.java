@@ -1,6 +1,6 @@
 package com.colson.dal.demo.linked;
 
-import com.colson.dal.util.SingleLinkedList;
+import com.colson.dal.util.linked.SingleLinkedList;
 
 /**
  * 设计一个递归算法，删除不带头结点的单链表l中所有值为x的结点

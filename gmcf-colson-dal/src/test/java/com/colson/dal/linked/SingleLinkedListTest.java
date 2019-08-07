@@ -1,7 +1,6 @@
 package com.colson.dal.linked;
 
-import com.colson.dal.util.LinkedListUtils;
-import com.colson.dal.util.SingleLinkedList;
+import com.colson.dal.util.linked.SingleLinkedList;
 
 public class SingleLinkedListTest {
 

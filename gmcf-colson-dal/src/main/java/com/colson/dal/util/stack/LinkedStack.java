@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.stack;
 
 import java.io.Serializable;
 
@@ -12,7 +12,7 @@ public class LinkedStack<E> implements Serializable {
     /**
      * 栈顶结点
      */
-    transient Node<E> first;
+    transient Node<E> head;
 
     transient private int size = 0;
 
@@ -24,8 +24,8 @@ public class LinkedStack<E> implements Serializable {
      * @param data
      */
     public void push(E data) {
-        Node<E> node = new Node<>(first,data);
-        first = node;
+        Node<E> node = new Node<>(head,data);
+        head = node;
         size++;
     }
 
@@ -34,14 +34,14 @@ public class LinkedStack<E> implements Serializable {
      * @return
      */
     public E pop() {
-        if (first == null) {
+        if (head == null) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(size));
         }
-        E data = first.data;
+        E data = head.data;
         if (size == 1) {
-            first = null;
+            head = null;
         } else {
-            first = first.next;
+            head = head.next;
         }
         size--;
         return data;
@@ -56,7 +56,7 @@ public class LinkedStack<E> implements Serializable {
 
     @Override
     public String toString() {
-        Node<E> f = first;
+        Node<E> f = head;
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<size;i++) {
             sb.append(f.data+",");

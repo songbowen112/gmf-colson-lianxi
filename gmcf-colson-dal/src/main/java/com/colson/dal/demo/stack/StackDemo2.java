@@ -1,6 +1,6 @@
 package com.colson.dal.demo.stack;
 
-import com.colson.dal.util.SeqStack;
+import com.colson.dal.util.stack.SeqStack;
 import com.colson.dal.util.constant.BracketConstant;
 
 import java.util.HashMap;

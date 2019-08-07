@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.tree;
 
 import com.colson.dal.bean.TreeNode;
 

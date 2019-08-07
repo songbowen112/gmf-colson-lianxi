@@ -1,6 +1,6 @@
 package com.colson.dal.stack;
 
-import com.colson.dal.util.LinkedStack;
+import com.colson.dal.util.stack.LinkedStack;
 
 public class LinkedStackTest {
     public static void main(String[] args) {

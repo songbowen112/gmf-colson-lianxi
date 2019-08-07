@@ -1,19 +1,22 @@
-package com.colson.dal.util;
+package com.colson.dal.util.linked;
+
 
 import java.io.Serializable;
 
 /**
- * 循环单链表
+ * 循环双链表
  * @author songbowen
  * @param <E>
  */
-public class CirSingleLinkedList<E> implements Serializable {
+public class CirDoubleLinkedList<E> implements Serializable {
+
+    transient Node<E> first;
 
     transient Node<E> last;
 
     transient int size = 0;
 
-    public CirSingleLinkedList() {
+    public CirDoubleLinkedList() {
     }
 
     /**
@@ -29,43 +32,16 @@ public class CirSingleLinkedList<E> implements Serializable {
      */
     public void add(E data) {
         Node<E> l = last;
-        Node<E> node = new Node<>(null,data);
+        Node<E> f = first;
+        Node<E> node = new Node<>(l,data,null);
         last = node;
-        if (size == 1) {
-            node.next = l;
-            l.next = node;
-        }
-        if (size > 1) {
-            node.next = l.next;
-            l.next = node;
-        }
-        size++;
-    }
 
-    /**
-     * 向指定位置插入元素
-     * @param index
-     * @param data
-     */
-    public void addFrom(int index,E data) {
-        if (index<0 || index>this.size) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
-        }
-        Node<E> node = new Node(null,data);
-        if (null == last) {
-            last = node;
+        if (size == 0) {
+            first = node;
         } else {
-            if (index == 0) {
-                node.next = node(index);
-                last.next = node;
-            } else if (index == this.size) {
-                node.next = node(index-1).next;
-                node(index-1).next = node;
-                last = node;
-            } else {
-                node.next = node(index);
-                node(index-1).next = node;
-            }
+            node.next = f;
+            l.next = node;
+            f.prev = node;
         }
         size++;
     }
@@ -79,18 +55,24 @@ public class CirSingleLinkedList<E> implements Serializable {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         if (size == 1) {
+            first = null;
             last = null;
         } else {
+            Node<E> f = first;
+            Node<E> l = last;
             if (index == 0) {
-                last.next = last.next.next;
+                first = f.next;
+                first.prev = l;
+                l.next = first;
             } else if (index == this.size-1) {
-                node(index-1).next = node(index).next;
-                last = node(index-1);
+                last = l.prev;
+                last.next = f;
+                f.prev = last;
             } else {
-                node(index-1).next = node(index).next;
+                node(index+1).prev = node(index-1);
+                node(index-1).next = node(index+1);
             }
         }
-
         size--;
     }
 
@@ -112,10 +94,7 @@ public class CirSingleLinkedList<E> implements Serializable {
         if (index<0 || index>=this.size) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        if (size == 1) {
-            return last;
-        }
-        Node<E> node = last.next;
+        Node<E> node = first;
         for (int i=0;i<index;i++) {
             node = node.next;
         }
@@ -128,7 +107,7 @@ public class CirSingleLinkedList<E> implements Serializable {
      * @return
      */
     public int indexOf(E data) {
-        if (last != null) {
+        if (first != null) {
             for (int i=0;i<size;i++) {
                 if (get(i).equals(data)) {
                     return i;
@@ -158,11 +137,14 @@ public class CirSingleLinkedList<E> implements Serializable {
 
     private static class Node<E>{
 
+        Node<E> prev;
+
         Node<E> next;
 
         E data;
 
-        private Node(Node<E> next,E data) {
+        private Node(Node<E> prev, E data, Node<E> next) {
+            this.prev = prev;
             this.next = next;
             this.data = data;
         }

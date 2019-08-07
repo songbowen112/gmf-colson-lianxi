@@ -1,6 +1,6 @@
 package com.colson.dal.demo.linked;
 
-import com.colson.dal.util.SingleLinkedList;
+import com.colson.dal.util.linked.SingleLinkedList;
 
 /**
  * 设l为带头结点的单链表，编写算法实现从尾到头反向输出每个结点的值

@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.stack;
 
 import java.io.Serializable;
 import java.util.Arrays;

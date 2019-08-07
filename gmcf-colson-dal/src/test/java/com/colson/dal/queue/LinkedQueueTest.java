@@ -1,6 +1,6 @@
 package com.colson.dal.queue;
 
-import com.colson.dal.util.LinkedQueue;
+import com.colson.dal.util.queue.LinkedQueue;
 
 /**
  * Created by Administrator on 2019/7/6.

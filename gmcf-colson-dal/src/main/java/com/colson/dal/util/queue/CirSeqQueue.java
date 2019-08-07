@@ -1,22 +1,21 @@
-package com.colson.dal.util;
+package com.colson.dal.util.queue;
 
 import com.colson.dal.util.constant.IndexConstant;
 
 import java.io.Serializable;
-import java.util.Arrays;
 
 /**
- * 顺序队列2（先进先出）
+ * 循环顺序队列（先进先出）
  * 不要求从下标为0的位置存储队首
  * @author songbowen
  * @param <E>
  */
-public class SeqQueue2<E> implements Serializable {
+public class CirSeqQueue<E> implements Serializable {
 
     /**
      * 初始数据长度为100
      */
-    transient Object[] datas = new Object[12];
+    transient Object[] datas = new Object[9];
 
     /**
      * 队头指针
@@ -33,7 +32,7 @@ public class SeqQueue2<E> implements Serializable {
      */
     transient int size;
 
-    public SeqQueue2() {
+    public CirSeqQueue() {
     }
 
     /**
@@ -48,16 +47,16 @@ public class SeqQueue2<E> implements Serializable {
      * @param data
      */
     public void add(E data) {
-        if (end == datas.length) {
+        if (size==datas.length) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(datas.length));
         }
         if (end == -1) {
             datas[datas.length/2] = data;
-            end = datas.length/2+1;
-            begin = datas.length/2;
+            end = (datas.length/2+1)%datas.length;
+            begin = (datas.length/2)%datas.length;
         } else {
             datas[end] = data;
-            end++;
+            end = (end+1)%datas.length;
         }
         size++;
     }
@@ -66,16 +65,17 @@ public class SeqQueue2<E> implements Serializable {
      * 出队操作:队不空时,先取队头元素值,再将队头指针+1
      */
     public E del() {
-        if (begin==-1 || end==begin) {
+        if (begin==-1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO));
         }
         E result;
-        if (end-begin == 1) {
+        if (size == 1) {
             result = (E) datas[begin];
             begin = -1;
             end = -1;
         } else {
-            result = (E) datas[begin++];
+            result = (E) datas[begin];
+            begin = (begin+1)%datas.length;
         }
         size--;
         return result;
@@ -99,10 +99,13 @@ public class SeqQueue2<E> implements Serializable {
      * @return
      */
     public E find(int which) {
-        if (begin==-1 || begin+which>=end) {
+        if (begin==-1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(which));
         }
-        return (E) datas[begin+which];
+//        if ((begin+which)%datas.length==end) {
+//            flag = true;
+//        }
+        return (E) datas[(begin+which)%datas.length];
     }
 
     /**
@@ -114,9 +117,13 @@ public class SeqQueue2<E> implements Serializable {
         if (begin==-1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO));
         }
-        for (int i=begin;i<end;i++) {
+
+        for (int i=begin%datas.length;i<datas.length;i++) {
             if (get(i).equals(data)) {
                 return i;
+            }
+            if (i == end) {
+                break;
             }
         }
         return -1;
@@ -128,8 +135,11 @@ public class SeqQueue2<E> implements Serializable {
             return "[]";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i=begin;i<end;i++) {
-            sb.append(this.get(i)+",");
+//        for (int i=begin;i<end;i++) {
+//            sb.append(this.get(i)+",");
+//        }
+        for (int i=0;i<size;i++) {
+            sb.append(this.find(i)+",");
         }
         return sb.toString().isEmpty()?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
     }

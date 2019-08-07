@@ -1,7 +1,7 @@
 package com.colson.dal.tree;
 
 import com.colson.dal.bean.TreeNode;
-import com.colson.dal.util.BinaryTree;
+import com.colson.dal.util.tree.BinaryTree;
 
 
 public class BinaryTreeTest {

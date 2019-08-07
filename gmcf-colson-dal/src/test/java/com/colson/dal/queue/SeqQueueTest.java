@@ -1,6 +1,6 @@
 package com.colson.dal.queue;
 
-import com.colson.dal.util.SeqQueue;
+import com.colson.dal.util.queue.SeqQueue;
 
 public class SeqQueueTest {
     public static void main(String[] args) {

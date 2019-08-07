@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.queue;
 
 import java.io.Serializable;
 

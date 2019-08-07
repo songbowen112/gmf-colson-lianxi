@@ -1,7 +1,5 @@
 package com.colson.dal.demo.stack;
 
-import com.colson.dal.util.LinkedStack;
-
 import java.util.Stack;
 
 /**

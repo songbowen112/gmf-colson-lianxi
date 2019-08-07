@@ -1,6 +1,6 @@
 package com.colson.dal.linked;
 
-import com.colson.dal.util.CirDoubleLinkedList;
+import com.colson.dal.util.linked.CirDoubleLinkedList;
 
 /**
  * Created by Administrator on 2019/6/22.

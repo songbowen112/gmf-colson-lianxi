@@ -1,6 +1,6 @@
 package com.colson.dal.matrix;
 
-import com.colson.dal.util.GeneralMatrix;
+import com.colson.dal.util.matrix.GeneralMatrix;
 
 public class GeneralMatrixTest {
 

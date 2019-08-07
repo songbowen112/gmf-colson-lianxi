@@ -1,6 +1,6 @@
 package com.colson.dal.linked;
 
-import com.colson.dal.util.DoubleLinkedList;
+import com.colson.dal.util.linked.DoubleLinkedList;
 
 /**
  * Created by Administrator on 2019/6/22.

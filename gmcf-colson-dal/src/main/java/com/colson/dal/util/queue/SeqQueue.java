@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.queue;
 
 import com.colson.dal.util.constant.IndexConstant;
 

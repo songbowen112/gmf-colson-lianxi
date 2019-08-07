@@ -1,6 +1,6 @@
 package com.colson.dal.queue;
 
-import com.colson.dal.util.CirSeqQueue;
+import com.colson.dal.util.queue.CirSeqQueue;
 
 public class CirSeqQueueTest {
 

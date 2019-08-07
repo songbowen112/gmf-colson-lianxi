@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal.util.linked;
 
 
 import java.io.Serializable;

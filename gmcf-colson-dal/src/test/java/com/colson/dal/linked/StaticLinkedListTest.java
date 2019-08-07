@@ -1,6 +1,6 @@
 package com.colson.dal.linked;
 
-import com.colson.dal.util.StaticLinkedList;
+import com.colson.dal.util.linked.StaticLinkedList;
 
 /**
  * Created by Administrator on 2019/7/6.
