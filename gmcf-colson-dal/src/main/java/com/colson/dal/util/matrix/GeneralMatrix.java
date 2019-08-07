@@ -27,10 +27,15 @@ public class GeneralMatrix<E> implements Serializable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int i=0;i<data.length;i++) {
+            sb.append("[");
             for (int j=0;j<data[i].length;j++) {
-                sb.append(data[i][j]+" ");
+                if(j==data[i].length-1) {
+                    sb.append(data[i][j]);
+                } else {
+                    sb.append(data[i][j]+" ");
+                }
             }
-            sb.append("/n");
+            sb.append("]\n");
         }
         return sb.toString();
     }

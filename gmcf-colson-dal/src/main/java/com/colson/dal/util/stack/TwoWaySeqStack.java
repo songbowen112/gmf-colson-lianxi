@@ -24,16 +24,6 @@ public class TwoWaySeqStack<E> implements Serializable {
      */
     private int rightIndex = data.length-1;
 
-    /**
-     * 左栈长度
-     */
-    private int leftSize = leftIndex;
-
-    /**
-     * 右栈长度
-     */
-    private int rightSize = data.length-1-rightIndex;
-
     public TwoWaySeqStack() {
     }
 
@@ -44,10 +34,8 @@ public class TwoWaySeqStack<E> implements Serializable {
     public void pushLeft(E data) {
         if (rightIndex-leftIndex == 1) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(leftIndex,StackType.LEFT_STACK));
-
         }
         this.data[leftIndex++] = data;
-
     }
 
     /**
@@ -59,7 +47,6 @@ public class TwoWaySeqStack<E> implements Serializable {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(rightIndex,StackType.RIGHT_STACK));
         }
         this.data[rightIndex--] = data;
-
     }
 
     /**
@@ -84,26 +71,42 @@ public class TwoWaySeqStack<E> implements Serializable {
         return (E)data[++rightIndex];
     }
 
+    public int getLeftSize() {
+        return leftIndex;
+    }
+
+    public int getRightSize() {
+        return data.length-1-rightIndex;
+    }
+
     /**
      * 获取双向栈的占用大小
      */
     public int size() {
-        return leftSize+rightSize;
+        return getLeftSize()+getRightSize();
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("左栈: ");
-        for (int i=leftSize;i>0;i--) {
-            sb.append(data[i]+",");
+        sb.append("左栈: [");
+        for (int i=leftIndex-1;i>=0;i--) {
+            if (i == 0) {
+                sb.append(data[i]);
+            } else {
+                sb.append(data[i]+",");
+            }
         }
-        sb.substring(0,sb.length()-1);
-        sb.append("\n右栈: ");
-        for (int i=rightIndex;i<data.length;i++) {
-            sb.append(data[i]+",");
+        sb.append("]\n右栈: [");
+        for (int i=rightIndex+1;i<data.length;i++) {
+            if (i == data.length-1) {
+                sb.append(data[i]);
+            } else {
+                sb.append(data[i]+",");
+            }
         }
-        return sb.toString().isEmpty()?"[]":"["+sb.toString().substring(0,sb.length()-1)+"]";
+        sb.append("]");
+        return sb.toString();
     }
 
     /**
@@ -113,10 +116,10 @@ public class TwoWaySeqStack<E> implements Serializable {
      */
     private String outOfBoundsMsg(int index,int stackType) {
         if (StackType.LEFT_STACK == stackType) {
-            return "Index: "+index+", Size: "+leftSize;
+            return "Index: "+index+", Size: "+getLeftSize();
         }
         if (StackType.RIGHT_STACK == stackType) {
-            return "Index: "+index+", Size: "+rightSize;
+            return "Index: "+index+", Size: "+getRightSize();
         }
         return "";
     }
