@@ -1,5 +1,8 @@
 package com.colson.dal.util.constant;
 
+/**
+ * 栈类型
+ */
 public class StackType {
 
     public static final int LEFT_STACK = 1;

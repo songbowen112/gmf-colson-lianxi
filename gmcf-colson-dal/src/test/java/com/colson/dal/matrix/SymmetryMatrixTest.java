@@ -6,7 +6,7 @@ public class SymmetryMatrixTest {
 
     public static void main(String[] args) {
         SymmetryMatrix matrix = new SymmetryMatrix();
-        matrix.init(5);
+        matrix.init(4);
         System.out.println(matrix);
     }
 }

@@ -1,5 +1,8 @@
 package com.colson.dal.util.constant;
 
+/**
+ * 各种括号字符
+ */
 public class BracketConstant {
 
     public static final char LEFT_SQUARE_BRACKET = '[';

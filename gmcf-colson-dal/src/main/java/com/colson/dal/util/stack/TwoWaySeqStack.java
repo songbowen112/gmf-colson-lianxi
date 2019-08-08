@@ -1,5 +1,6 @@
 package com.colson.dal.util.stack;
 
+import com.colson.dal.util.constant.IndexConstant;
 import com.colson.dal.util.constant.StackType;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ public class TwoWaySeqStack<E> implements Serializable {
     /**
      * 共享存储区
      */
-    private Object[] data = new Object[100];
+    private Object[] commData = new Object[100];
 
     /**
      * 左栈顶下标
@@ -22,7 +23,7 @@ public class TwoWaySeqStack<E> implements Serializable {
     /**
      * 右栈顶下标
      */
-    private int rightIndex = data.length-1;
+    private int rightIndex = commData.length-1;
 
     public TwoWaySeqStack() {
     }
@@ -33,9 +34,9 @@ public class TwoWaySeqStack<E> implements Serializable {
      */
     public void pushLeft(E data) {
         if (rightIndex-leftIndex == 1) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(leftIndex,StackType.LEFT_STACK));
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(commData.length));
         }
-        this.data[leftIndex++] = data;
+        this.commData[leftIndex++] = data;
     }
 
     /**
@@ -44,9 +45,9 @@ public class TwoWaySeqStack<E> implements Serializable {
      */
     public void pushRight(E data) {
         if (rightIndex-leftIndex == 1) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(rightIndex,StackType.RIGHT_STACK));
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(commData.length));
         }
-        this.data[rightIndex--] = data;
+        this.commData[rightIndex--] = data;
     }
 
     /**
@@ -57,7 +58,7 @@ public class TwoWaySeqStack<E> implements Serializable {
         if (leftIndex == 0) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(leftIndex,StackType.LEFT_STACK));
         }
-        return (E)data[--leftIndex];
+        return (E) commData[--leftIndex];
     }
 
     /**
@@ -65,10 +66,10 @@ public class TwoWaySeqStack<E> implements Serializable {
      * @return
      */
     public E popRight() {
-        if (rightIndex == data.length-1) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(0,StackType.RIGHT_STACK));
+        if (rightIndex == commData.length-1) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(IndexConstant.ZERO,StackType.RIGHT_STACK));
         }
-        return (E)data[++rightIndex];
+        return (E) commData[++rightIndex];
     }
 
     public int getLeftSize() {
@@ -76,7 +77,7 @@ public class TwoWaySeqStack<E> implements Serializable {
     }
 
     public int getRightSize() {
-        return data.length-1-rightIndex;
+        return commData.length-1-rightIndex;
     }
 
     /**
@@ -92,20 +93,20 @@ public class TwoWaySeqStack<E> implements Serializable {
         sb.append("左栈: [");
         for (int i=leftIndex-1;i>=0;i--) {
             if (i == 0) {
-                sb.append(data[i]);
+                sb.append(commData[i]);
             } else {
-                sb.append(data[i]+",");
+                sb.append(commData[i]+",");
             }
         }
         sb.append("]\n右栈: [");
-        for (int i=rightIndex+1;i<data.length;i++) {
-            if (i == data.length-1) {
-                sb.append(data[i]);
+        for (int i = rightIndex+1; i< commData.length; i++) {
+            if (i == commData.length-1) {
+                sb.append(commData[i]);
             } else {
-                sb.append(data[i]+",");
+                sb.append(commData[i]+",");
             }
         }
-        sb.append("]");
+        sb.append("]\n-----------------");
         return sb.toString();
     }
 
@@ -122,5 +123,14 @@ public class TwoWaySeqStack<E> implements Serializable {
             return "Index: "+index+", Size: "+getRightSize();
         }
         return "";
+    }
+
+    /**
+     * 下标越界信息
+     * @param index
+     * @return
+     */
+    private String outOfBoundsMsg(int index) {
+        return "Index: "+index+", Size: "+size();
     }
 }
