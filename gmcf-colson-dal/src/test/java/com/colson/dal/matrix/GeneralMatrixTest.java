@@ -8,5 +8,10 @@ public class GeneralMatrixTest {
         GeneralMatrix matrix = new GeneralMatrix();
         matrix.init(2,3);
         System.out.println(matrix);
+
+        System.out.println(matrix.getArray());
+        System.out.println(matrix.getArray2());
+
+
     }
 }
