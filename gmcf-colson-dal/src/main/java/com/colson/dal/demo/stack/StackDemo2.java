@@ -5,16 +5,16 @@ import com.colson.dal.util.constant.BracketConstant;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * 括号匹配：任意括号嵌套，顺序是随机的
  * 正确示例：[{}]  [[{}{[]}]]
  */
 public class StackDemo2 {
-
     public static void main(String[] args) {
-        String s = "<{}>[{}]{<[]>}";
-        System.out.println(checkLegal(s));
+        String s = "<{}[{}]<[]>()>";
+        System.out.println("嵌套顺序是否正确:"+(checkLegal(s)==true?"是":"否"));
     }
 
     public static boolean checkLegal(String bracket) {

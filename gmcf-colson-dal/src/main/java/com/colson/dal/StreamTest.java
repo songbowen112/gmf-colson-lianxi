@@ -2,6 +2,8 @@ package com.colson.dal;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class StreamTest {
     private String name;
@@ -15,12 +17,32 @@ public class StreamTest {
     }
 
     public static void main(String[] args) {
+
         //使用Arrays.asList方法
         List<String> strings = Arrays.asList("abc", "", "bc", "efg", "abcd","", "jkl");
         System.out.println(strings.toString());
+
         //使用流方法
         List<String> filtered = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());
         System.out.println(filtered.toString());
+
+        List<String> strs = Arrays.asList("哟", "", "哟", "切", "克", "闹");
+        int[] nums = {1,2,3,5,7,8,9};
+
+        //方式一：使用流获取数组或集合的下标并输出
+        Stream.iterate(0,i -> i+1).limit(strs.size()).forEach(i -> {
+            System.out.println(strs.get(i));
+        });
+        Stream.iterate(0,i -> i+1).limit(nums.length).forEach(i -> {
+            System.out.println(nums[i]);
+        });
+        //方式二：使用流获取数组或集合的下标并输出
+        IntStream.range(0,strs.size()).forEach(i -> {
+            System.out.println(strs.get(i));
+        });
+        IntStream.range(0,nums.length).forEach(i -> {
+            System.out.println(nums[i]);
+        });
 
         //生成是个随机数字
         //limit 方法用于获取指定数量的流。 以下代码片段使用 limit 方法打印出 10 条数据：
@@ -28,7 +50,6 @@ public class StreamTest {
         random.ints().limit(10).forEach(System.out::println);
 
         //map 方法用于映射每个元素到对应的结果，以下代码片段使用 map 输出了元素对应的平方数：
-
         List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
         // 获取对应的平方数
         List<Integer> squaresList = numbers.stream().map( i -> i*i).distinct().collect(Collectors.toList());
@@ -48,7 +69,9 @@ public class StreamTest {
         int count1 = (int)strings.parallelStream().filter(string -> string.isEmpty()).count();
         System.out.println(count1);
         //流并行输出
-        strings.parallelStream().filter(string -> !string.isEmpty()).forEach(string->System.out.println(string));
+        strings.parallelStream().filter(string -> !string.isEmpty()).forEach(string -> {
+            System.out.println(string);
+        });
 
         //Collectors 类实现了很多归约操作，例如将流转换成集合和聚合元素。Collectors 可用于返回列表或字符串：
         List<String> filtere = strings.stream().filter(string -> !string.isEmpty()).collect(Collectors.toList());

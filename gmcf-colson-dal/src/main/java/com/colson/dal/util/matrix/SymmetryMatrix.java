@@ -7,7 +7,23 @@ import java.io.Serializable;
  */
 public class SymmetryMatrix<E> implements Serializable {
 
+    //矩阵宽度
+    private int rowNum = 0;
+
+    //矩阵长度
+    private int lineNum = 0;
+
     private Object[][] data;
+
+    /**
+     * 行优先存储
+     */
+    private Object[] rowPriority;
+
+    /**
+     * 列优先存储
+     */
+    private Object[] linePriority;
 
     public SymmetryMatrix() {
     }
@@ -32,5 +48,14 @@ public class SymmetryMatrix<E> implements Serializable {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * 下标越界信息
+     * @param index
+     * @return
+     */
+    private String outOfBoundsMsg(int index) {
+        return "Index: "+index+", Size: "+rowNum*lineNum;
     }
 }

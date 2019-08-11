@@ -1,5 +1,7 @@
 package com.colson.dal.util.matrix;
 
+import com.colson.dal.util.constant.IndexConstant;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -7,6 +9,12 @@ import java.util.Arrays;
  * 普通矩阵
  */
 public class GeneralMatrix<E> implements Serializable {
+
+    //矩阵宽度
+    private int rowNum = 0;
+
+    //矩阵长度
+    private int lineNum = 0;
 
     private Object[][] data;
 
@@ -24,6 +32,9 @@ public class GeneralMatrix<E> implements Serializable {
     }
 
     public void init(int x,int y) {
+        this.rowNum = x;
+        this.lineNum = y;
+
         rowPriority = new Object[x*y];
         linePriority = new Object[x*y];
         data = new Object[x][y];
@@ -40,50 +51,77 @@ public class GeneralMatrix<E> implements Serializable {
 
         for (int i=0,num=0;i<y;i++) {
             for (int j=0;j<x;j++) {
-                linePriority[num] = data[j][i];
-                num++;
+                linePriority[num++] = data[j][i];
             }
         }
     }
 
-    public String getArray2() {
+    public int getRowIndex(int x,int y) {
+        int target = (x+1)*(y+1);
+        if (target>rowNum*lineNum) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
+        }
+        return x*lineNum+y;
+    }
+
+    public int getLineIndex(int x,int y) {
+        int target = (x+1)*(y+1);
+        if (target>rowNum*lineNum) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
+        }
+        return y*rowNum+x;
+    }
+
+    public String getArray() {
+        int index;
+        //载入行数据
         StringBuilder sb = new StringBuilder();
         sb.append("行优先一维存储：[");
-        Arrays.stream(rowPriority).forEach(i -> {
-            sb.append(i + " ");
-        });
-        int index = sb.lastIndexOf(" ");
-        sb.deleteCharAt(index);
+        if (null != rowPriority) {
+            Arrays.stream(rowPriority).forEach(i -> {
+                sb.append(i + " ");
+            });
+            index = sb.lastIndexOf(" ");
+            sb.deleteCharAt(index);
+        }
 
-
+        //载入列数据
         sb.append("]\n列优先一维存储：[");
-        Arrays.stream(linePriority).forEach(i -> {
-            sb.append(i + " ");
-        });
-        index = sb.lastIndexOf(" ");
-        sb.deleteCharAt(index);
+        if (null != linePriority) {
+            Arrays.stream(linePriority).forEach(i -> {
+                sb.append(i + " ");
+            });
+            index = sb.lastIndexOf(" ");
+            sb.deleteCharAt(index);
+        }
 
         sb.append("]\n");
         return sb.toString();
     }
 
-    public String getArray() {
+    public String getArray2() {
+        //载入行数据
         StringBuilder sb = new StringBuilder();
         sb.append("行优先一维存储：[");
-        for (int i = 0; i < rowPriority.length; i++) {
-            if(i==rowPriority.length-1) {
-                sb.append(i);
-            } else {
-                sb.append(i + " ");
+        if (null != rowPriority) {
+            for (int i = 0; i < rowPriority.length; i++) {
+                if(i==rowPriority.length-1) {
+                    sb.append(rowPriority[i]);
+                } else {
+                    sb.append(rowPriority[i] + " ");
+                }
             }
         }
 
+        //载入列数据
         sb.append("]\n列优先一维存储：[");
-        for (int i = 0; i < linePriority.length; i++) {
-            if(i==linePriority.length-1) {
-                sb.append(i);
-            } else {
-                sb.append(i + " ");
+        if (null != linePriority) {
+            for (int i = 0; i < linePriority.length; i++) {
+                if(i==linePriority.length-1) {
+                    sb.append(linePriority[i]);
+                } else {
+                    sb.append(linePriority[i] + " ");
+                }
             }
         }
         sb.append("]\n");
@@ -105,5 +143,14 @@ public class GeneralMatrix<E> implements Serializable {
             sb.append("]\n");
         }
         return sb.toString();
+    }
+
+    /**
+     * 下标越界信息
+     * @param index
+     * @return
+     */
+    private String outOfBoundsMsg(int index) {
+        return "Index: "+index+", Size: "+rowNum*lineNum;
     }
 }
