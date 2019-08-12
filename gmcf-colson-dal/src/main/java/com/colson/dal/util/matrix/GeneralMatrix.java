@@ -7,6 +7,10 @@ import java.util.Arrays;
 
 /**
  * 普通矩阵
+ * [0 1 2 3]
+ * [4 5 6 7]
+ * 行优先存储为：[0 1 2 3 4 5 6 7]
+ * 列优先存储为：[0 4 1 5 2 6 3 7]
  */
 public class GeneralMatrix<E> implements Serializable {
 
@@ -31,29 +35,50 @@ public class GeneralMatrix<E> implements Serializable {
     public GeneralMatrix() {
     }
 
+    /**
+     * 初始化数据
+     * @param x
+     * @param y
+     */
     public void init(int x,int y) {
         this.rowNum = x;
         this.lineNum = y;
 
-        rowPriority = new Object[x*y];
-        linePriority = new Object[x*y];
-        data = new Object[x][y];
-        for (int i=0,num=0;i<x;i++) {
-            for (int j=0;j<y;j++) {
+        data = new Object[y][x];
+        for (int i=0,num=0;i<y;i++) {
+            for (int j=0;j<x;j++) {
                 data[i][j] = num++;
             }
         }
-        for (int i=0,num=0;i<x;i++) {
-            for (int j=0;j<y;j++) {
+
+        rowPriority = new Object[x*y];
+        linePriority = new Object[x*y];
+        for (int i=0,num=0;i<y;i++) {
+            for (int j=0;j<x;j++) {
                 rowPriority[num++] = data[i][j];
             }
         }
-
-        for (int i=0,num=0;i<y;i++) {
-            for (int j=0;j<x;j++) {
+        for (int i=0,num=0;i<x;i++) {
+            for (int j=0;j<y;j++) {
                 linePriority[num++] = data[j][i];
             }
         }
+    }
+
+    /**
+     * 获取行优先数组
+     * @return
+     */
+    public Object[] getRowArray() {
+        return rowPriority;
+    }
+
+    /**
+     * 获取列优先数组
+     * @return
+     */
+    public Object[] getLineArray() {
+        return linePriority;
     }
 
     public int getRowIndex(int x,int y) {
@@ -61,7 +86,8 @@ public class GeneralMatrix<E> implements Serializable {
         if (target>rowNum*lineNum) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
         }
-        return x*lineNum+y;
+        return y*rowNum+x;
+
     }
 
     public int getLineIndex(int x,int y) {
@@ -69,10 +95,10 @@ public class GeneralMatrix<E> implements Serializable {
         if (target>rowNum*lineNum) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
         }
-        return y*rowNum+x;
+        return x*lineNum+y;
     }
 
-    public String getArray() {
+    public String printArray() {
         int index;
         //载入行数据
         StringBuilder sb = new StringBuilder();
@@ -99,7 +125,7 @@ public class GeneralMatrix<E> implements Serializable {
         return sb.toString();
     }
 
-    public String getArray2() {
+    public String printArray2() {
         //载入行数据
         StringBuilder sb = new StringBuilder();
         sb.append("行优先一维存储：[");

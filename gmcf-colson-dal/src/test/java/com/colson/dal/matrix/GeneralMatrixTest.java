@@ -6,21 +6,36 @@ public class GeneralMatrixTest {
 
     public static void main(String[] args) {
         GeneralMatrix matrix = new GeneralMatrix();
-        System.out.println(matrix.getArray());
 
         matrix.init(3,4);
         System.out.println(matrix);
-        System.out.println(matrix.getArray2());
+        System.out.println(matrix.printArray2());
 
-        System.out.println(matrix.getRowIndex(1,2));
-        System.out.println(matrix.getRowIndex(2,3));
-        System.out.println(matrix.getRowIndex(1,3));
+        int x = 1;
+        int y = 2;
+        int rowIndex = matrix.getRowIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的行优先下标为"+rowIndex+",值为"+matrix.getRowArray()[rowIndex]);
+        x = 1;
+        y = 3;
+        rowIndex = matrix.getRowIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的行优先下标为"+rowIndex+",值为"+matrix.getRowArray()[rowIndex]);
+        x = 2;
+        y = 3;
+        rowIndex = matrix.getRowIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的行优先下标为"+rowIndex+",值为"+matrix.getRowArray()[rowIndex]);
 
-        System.out.println(matrix.getLineIndex(1,2));
-        System.out.println(matrix.getLineIndex(2,3));
-        System.out.println(matrix.getLineIndex(3,3));
-
-
+        x = 1;
+        y = 2;
+        int lineIndex = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+lineIndex+",值为"+matrix.getLineArray()[lineIndex]);
+        x = 1;
+        y = 3;
+        lineIndex = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+lineIndex+",值为"+matrix.getLineArray()[lineIndex]);
+        x = 2;
+        y = 3;
+        lineIndex = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+lineIndex+",值为"+matrix.getLineArray()[lineIndex]);
 
     }
 }
