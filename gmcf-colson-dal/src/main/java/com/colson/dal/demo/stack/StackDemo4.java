@@ -20,7 +20,6 @@ public class StackDemo4 {
     public static void main(String[] args) {
         System.out.println(getFactorial(3));
         System.out.println(getFactorial(5));
-
         System.out.println(getFactorial2(3));
         System.out.println(getFactorial2(5));
 
