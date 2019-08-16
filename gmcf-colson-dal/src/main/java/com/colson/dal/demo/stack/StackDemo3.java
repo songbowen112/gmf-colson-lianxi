@@ -11,7 +11,7 @@ public class StackDemo3 {
         //constraint: the operand should be
         // equal or greater than 0
         // but equal or less than 9
-        String exp = "5+2*(3*(2-1))";
+        String exp = "(5+2)+2*3+(3*(2-1))";
         System.out.println(getrp(exp));
         System.out.println(calrp(getrp(exp)));
     }
