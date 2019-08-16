@@ -16,15 +16,15 @@ public class SeqQueue2<E> implements Serializable {
     /**
      * 初始数据长度为100
      */
-    transient Object[] datas = new Object[12];
+    transient Object[] datas = new Object[13];
 
     /**
-     * 队头指针
+     * 队头指针(指向第一个元素)
      */
     transient int begin = -1;
 
     /**
-     * 队尾指针（指向最后一个元素的下标+1）
+     * 队尾指针(指向最后一个元素的下标+1)
      */
     transient int end = -1;
 
@@ -94,7 +94,7 @@ public class SeqQueue2<E> implements Serializable {
     }
 
     /**
-     * 获取有效数据的第which个数据
+     * 根据下标获取有效数据
      * @param which
      * @return
      */

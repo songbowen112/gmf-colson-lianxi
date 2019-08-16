@@ -93,7 +93,7 @@ public class SeqQueue<E> implements Serializable {
             return "[]";
         }
         StringBuilder sb = new StringBuilder();
-        for (int i=0;i<datas.length;i++) {
+        for (int i=datas.length-1;i>=0;i--) {
             sb.append(this.get(i)+",");
         }
         return sb.toString().isEmpty()?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
