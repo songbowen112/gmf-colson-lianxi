@@ -1,6 +1,7 @@
 package com.colson.dal.demo.queue;
 
 import com.colson.dal.util.stack.SeqStack;
+import com.colson.dal.util.stack.TwoWaySeqStack;
 
 /**
  * 利用俩个栈S1,S2来模拟一个队列,利用栈的算法来实现队列的三个运算
@@ -11,8 +12,11 @@ import com.colson.dal.util.stack.SeqStack;
 public class QueueDemo2 {
 
     public static void main(String[] args) {
-        SeqStack s1 = new SeqStack();
-        SeqStack s2 = new SeqStack();
+        TwoWaySeqStack<String> stack = new TwoWaySeqStack();
+
+        stack.pushLeft("11");
+        String s = stack.popRight();
+        System.out.println(s);
 
     }
 }
