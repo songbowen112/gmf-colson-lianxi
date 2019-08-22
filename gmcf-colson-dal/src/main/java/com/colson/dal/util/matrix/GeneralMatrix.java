@@ -1,5 +1,6 @@
 package com.colson.dal.util.matrix;
 
+import com.colson.dal.util.ArraysUtils;
 import com.colson.dal.util.constant.IndexConstant;
 
 import java.io.Serializable;
@@ -98,60 +99,24 @@ public class GeneralMatrix<E> implements Serializable {
         return x*lineNum+y;
     }
 
-    public String printArray() {
-        int index;
+    public void printArray() {
         //载入行数据
-        StringBuilder sb = new StringBuilder();
-        sb.append("行优先一维存储：[");
-        if (null != rowPriority) {
-            Arrays.stream(rowPriority).forEach(i -> {
-                sb.append(i + " ");
-            });
-            index = sb.lastIndexOf(" ");
-            sb.deleteCharAt(index);
-        }
+        System.out.print("行优先一维存储");
+        System.out.print(ArraysUtils.printArr(rowPriority));
 
         //载入列数据
-        sb.append("]\n列优先一维存储：[");
-        if (null != linePriority) {
-            Arrays.stream(linePriority).forEach(i -> {
-                sb.append(i + " ");
-            });
-            index = sb.lastIndexOf(" ");
-            sb.deleteCharAt(index);
-        }
-
-        sb.append("]\n");
-        return sb.toString();
+        System.out.print("列优先一维存储");
+        System.out.print(ArraysUtils.printArr(linePriority));
     }
 
-    public String printArray2() {
+    public void printArray2() {
         //载入行数据
-        StringBuilder sb = new StringBuilder();
-        sb.append("行优先一维存储：[");
-        if (null != rowPriority) {
-            for (int i = 0; i < rowPriority.length; i++) {
-                if(i==rowPriority.length-1) {
-                    sb.append(rowPriority[i]);
-                } else {
-                    sb.append(rowPriority[i] + " ");
-                }
-            }
-        }
+        System.out.print("行优先一维存储");
+        System.out.print(ArraysUtils.printArr2(rowPriority));
 
         //载入列数据
-        sb.append("]\n列优先一维存储：[");
-        if (null != linePriority) {
-            for (int i = 0; i < linePriority.length; i++) {
-                if(i==linePriority.length-1) {
-                    sb.append(linePriority[i]);
-                } else {
-                    sb.append(linePriority[i] + " ");
-                }
-            }
-        }
-        sb.append("]\n");
-        return sb.toString();
+        System.out.print("列优先一维存储");
+        System.out.print(ArraysUtils.printArr2(linePriority));
     }
 
     @Override

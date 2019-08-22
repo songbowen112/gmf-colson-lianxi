@@ -9,7 +9,8 @@ public class GeneralMatrixTest {
 
         matrix.init(3,4);
         System.out.println(matrix);
-        System.out.println(matrix.printArray2());
+        matrix.printArray();
+        matrix.printArray2();
 
         int x = 1;
         int y = 2;

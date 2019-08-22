@@ -1,5 +1,7 @@
 package com.colson.dal.util.matrix;
 
+import com.colson.dal.util.ArraysUtils;
+
 import java.io.Serializable;
 import java.util.Arrays;
 
@@ -19,9 +21,25 @@ public class SymmetryMatrix<E> implements Serializable {
     private Object[][] data;
 
     /**
-     * 一维存储(下三角)
+     * 上三角行优先
      */
-    private Object[] array;
+    private Object[] array1;
+
+    /**
+     * 下三角行优先
+     */
+    private Object[] array2;
+
+    /**
+     * 上三角列优先
+     */
+    private Object[] array3;
+
+    /**
+     * 下三角列优先
+     */
+    private Object[] array4;
+
 
     public SymmetryMatrix() {
     }
@@ -35,10 +53,36 @@ public class SymmetryMatrix<E> implements Serializable {
                 data[i][j] = i+j;
             }
         }
-        array = new Object[length*(length+1)/2];
+
+        //上三角行优先
+        array1 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
         for (int i=0,num=0;i<length;i++) {
-            for (int j=0;j<length;j++) {
-                array[num++] = data[i][j];
+            for (int j=i;j<length;j++) {
+                array1[num++] = data[i][j];
+            }
+        }
+
+        //下三角行优先
+        array2 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
+        for (int j=0,num=0;j<length;j++) {
+            for (int i=0;i<=j;i++) {
+                array2[num++] = data[i][j];
+            }
+        }
+
+        //上三角列优先
+        array3 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
+        for (int i=0,num=0;i<length;i++) {
+            for (int j=i;j<length;j++) {
+                array3[num++] = data[i][j];
+            }
+        }
+
+        //下三角列优先
+        array4 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
+        for (int j=0,num=0;j<length;j++) {
+            for (int i=0;i<=j;i++) {
+                array4[num++] = data[i][j];
             }
         }
     }
@@ -47,8 +91,16 @@ public class SymmetryMatrix<E> implements Serializable {
      * 获取行优先数组
      * @return
      */
-    public Object[] getArray() {
-        return array;
+    public Object[] getArray1() {
+        return array1;
+    }
+
+    /**
+     * 获取行优先数组
+     * @return
+     */
+    public Object[] getArray2() {
+        return array2;
     }
 
     public int getIndex(int x,int y) {
@@ -60,21 +112,9 @@ public class SymmetryMatrix<E> implements Serializable {
 
     }
 
-    public String printArray() {
-        int index;
-        //打印一维数组
-        StringBuilder sb = new StringBuilder();
-        sb.append("一维存储：[");
-        if (null != array) {
-            Arrays.stream(array).forEach(i -> {
-                sb.append(i + " ");
-            });
-            index = sb.lastIndexOf(" ");
-            sb.deleteCharAt(index);
-        }
-
-        sb.append("]\n");
-        return sb.toString();
+    public void printArray() {
+        System.out.println("上三角行优先->"+ArraysUtils.printArr(array1));
+        System.out.println("下三角行优先->"+ArraysUtils.printArr(array2));
     }
 
     @Override
