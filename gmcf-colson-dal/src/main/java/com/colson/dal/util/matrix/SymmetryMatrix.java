@@ -73,7 +73,7 @@ public class SymmetryMatrix<E> implements Serializable {
         //上三角列优先
         array3 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
         for (int i=0,num=0;i<length;i++) {
-            for (int j=i;j<length;j++) {
+            for (int j=0;j<=i;j++) {
                 array3[num++] = data[i][j];
             }
         }
@@ -81,14 +81,14 @@ public class SymmetryMatrix<E> implements Serializable {
         //下三角列优先
         array4 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
         for (int j=0,num=0;j<length;j++) {
-            for (int i=0;i<=j;i++) {
+            for (int i=j;i<length;i++) {
                 array4[num++] = data[i][j];
             }
         }
     }
 
     /**
-     * 获取行优先数组
+     * 获取上三角行优先数组
      * @return
      */
     public Object[] getArray1() {
@@ -96,11 +96,27 @@ public class SymmetryMatrix<E> implements Serializable {
     }
 
     /**
-     * 获取行优先数组
+     * 获取下三角行优先数组
      * @return
      */
     public Object[] getArray2() {
         return array2;
+    }
+
+    /**
+     * 获取上三角列优先数组
+     * @return
+     */
+    public Object[] getArray3() {
+        return array3;
+    }
+
+    /**
+     * 获取下三角列优先数组
+     * @return
+     */
+    public Object[] getArray4() {
+        return array4;
     }
 
     public int getIndex(int x,int y) {
@@ -115,6 +131,8 @@ public class SymmetryMatrix<E> implements Serializable {
     public void printArray() {
         System.out.println("上三角行优先->"+ArraysUtils.printArr(array1));
         System.out.println("下三角行优先->"+ArraysUtils.printArr(array2));
+        System.out.println("上三角列优先->"+ArraysUtils.printArr(array3));
+        System.out.println("下三角列优先->"+ArraysUtils.printArr(array4));
     }
 
     @Override
