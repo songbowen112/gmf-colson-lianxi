@@ -83,18 +83,16 @@ public class GeneralMatrix<E> implements Serializable {
     }
 
     public int getRowIndex(int x,int y) {
-        int target = (x+1)*(y+1);
-        if (target>rowNum*lineNum) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
+        if (x>=rowNum || y>=lineNum) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
         }
         return y*rowNum+x;
 
     }
 
     public int getLineIndex(int x,int y) {
-        int target = (x+1)*(y+1);
-        if (target>rowNum*lineNum) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
+        if (x>=rowNum || y>=lineNum) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
         }
         return x*lineNum+y;
     }
@@ -138,10 +136,11 @@ public class GeneralMatrix<E> implements Serializable {
 
     /**
      * 下标越界信息
-     * @param index
+     * @param x,y
      * @return
      */
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+rowNum*lineNum;
+    private String outOfBoundsMsg(int x,int y) {
+        return "currIndex: {"+x+","+y+"}, maxIndex: {"+rowNum+","+lineNum+"}";
     }
+
 }

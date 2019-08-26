@@ -11,7 +11,7 @@ import java.util.Arrays;
  * [0 1 2]
  * [1 2 3]
  * [2 3 4]
- * 一维存储为：[0 1 2 2 3 4]
+ * 下三角行优先存储为：[0 1 2 2 3 4]
  */
 public class SymmetryMatrix<E> implements Serializable {
 
@@ -21,12 +21,12 @@ public class SymmetryMatrix<E> implements Serializable {
     private Object[][] data;
 
     /**
-     * 上三角行优先
+     * 上三角行优先=(下三角列优先)
      */
     private Object[] array1;
 
     /**
-     * 下三角行优先
+     * 下三角行优先=(上三角列优先)
      */
     private Object[] array2;
 
@@ -119,13 +119,20 @@ public class SymmetryMatrix<E> implements Serializable {
         return array4;
     }
 
-    public int getIndex(int x,int y) {
-        int target = (x+1)*(y+1);
-        if (target>length*length) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(target));
+    //下三角行优先
+    public int getRowIndex(int x,int y) {
+        if (x>=length || y>=length) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
         }
         return y*length+x;
+    }
 
+    //下三角列优先
+    public int getLineIndex(int x,int y) {
+        if (x>=length || y>=length) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
+        }
+        return y*length+x;
     }
 
     public void printArray() {
@@ -154,10 +161,10 @@ public class SymmetryMatrix<E> implements Serializable {
 
     /**
      * 下标越界信息
-     * @param index
+     * @param x,y
      * @return
      */
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+length*length;
+    private String outOfBoundsMsg(int x,int y) {
+        return "currIndex: {"+x+","+y+"}, maxIndex: {"+length+","+length+"}";
     }
 }
