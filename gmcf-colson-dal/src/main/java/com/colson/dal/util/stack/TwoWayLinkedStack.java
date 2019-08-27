@@ -2,13 +2,13 @@ package com.colson.dal.util.stack;
 
 import com.colson.dal.util.constant.IndexConstant;
 import com.colson.dal.util.constant.StackType;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
-import java.io.Serializable;
 
 /**
  * 双向链式栈
  */
-public class TwoWayLinkedStack<E> implements Serializable {
+public class TwoWayLinkedStack<E> extends BaseDTO {
 
     /**
      * 共享存储区

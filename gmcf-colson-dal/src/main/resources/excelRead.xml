@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parses>
+    <wobj id="RepaymentDetailsBean" name="还款息拆明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.controller.settlement.bean.RepaymentDetailsBean">
+        <columns>
+            <column cidx="0" cname="息拆单单号" pname="separationNo" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+</parses>

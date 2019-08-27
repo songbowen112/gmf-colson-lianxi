@@ -1,13 +1,13 @@
 package com.colson.dal.util.linked;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 循环单链表
  * @author songbowen
  * @param <E>
  */
-public class CirSingleLinkedList<E> implements Serializable {
+public class CirSingleLinkedList<E> extends BaseDTO {
 
     transient Node<E> last;
 

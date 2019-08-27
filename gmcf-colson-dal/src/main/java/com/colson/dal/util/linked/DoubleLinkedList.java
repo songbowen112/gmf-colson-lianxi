@@ -1,14 +1,14 @@
 package com.colson.dal.util.linked;
 
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 双向链表
  * @author songbowen
  * @param <E>
  */
-public class DoubleLinkedList<E> implements Serializable {
+public class DoubleLinkedList<E> extends BaseDTO {
 
     transient Node<E> first;
 

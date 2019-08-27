@@ -1,14 +1,14 @@
 package com.colson.dal.util.linked;
 
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 单向链表
  * @author songbowen
  * @param <E>
  */
-public class SingleLinkedList<E> implements Serializable {
+public class SingleLinkedList<E> extends BaseDTO {
     /**
      * 头结点
      */

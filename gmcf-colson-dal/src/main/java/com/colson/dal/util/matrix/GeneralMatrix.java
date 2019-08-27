@@ -1,10 +1,8 @@
 package com.colson.dal.util.matrix;
 
 import com.colson.dal.util.ArraysUtils;
-import com.colson.dal.util.constant.IndexConstant;
 
-import java.io.Serializable;
-import java.util.Arrays;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 普通矩阵
@@ -13,7 +11,7 @@ import java.util.Arrays;
  * 行优先存储为：[0 1 2 3 4 5 6 7]
  * 列优先存储为：[0 4 1 5 2 6 3 7]
  */
-public class GeneralMatrix<E> implements Serializable {
+public class GeneralMatrix<E> extends BaseDTO {
 
     //矩阵宽度
     private int rowNum = 0;

@@ -1,8 +1,8 @@
 package com.colson.dal.dto;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
-public class FeeDto implements Serializable{
+public class FeeDto extends BaseDTO {
     private String profitRate;
     private String comprehensiveRate;
 

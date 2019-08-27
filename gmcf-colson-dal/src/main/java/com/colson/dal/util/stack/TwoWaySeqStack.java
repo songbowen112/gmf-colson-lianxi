@@ -3,12 +3,12 @@ package com.colson.dal.util.stack;
 import com.colson.dal.util.constant.IndexConstant;
 import com.colson.dal.util.constant.StackType;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 双向顺序栈
  */
-public class TwoWaySeqStack<E> implements Serializable {
+public class TwoWaySeqStack<E> extends BaseDTO {
 
     /**
      * 共享存储区

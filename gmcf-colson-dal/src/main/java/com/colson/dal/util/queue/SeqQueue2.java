@@ -2,8 +2,7 @@ package com.colson.dal.util.queue;
 
 import com.colson.dal.util.constant.IndexConstant;
 
-import java.io.Serializable;
-import java.util.Arrays;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 顺序队列2（先进先出）
@@ -11,7 +10,7 @@ import java.util.Arrays;
  * @author songbowen
  * @param <E>
  */
-public class SeqQueue2<E> implements Serializable {
+public class SeqQueue2<E> extends BaseDTO {
 
     /**
      * 初始数据长度为100

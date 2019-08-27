@@ -1,5 +1,6 @@
 package com.colson.dal.demo.queue;
 
+import com.colson.dal.util.stack.LinkedStack;
 import com.colson.dal.util.stack.SeqStack;
 import com.colson.dal.util.stack.TwoWaySeqStack;
 
@@ -12,11 +13,13 @@ import com.colson.dal.util.stack.TwoWaySeqStack;
 public class QueueDemo2 {
 
     public static void main(String[] args) {
-        TwoWaySeqStack<String> stack = new TwoWaySeqStack();
 
-        stack.pushLeft("11");
-        String s = stack.popRight();
-        System.out.println(s);
+
+    }
+
+    class QueueOfStack {
+        LinkedStack<String> stack1 = new LinkedStack<>();
+        LinkedStack<String> stack2 = new LinkedStack<>();
 
     }
 }

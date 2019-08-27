@@ -2,8 +2,7 @@ package com.colson.dal.util.matrix;
 
 import com.colson.dal.util.ArraysUtils;
 
-import java.io.Serializable;
-import java.util.Arrays;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 对称矩阵(必须是正方形),只需要存储一半数据跟对角线上的数据
@@ -13,7 +12,7 @@ import java.util.Arrays;
  * [2 3 4]
  * 下三角行优先存储为：[0 1 2 2 3 4]
  */
-public class SymmetryMatrix<E> implements Serializable {
+public class SymmetryMatrix<E> extends BaseDTO {
 
     //矩阵边长
     private int length = 0;

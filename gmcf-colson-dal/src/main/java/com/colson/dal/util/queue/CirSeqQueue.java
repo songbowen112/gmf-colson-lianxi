@@ -1,8 +1,8 @@
 package com.colson.dal.util.queue;
 
 import com.colson.dal.util.constant.IndexConstant;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
-import java.io.Serializable;
 
 /**
  * 循环顺序队列（先进先出）
@@ -10,7 +10,7 @@ import java.io.Serializable;
  * @author songbowen
  * @param <E>
  */
-public class CirSeqQueue<E> implements Serializable {
+public class CirSeqQueue<E> extends BaseDTO {
 
     /**
      * 初始数据长度为100

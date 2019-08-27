@@ -1,6 +1,7 @@
 package com.colson.dal.util.queue;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
+
 
 /**
  * 链式队列(先进先出）
@@ -8,7 +9,7 @@ import java.io.Serializable;
  * @author songbowen
  * @param <E>
  */
-public class LinkedQueue<E> implements Serializable {
+public class LinkedQueue<E> extends BaseDTO {
 
     transient Node<E> first;
 

@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<parses>
+	<wobj id="RepaymentDetailsBean" name="还款息拆明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.InterestFeeSepBean">
+		<columns>
+			<column cidx="0" cname="息拆单单号" pname="separationNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="资方名称" pname="investmentName" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="姓名" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="证件类型" pname="typeStr" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="证件号" pname="no" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="产品组" pname="productName" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="息拆总额" pname="totalDismantling" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="本金" pname="mustPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="还款减免本金" pname="waivePrincipalAmount" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="利息" pname="mustPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="还款减免利息" pname="waiveInterestAmount" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="罚息" pname="actualPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="还款减免罚息" pname="waivePenaltyInterestAmount" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="总费用" pname="totalFeeAmount" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="还款减免总费用" pname="totalWaiveFeeAmount" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="结算单号" pname="settlementNo" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="结算状态" pname="settlementStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="结算时间" pname="settlementDate" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="实际还款时间" pname="createdTime" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+    <wobj id="GmLenderDetailBeans" name="债务人放款明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.LenderDetailBean">
+        <columns>
+            <column cidx="0" cname="合同号" pname="contractNo" type="" cformat="" handler=""></column>
+            <column cidx="1" cname="姓名" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="证件类型" pname="documentType" type="" cformat="" handler=""></column>
+            <column cidx="3" cname="证件号" pname="no" type="" cformat="" handler=""></column>
+            <column cidx="4" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+            <column cidx="5" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+            <column cidx="6" cname="资方名称" pname="capitalName" type="" cformat="" handler=""></column>
+            <column cidx="7" cname="放款时间" pname="payTime" type="" cformat="" handler=""></column>
+            <column cidx="8" cname="放款金额" pname="payoutAmount" type="" cformat="" handler=""></column>
+            <column cidx="9" cname="放款状态" pname="loanStatus" type="" cformat="" handler=""></column>
+            <column cidx="10" cname="放款银行卡" pname="payoutBankCard" type="" cformat="" handler=""></column>
+            <column cidx="11" cname="失败原因" pname="failReason" type="" cformat="" handler=""></column>
+            <column cidx="12" cname="支付方式" pname="payTypeStr" type="" cformat="" handler=""></column>
+            <column cidx="13" cname="支付用途" pname="payApplication" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
+    <wobj id="ZfLenderDetailBeans" name="资方放款对账" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.FinalstatementBean">
+        <columns>
+            <column cidx="0" cname="资方放款单编号" pname="investmentNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="资方名称" pname="investmentName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="对账状态" pname="investmentStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="姓名" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+            <column cidx="5" cname="证件类型" pname="typeStr" type="" cformat="" handler=""></column>
+            <column cidx="6" cname="证件号" pname="no" type="" cformat="" handler=""></column>
+            <column cidx="7" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+            <column cidx="8" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+            <column cidx="9" cname="对账金额" pname="reconciliationAmount" type="" cformat="" handler=""></column>
+            <column cidx="10" cname="是否联合放款（国美：资方) 是（10%:90%）" pname="jointLoan" type="" cformat="" handler=""></column>
+            <column cidx="11" cname="资方实际放款时间" pname="investmentDatetime" type="" cformat="" handler=""></column>
+            <column cidx="12" cname="对账时间" pname="receiveTime" type="" cformat="" handler=""></column>
+            <column cidx="13" cname="对账失败原因" pname="failureReasonStr" type="" cformat="" handler=""></column>
+            <column cidx="14" cname=" 结算状态" pname="settleStatusValue" type="" cformat="" handler=""></column>
+            <column cidx="15" cname=" 结算时间" pname="settleTime" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
+	<wobj id="RightDetailBean" name="还款资方明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.RightDetailBean">
+		<columns>
+			<column cidx="0" cname="资方编号" pname="lastRightMemberNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="资方名称" pname="investmentName" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="借款人" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="当前期数" pname="currentStage" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="总期数" pname="totalStage" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="还款状态值" pname="debitStatusValue" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="应还款时间" pname="mustPayDate" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="当期资方应收总额" pname="mustPayTotalAmount" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="当期资方应收本金" pname="mustPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="当期资方应收利息" pname="mustPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="当期资方应收罚息" pname="mustPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="当期资方应收总费用" pname="mustPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="当期资方实收总额" pname="actualPayTotalAmount" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="当期资方实收本金" pname="actualPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="当期资方实收利息" pname="actualPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="当期资方实收罚息" pname="actualPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="当期资方实收总费用" pname="actualPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="当期减免总费用" pname="derateTotalFee" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="DebitDetailBean" name="债务人还款明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.DebitDetailBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="entryNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="借款人" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="证件类型值" pname="idTypeValue" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="证件号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="当前期数" pname="currentStage" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="总期数" pname="totalStage" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="还款状态值" pname="debitStatusValue" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="资方名称" pname="investmentName" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="信托计划编号" pname="trustsPlanNo" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="产品名称" pname="productName" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="应还款日" pname="mustPayDate" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="实际还款日" pname="actualPayDate" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="贷款总额" pname="biddingAmount" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="当期应还总额" pname="mustPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="当期应还本金" pname="mustPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="当期应还利息" pname="mustPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="当期应还罚息" pname="mustPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="当期应还总费用" pname="mustPayTotalcost" type="" cformat="" handler=""></column>
+			<column cidx="21" cname="当期实还总额" pname="actualPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="22" cname="当期实还本金" pname="actualPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="23" cname="当期实还利息" pname="actualPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="24" cname="当期实还罚息" pname="actualPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="25" cname="当期实还总费用" pname="actualPayTotalcost" type="" cformat="" handler=""></column>
+			<column cidx="26" cname="当期减免总费用" pname="derateTotalcost" type="" cformat="" handler=""></column>
+			<column cidx="27" cname="其他费用详情" pname="feeDetailListStr" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="CompensatoryAccountBean" name="还款资方对账" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.CapitalReceiptBean">
+		<columns>
+			<column cidx="0" cname="资方收款单单号" pname="capitalReceiptNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="资方名称" pname="capitalName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="对账状态" pname="reconcileStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="借款人姓名" pname="masterBorrowerName" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="证件类型" pname="idTypeStr" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="证件号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="当前期数" pname="currentStage" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="总期数" pname="totalStage" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="对账金额" pname="reconciliationAmount" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="当期应还本金" pname="mustPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="当期应还利息" pname="mustPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="当期应还罚息" pname="mustPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="当期应还总费用" pname="mustPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="应还款资方时间" pname="repaymentTime" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="对账时间" pname="receiveTime" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="对账失败原因" pname="failureReasonStr" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="结算状态" pname="settleStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="结算时间" pname="settleTime" type="" cformat="" handler=""></column>
+
+		</columns>
+	</wobj>
+
+	<wobj id="SettleFlowLoadBean" name="结算流水管理" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.SettleFlowLoadBean">
+		<columns>
+			<column cidx="0" cname="结算流水编号" pname="settleFlowNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="结算单号" pname="settleNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="结算类型" pname="settlementTypeStr" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="收款主体" pname="receiptAccountName" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="收款账号" pname="receiptBankCardNo" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="付款主体" pname="paymentAccountName" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="付款账号" pname="paymentBankCardNo" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="结算金额" pname="settleAmount" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="结算状态" pname="settleStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="业务订单号(对账单号)" pname="businessNo" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="对账状态" pname="balanceAccStatStr" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="创建时间" pname="receiveTime" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="DetailInfo" name="承保" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.DetailInfoBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="appNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="contractNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="保险公司名称" pname="insureName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="保单状态" pname="insureStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="保费金额" pname="premium" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="返点金额" pname="brokerage" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="放款金额" pname="loanAmount" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="扣费完成时间" pname="withholdSuccess" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="购保完成时间" pname="insuredTime" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="放款时间" pname="loanPayTime" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="投保单号" pname="proposalNo" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="保单号" pname="policyNo" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="结算状态" pname="inseredSettleStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="结算时间" pname="inseredSettleTime" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="客户姓名" pname="cusName" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="证件编号" pname="cusIdentNum" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="银行卡号" pname="bankCardNum" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="预留手机号" pname="bankPhone" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="失败原因" pname="failReason" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+
+	<wobj id="SurrenderInfo" name="退保" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.SurrenderInfoBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="appNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="contractNo" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="保险公司名称" pname="insureName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="保单状态" pname="insureStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="保费金额" pname="premium" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="返点金额" pname="brokerage" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="退保金额" pname="surrenderPremium" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="返点退还金额" pname="surrenderBrokerage" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="扣费完成时间" pname="withholdSuccess" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="购保完成时间" pname="insuredTime" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="退保时间" pname="surrenderTime" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="放款金额" pname="loanAmount" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="放款时间" pname="loanPayTime" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="投保单号" pname="proposalNo" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="保单号" pname="policyNo" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="结算状态" pname="inseredSettleStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="结算时间" pname="inseredSettleTime" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="客户姓名" pname="cusName" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="证件编号" pname="cusIdentNum" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="银行卡号" pname="bankCardNum" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="预留手机号" pname="bankPhone" type="" cformat="" handler=""></column>
+			<column cidx="21" cname="失败原因" pname="failReason" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="SettlementInfoBean" name="结算单管理" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.controller.settlement.bean.SettlementInfoBean">
+		<columns>
+			<column cidx="0" cname="结算单号" pname="settleNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="创建时间" pname="createTime" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="结算类型" pname="settleTypeStr" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="收款主体" pname="receiptSubject" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="付款主体" pname="paymentSubject" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="结算状态" pname="settleStatusStr" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="应结算金额" pname="mustSettleAmount" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="应结算时间" pname="mustSettleTime" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="实际结算金额" pname="actualSettleAmount" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="实际结算时间" pname="actualSettleTime" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="RoutingRecord" name="路由记录" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.CapitalRoutingBean">
+		<columns>
+			<column cidx="0" cname="通用单号" pname="loanNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="资方名称" pname="capitalName" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="路由结果" pname="routingResultStr" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="创建时间" pname="createdTime" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="BussinessAndLoanReclaimBean" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.controller.transition.bean.BussinessAndLoanReclaimBean">
+		<columns>
+			<column cidx="0" cname="业务单编号" pname="tradeNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="contractNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="交易类型" pname="tradeTypeStr" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="交易金额" pname="tradeAmount" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="交易状态" pname="tradeStatusValue" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="交易时间" pname="tradeTime" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="产品组" pname="productGroup" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="产品代码" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="姓名" pname="realName" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="银行卡" pname="bankCardNo" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="证件类型" pname="idTypeStr" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="证件号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="最新更新时间" pname="updateTime" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="资方名称" pname="capitalName" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="OverpaymentOutDto" filename="" filetype="" class="com.gomefinance.consumerfinance.lsc.facade.dto.operation.OverpaymentOutDto">
+		<columns>
+			<column cidx="0" cname="合同编号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="流水号" pname="voucherNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="客户姓名" pname="name" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="身份证号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="溢缴款可转出金额" pname="totalAmount" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="溢缴款本次转出金额" pname="transferAmount" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="实还日期" pname="rechargeTime" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="发起时间" pname="createTime" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="审核时间" pname="transferTime" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="审核状态" pname="status" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="DepositBean" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.DepositBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="appNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="客户姓名" pname="cusName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="身份证号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="款项状态" pname="moneyStatus" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="金额" pname="amount" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="实还日期" pname="realDate" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="银行流水号" pname="bankFlowNo" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="操作人" pname="operator" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="入暂存款日期" pname="depositDate" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="退款结束日期" pname="refundDate" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="ChargeOffBean" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.ChargeOffBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="appNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="客户姓名" pname="cusName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="身份证号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="款项状态" pname="moneyStatus" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="金额" pname="amount" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="实还日期" pname="realDate" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="银行流水号" pname="bankFlowNo" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="操作人" pname="operator" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="出暂存款日期" pname="depositDate" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="退款结束日期" pname="refundDate" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="CompensatoryBean" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.CompensatoryBean">
+		<columns>
+			<column cidx="0" cname="进件编号" pname="appNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="合同号" pname="biddingNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="产品编号" pname="productCode" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="客户姓名" pname="cusName" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="身份证号" pname="idNo" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="资方名称" pname="capitalName" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="信托计划编号" pname="planCode" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="当前期数" pname="currentStage" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="类型" pname="type" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="应代偿/回购金额" pname="sumOfMoney" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="代偿/回购本金" pname="principal" type="" cformat="" handler=""></column>
+			<column cidx="11" cname="代偿/回购利息" pname="interest" type="" cformat="" handler=""></column>
+			<column cidx="12" cname="实际还款总额" pname="actualPayTotalFee" type="" cformat="" handler=""></column>
+			<column cidx="13" cname="实还本金" pname="actualPayPrincipal" type="" cformat="" handler=""></column>
+			<column cidx="14" cname="实还利息" pname="actualPayInterest" type="" cformat="" handler=""></column>
+			<column cidx="15" cname="实还罚息" pname="actualPayPenaltyInterest" type="" cformat="" handler=""></column>
+			<column cidx="16" cname="实还催收服务费" pname="actualPayCollection" type="" cformat="" handler=""></column>
+			<column cidx="17" cname="减免金额" pname="waiverAmount" type="" cformat="" handler=""></column>
+			<column cidx="18" cname="应还款日期" pname="mustPayDate" type="" cformat="" handler=""></column>
+			<column cidx="19" cname="实还款日期" pname="actualPayDate" type="" cformat="" handler=""></column>
+			<column cidx="20" cname="代偿/回购日期" pname="temporaryDate" type="" cformat="" handler=""></column>
+			<column cidx="21" cname="还款状态" pname="debitStatus" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+	<wobj id="TransactionInfoBean" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.service.bean.QueryTransDetailResultBean">
+		<columns>
+			<column cidx="0" cname="业务单号" pname="bizOrderNo" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="支付订单号" pname="paymentNo" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="交易类型" pname="transCodeStr" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="交易金额" pname="totalAmount" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="交易状态" pname="statusStr" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="持卡人姓名" pname="ownerName" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="银行开户行名称" pname="bankName" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="银行卡" pname="bankCardNo" type="" cformat="" handler=""></column>
+			<column cidx="8" cname="证件号" pname="ownerIdCardNo" type="" cformat="" handler=""></column>
+			<column cidx="9" cname="创建时间" pname="createdTime" type="" cformat="" handler=""></column>
+			<column cidx="10" cname="交易时间" pname="finishTime" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
+</parses>

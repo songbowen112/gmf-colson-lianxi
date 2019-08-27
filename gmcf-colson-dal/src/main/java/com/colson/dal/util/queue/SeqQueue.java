@@ -1,8 +1,8 @@
 package com.colson.dal.util.queue;
 
 import com.colson.dal.util.constant.IndexConstant;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
-import java.io.Serializable;
 import java.util.Arrays;
 
 /**
@@ -11,7 +11,7 @@ import java.util.Arrays;
  * @author songbowen
  * @param <E>
  */
-public class SeqQueue<E> implements Serializable {
+public class SeqQueue<E> extends BaseDTO {
 
     transient E[] datas;
 

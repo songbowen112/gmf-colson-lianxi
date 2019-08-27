@@ -12,9 +12,9 @@ public class ArrayUtils {
      * @param num
      * @return
      */
-    public static boolean addElem(int[] array,int index,int num) {
+    public static int[] addElem1(int[] array,int index,int num) {
         if (index<1 || index>array.length+1) {
-            return false;
+            return null;
         }
         int[] result = new int[array.length+1];
         for (int i=0;i<array.length;i++) {
@@ -24,7 +24,29 @@ public class ArrayUtils {
             result[i] = result[i-1];
         }
         result[index-1] = num;
-        return true;
+        return result;
+    }
+
+    /**
+     * 在指定位置插入一个整数
+     * @param array
+     * @param index 数组第index的位置插入
+     * @param num
+     * @return
+     */
+    public static int[] addElem2(int[] array,int index,int num) {
+        if (index<1 || index>array.length+1) {
+            return null;
+        }
+        int[] result = new int[array.length+1];
+        for (int i=0;i<index-1;i++) {
+            result[i] = array[i];
+        }
+        for (int i=index;i<result.length;i++) {
+            result[i] = array[i-1];
+        }
+        result[index-1] = num;
+        return result;
     }
 
     /**

@@ -1,13 +1,13 @@
 package com.colson.dal.util.stack;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 链式栈(先进后出)
  * @author songbowen
  * @param <E>
  */
-public class LinkedStack<E> implements Serializable {
+public class LinkedStack<E> extends BaseDTO {
 
     /**
      * 栈顶结点

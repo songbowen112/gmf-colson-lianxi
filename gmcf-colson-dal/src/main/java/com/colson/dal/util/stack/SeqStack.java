@@ -1,6 +1,7 @@
 package com.colson.dal.util.stack;
 
-import java.io.Serializable;
+import com.colson.dal.common.biz.pkg.BaseDTO;
+
 import java.util.Arrays;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Arrays;
  * @author songbowen
  * @param <E>
  */
-public class SeqStack<E> implements Serializable {
+public class SeqStack<E> extends BaseDTO {
 
     transient E[] datas;
 
