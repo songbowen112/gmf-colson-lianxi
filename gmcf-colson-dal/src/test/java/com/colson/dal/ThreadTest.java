@@ -29,19 +29,14 @@ public class ThreadTest {
 //            thread4.join();
 //        }
         System.out.println("-----------------------我是分割线----------------------");
-        int index = 0;
         Thread thread = new Thread(() -> {
-            int i = index;
-            System.out.println(i++);
+            for (int i = 0; i < 1000; i++) {
+                System.out.println(i);
+            }
         });
-
-        for (int i=0;i<100;i++) {
-            ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
-            System.out.println(index);
-            threadExecutor.submit(thread);
-
-            threadExecutor.shutdown();
-        }
+        ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
+        threadExecutor.submit(thread);
+        threadExecutor.shutdown();
 
     }
 }
