@@ -134,8 +134,8 @@ public class SymmetryMatrix<E> extends BaseDTO {
         if (x>=length || y>=length) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
         }
-        if (x >= y) {//(x-1)*(2n-x+2)/2+(y-x)
-            return x*(x-1)/2+y+x;//矩阵下标从0,0开始存储
+        if (x >= y) {
+            return (2*length+1-y)*y/2+x-y;//矩阵下标从0,0开始存储
         }
         return y*length+x;
     }

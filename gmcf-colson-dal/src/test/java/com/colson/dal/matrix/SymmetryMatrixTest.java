@@ -7,7 +7,7 @@ public class SymmetryMatrixTest {
     public static void main(String[] args) {
         SymmetryMatrix matrix = new SymmetryMatrix();
 
-        matrix.init(3);
+        matrix.init(5);
         System.out.println(matrix);
         matrix.printArray();
 

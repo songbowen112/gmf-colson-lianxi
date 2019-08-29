@@ -1,10 +1,6 @@
 package com.colson.dal;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * 多线程实现有序执行
@@ -13,30 +9,49 @@ public class ThreadTest {
 
     public static void main(String[] arg) throws InterruptedException {
 
-//        for (int i=0;i<1000;i++) {
-//            Thread thread1 = new Thread(() -> System.out.println("111111"));
-//            Thread thread2 = new Thread(() -> System.out.println("2222222"));
-//            Thread thread3 = new Thread(() -> System.out.println("33333333"));
-//            Thread thread4 = new Thread(() -> System.out.println("444444444"));
-//
-//            thread1.start();
-//            thread1.join();
-//            thread2.start();
-//            thread2.join();
-//            thread3.start();
-//            thread3.join();
-//            thread4.start();
-//            thread4.join();
-//        }
+        for (int i=0;i<1000;i++) {
+            Thread thread1 = new Thread(() -> System.out.println("111111"));
+            Thread thread2 = new Thread(() -> System.out.println("2222222"));
+            Thread thread3 = new Thread(() -> System.out.println("33333333"));
+            Thread thread4 = new Thread(() -> System.out.println("444444444"));
+
+            thread1.start();
+            thread1.join();
+            thread2.start();
+            thread2.join();
+            thread3.start();
+            thread3.join();
+            thread4.start();
+            thread4.join();
+        }
         System.out.println("-----------------------我是分割线----------------------");
-        Thread thread = new Thread(() -> {
-            for (int i = 0; i < 1000; i++) {
-                System.out.println(i);
-            }
+
+        Thread thread1 = new Thread(() -> {
+            System.out.println("111111");
         });
+        Thread thread2 = new Thread(() -> {
+            System.out.println("222222");
+        });
+        Thread thread3 = new Thread(() -> {
+            System.out.println("333333");
+        });
+        Thread thread4 = new Thread(() -> {
+            System.out.println("444444");
+        });
+
         ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
-        threadExecutor.submit(thread);
+        threadExecutor.submit(thread1);
+        threadExecutor.submit(thread2);
+        threadExecutor.submit(thread3);
+        threadExecutor.submit(thread4);
         threadExecutor.shutdown();
+
+        BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(4);
+        queue.add(thread1);
+        queue.add(thread2);
+        queue.add(thread3);
+        queue.add(thread4);
+//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,10,5000,queue);
 
     }
 }
