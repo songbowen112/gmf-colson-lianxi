@@ -24,6 +24,24 @@ public class SymmetryMatrixTest {
         index = matrix.getRowIndex(x, y);
         System.out.println("矩阵m("+x+","+y+")的行优先下标为"+index+",值为"+matrix.getArray2()[index]);
 
+        System.out.println("---------------------------");
+        x = 1;
+        y = 2;
+        index = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+index+",值为"+matrix.getArray4()[index]);
+        x = 2;
+        y = 2;
+        index = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+index+",值为"+matrix.getArray4()[index]);
+        x = 2;
+        y = 4;
+        index = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+index+",值为"+matrix.getArray4()[index]);
+        x = 3;
+        y = 2;
+        index = matrix.getLineIndex(x, y);
+        System.out.println("矩阵m("+x+","+y+")的列优先下标为"+index+",值为"+matrix.getArray4()[index]);
+
 
     }
 }

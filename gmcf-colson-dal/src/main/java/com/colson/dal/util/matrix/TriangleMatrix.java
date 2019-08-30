@@ -2,7 +2,10 @@ package com.colson.dal.util.matrix;
 
 /**
  * 三角矩阵
- *
+ * 下三角矩阵的上三角区都是一个常数,上三角矩阵的下三角区都是一个常数
+ * [1 0 0]
+ * [2 6 0]
+ * [3 5 8]
  */
 public class TriangleMatrix {
 

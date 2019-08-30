@@ -6,7 +6,7 @@ import com.colson.dal.common.biz.pkg.BaseDTO;
 
 /**
  * 对称矩阵(必须是正方形),只需要存储一半数据跟对角线上的数据
- * 行优先存储跟列优先存储相同
+ * 上三角行优先存储跟下三角列优先存储相同,反之亦相同
  * [0 1 2]
  * [1 2 3]
  * [2 3 4]
@@ -137,7 +137,7 @@ public class SymmetryMatrix<E> extends BaseDTO {
         if (x >= y) {
             return (2*length+1-y)*y/2+x-y;//矩阵下标从0,0开始存储
         }
-        return y*length+x;
+        return (2*length+1-x)*x/2+y-x;
     }
 
     public void printArray() {
