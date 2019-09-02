@@ -4,13 +4,13 @@ import java.util.Arrays;
 
 public class ArraysUtils {
 
-    public static String printArr(Object[] ints) {
+    public static String printArr(Object[] array) {
         int index;
         //打印一维数组
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        if (null != ints) {
-            Arrays.stream(ints).forEach(i -> {
+        if (null != array) {
+            Arrays.stream(array).forEach(i -> {
                 sb.append(i + " ");
             });
             index = sb.lastIndexOf(" ");
@@ -21,15 +21,15 @@ public class ArraysUtils {
         return sb.toString();
     }
 
-    public static String printArr2(Object[] ints) {
+    public static String printArr2(Object[] array) {
         StringBuilder sb = new StringBuilder();
         sb.append("[");
-        if (null != ints) {
-            for (int i = 0; i < ints.length; i++) {
-                if(i==ints.length-1) {
-                    sb.append(ints[i]);
+        if (null != array) {
+            for (int i = 0; i < array.length; i++) {
+                if(i==array.length-1) {
+                    sb.append(array[i]);
                 } else {
-                    sb.append(ints[i] + " ");
+                    sb.append(array[i] + " ");
                 }
             }
         }

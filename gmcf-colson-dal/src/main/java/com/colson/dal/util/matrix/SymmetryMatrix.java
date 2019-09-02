@@ -7,10 +7,12 @@ import com.colson.dal.common.biz.pkg.BaseDTO;
 /**
  * 对称矩阵(必须是正方形),只需要存储一半数据跟对角线上的数据
  * 上三角行优先存储跟下三角列优先存储相同,反之亦相同
- * [0 1 2]
- * [1 2 3]
- * [2 3 4]
- * 下三角行优先存储为：[0 1 2 2 3 4]
+ * [0 1 2 3 4]
+ * [1 2 3 4 5]
+ * [2 3 4 5 6]
+ * [3 4 5 6 7]
+ * [4 5 6 7 8]
+ * 下三角行优先存储为：[0 1 2 2 3 4 3 4 5 6 4 5 6 7 8]
  */
 public class SymmetryMatrix<E> extends BaseDTO {
 
@@ -63,16 +65,16 @@ public class SymmetryMatrix<E> extends BaseDTO {
 
         //下三角行优先
         array2 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
-        for (int j=0,num=0;j<length;j++) {
-            for (int i=0;i<=j;i++) {
+        for (int i=0,num=0;i<length;i++) {
+            for (int j=0;j<=i;j++) {
                 array2[num++] = data[i][j];
             }
         }
 
         //上三角列优先
         array3 = new Object[length*(length+1)/2];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
-        for (int i=0,num=0;i<length;i++) {
-            for (int j=0;j<=i;j++) {
+        for (int j=0,num=0;j<length;j++) {
+            for (int i=0;i<=j;i++) {
                 array3[num++] = data[i][j];
             }
         }
@@ -119,32 +121,32 @@ public class SymmetryMatrix<E> extends BaseDTO {
     }
 
     //下三角行优先
-    public int getRowIndex(int x,int y) {
-        if (x>=length || y>=length) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
+    public int getRowIndex(int i,int j) {
+        if (i>=length || j>=length) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(i,j));
         }
-        if (x >= y) {
-            return x*(x-1)/2+y+x;//矩阵下标从0,0开始存储
+        if (i >= j) {
+            return i*(i-1)/2+j+i;//矩阵下标从0,0开始存储
         }
-        return y*(y-1)/2+x+y;
+        return j*(j-1)/2+i+j;
     }
 
     //下三角列优先
-    public int getLineIndex(int x,int y) {
-        if (x>=length || y>=length) {
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(x,y));
+    public int getLineIndex(int i,int j) {
+        if (i>=length || j>=length) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(i,j));
         }
-        if (x >= y) {
-            return (2*length+1-y)*y/2+x-y;//矩阵下标从0,0开始存储
+        if (i >= j) {
+            return (2*length+1-j)*j/2+i-j;//矩阵下标从0,0开始存储
         }
-        return (2*length+1-x)*x/2+y-x;
+        return (2*length+1-i)*i/2+j-i;
     }
 
     public void printArray() {
-        System.out.println("上三角行优先->"+ArraysUtils.printArr(array1));
-        System.out.println("下三角行优先->"+ArraysUtils.printArr(array2));
-        System.out.println("上三角列优先->"+ArraysUtils.printArr(array3));
-        System.out.println("下三角列优先->"+ArraysUtils.printArr(array4));
+        System.out.print("上三角行优先->"+ArraysUtils.printArr(array1));
+        System.out.print("下三角行优先->"+ArraysUtils.printArr(array2));
+        System.out.print("上三角列优先->"+ArraysUtils.printArr(array3));
+        System.out.print("下三角列优先->"+ArraysUtils.printArr(array4));
     }
 
     @Override
@@ -166,10 +168,10 @@ public class SymmetryMatrix<E> extends BaseDTO {
 
     /**
      * 下标越界信息
-     * @param x,y
+     * @param i,y
      * @return
      */
-    private String outOfBoundsMsg(int x,int y) {
-        return "currIndex: {"+x+","+y+"}, maxIndex: {"+length+","+length+"}";
+    private String outOfBoundsMsg(int i,int j) {
+        return "currIndex: {"+i+","+j+"}, maxIndex: {"+length+","+length+"}";
     }
 }

@@ -9,7 +9,7 @@ public class ThreadTest {
 
     public static void main(String[] arg) throws InterruptedException {
 
-        for (int i=0;i<1000;i++) {
+        for (int i=0;i<5;i++) {
             Thread thread1 = new Thread(() -> System.out.println("111111"));
             Thread thread2 = new Thread(() -> System.out.println("2222222"));
             Thread thread3 = new Thread(() -> System.out.println("33333333"));
@@ -38,7 +38,6 @@ public class ThreadTest {
         Thread thread4 = new Thread(() -> {
             System.out.println("444444");
         });
-
         ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
         threadExecutor.submit(thread1);
         threadExecutor.submit(thread2);
@@ -46,12 +45,20 @@ public class ThreadTest {
         threadExecutor.submit(thread4);
         threadExecutor.shutdown();
 
+        Thread.sleep(100);
+        System.out.println("-----------------------我是分割线----------------------");
         BlockingQueue<Runnable> queue = new ArrayBlockingQueue<>(4);
         queue.add(thread1);
         queue.add(thread2);
         queue.add(thread3);
         queue.add(thread4);
-//        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,10,5000,queue);
-
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(4,10,5000,TimeUnit.SECONDS,queue);
+        threadPoolExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                System.out.println("action...");
+            }
+        });
+        threadPoolExecutor.shutdown();
     }
 }

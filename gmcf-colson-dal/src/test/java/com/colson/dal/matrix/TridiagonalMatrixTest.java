@@ -1,11 +1,12 @@
 package com.colson.dal.matrix;
 
 import com.colson.dal.util.matrix.TriangleMatrix;
+import com.colson.dal.util.matrix.TridiagonalMatrix;
 
-public class TriangleMatrixTest {
+public class TridiagonalMatrixTest {
 
     public static void main(String[] args) {
-        TriangleMatrix matrix = new TriangleMatrix();
+        TridiagonalMatrix matrix = new TridiagonalMatrix();
 
         matrix.init(5,0);
         System.out.println(matrix);

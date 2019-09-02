@@ -1,5 +1,7 @@
 package com.colson.dal.excel.bean;
 
+import com.colson.dal.excel.bean.Prop;
+
 import java.util.List;
 
 public class XmlParser {
