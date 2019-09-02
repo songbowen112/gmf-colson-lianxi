@@ -1,6 +1,5 @@
 package com.colson.dal.matrix;
 
-import com.colson.dal.util.matrix.TriangleMatrix;
 import com.colson.dal.util.matrix.TridiagonalMatrix;
 
 public class TridiagonalMatrixTest {
