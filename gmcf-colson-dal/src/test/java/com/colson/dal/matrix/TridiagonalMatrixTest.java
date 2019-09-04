@@ -1,5 +1,6 @@
 package com.colson.dal.matrix;
 
+import com.colson.dal.util.MathUtils;
 import com.colson.dal.util.matrix.TridiagonalMatrix;
 
 public class TridiagonalMatrixTest {
@@ -7,7 +8,13 @@ public class TridiagonalMatrixTest {
     public static void main(String[] args) {
         TridiagonalMatrix matrix = new TridiagonalMatrix();
 
-        matrix.init(5,0);
+        System.out.println("初始化开始...");
+        long start = System.currentTimeMillis();
+        matrix.init(100000,0);
+        long end = System.currentTimeMillis();
+        String time = MathUtils.txFloat(Integer.valueOf((int) (end - start)),1000);
+        System.out.println("用时:"+time+"秒");
+
         System.out.println(matrix);
         matrix.printArray();
 

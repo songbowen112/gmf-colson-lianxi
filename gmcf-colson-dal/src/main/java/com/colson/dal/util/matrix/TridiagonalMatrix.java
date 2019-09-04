@@ -20,12 +20,12 @@ public class TridiagonalMatrix extends BaseDTO {
     private Object[][] data;
 
     /**
-     * 下三角行优先
+     * 行优先
      */
     private Object[] rowPriority;
 
     /**
-     * 下三角列优先
+     * 列优先
      */
     private Object[] linePriority;
 
@@ -35,32 +35,60 @@ public class TridiagonalMatrix extends BaseDTO {
         data = new Object[length][length];
         for (int i = 0; i < length; i++) {
             for (int j = 0; j < length; j++) {
-                int num = j-i>=0?j-i:i-j;
-                if (num>1) {
+                int differ = Math.abs(i-j);
+                if (differ>1) {
                     data[i][j] = constant;
                 } else {
-                    data[i][j] = i + j + 1;
+                    data[i][j] = i + 10;
                 }
             }
         }
 
-        //下三角行优先
-        rowPriority = new Object[length*(length+1)/2 + 1];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
+        //行优先
+        rowPriority = new Object[(length-2)*3+5];//优化方法
         for (int i=0,num=0;i<length;i++) {
-            for (int j=0;j<=i;j++) {
+            for (int j=i-1;Math.abs(i-j)<=1;j++) {
+                if (j>=length) {
+                    break;
+                }
+                j=j<0?0:j;
                 rowPriority[num++] = data[i][j];
             }
         }
         rowPriority[rowPriority.length-1] = constant;
+//        rowPriority = new Object[(length-2)*3+5];//效率低的方法
+//        for (int i=0,num=0;i<length;i++) {
+//            for (int j=0;j<length;j++) {
+//                int differ = Math.abs(i-j);
+//                if (differ<=1) {
+//                    rowPriority[num++] = data[i][j];
+//                }
+//            }
+//        }
+//        rowPriority[rowPriority.length-1] = constant;
 
-        //下三角列优先
-        linePriority = new Object[length*(length+1)/2 + 1];//等差数列求和公式Sn = 1+2+3+...+(n-1)+n = n(n+1)/2
+        //列优先
+        linePriority = new Object[(length-2)*3+5];//优化方法
         for (int j=0,num=0;j<length;j++) {
-            for (int i=j;i<length;i++) {
+            for (int i=j-1;Math.abs(i-j)<=1;i++) {
+                if (i>=length) {
+                    break;
+                }
+                i=i<0?0:i;
                 linePriority[num++] = data[i][j];
             }
         }
         linePriority[linePriority.length-1] = constant;
+//        linePriority = new Object[(length-2)*3+5];//
+//        for (int j=0,num=0;j<length;j++) {
+//            for (int i=0;i<length;i++) {
+//                int differ = Math.abs(i-j);
+//                if (differ<=1) {
+//                    linePriority[num++] = data[i][j];
+//                }
+//            }
+//        }
+//        linePriority[linePriority.length-1] = constant;
     }
 
     /**
@@ -102,8 +130,8 @@ public class TridiagonalMatrix extends BaseDTO {
     }
 
     public void printArray() {
-        System.out.print("下三角行优先->"+ ArraysUtils.printArr(rowPriority));
-        System.out.print("下三角列优先->"+ArraysUtils.printArr(linePriority));
+        System.out.print("行优先->"+ ArraysUtils.printArr(rowPriority));
+        System.out.print("列优先->"+ArraysUtils.printArr(linePriority));
     }
 
     @Override
