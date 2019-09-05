@@ -44,7 +44,7 @@ public class TridiagonalMatrix extends BaseDTO {
             }
         }
 
-        //行优先
+        //行优先1.0
         rowPriority = new Object[(length-2)*3+5];//优化方法
         for (int i=0,num=0;i<length;i++) {
             for (int j=i-1;Math.abs(i-j)<=1;j++) {
@@ -56,6 +56,8 @@ public class TridiagonalMatrix extends BaseDTO {
             }
         }
         rowPriority[rowPriority.length-1] = constant;
+
+        //行优先2.0
 //        rowPriority = new Object[(length-2)*3+5];//效率低的方法
 //        for (int i=0,num=0;i<length;i++) {
 //            for (int j=0;j<length;j++) {
@@ -67,8 +69,8 @@ public class TridiagonalMatrix extends BaseDTO {
 //        }
 //        rowPriority[rowPriority.length-1] = constant;
 
-        //列优先
-        linePriority = new Object[(length-2)*3+5];//优化方法
+        //列优先1.0
+        linePriority = new Object[(length-2)*3+5];
         for (int j=0,num=0;j<length;j++) {
             for (int i=j-1;Math.abs(i-j)<=1;i++) {
                 if (i>=length) {
@@ -79,7 +81,9 @@ public class TridiagonalMatrix extends BaseDTO {
             }
         }
         linePriority[linePriority.length-1] = constant;
-//        linePriority = new Object[(length-2)*3+5];//
+
+        //列优先2.0
+//        linePriority = new Object[(length-2)*3+5];
 //        for (int j=0,num=0;j<length;j++) {
 //            for (int i=0;i<length;i++) {
 //                int differ = Math.abs(i-j);
@@ -92,7 +96,7 @@ public class TridiagonalMatrix extends BaseDTO {
     }
 
     /**
-     * 获取下三角行优先数组
+     * 获取行优先数组
      * @return
      */
     public Object[] getRowPriority() {
@@ -100,38 +104,38 @@ public class TridiagonalMatrix extends BaseDTO {
     }
 
     /**
-     * 获取下三角列优先数组
+     * 获取列优先数组
      * @return
      */
     public Object[] getLinePriority() {
         return linePriority;
     }
 
-    //下三角行优先
+    //行优先
     public int getRowIndex(int i,int j) {
         if (i>=length || j>=length) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(i,j));
         }
-        if (i >= j) {
-            return i*(i-1)/2+j+i;//矩阵下标从0,0开始存储
+        if (Math.abs(i-j)<=1) {
+            return j+2*i;//矩阵下标从0,0开始存储
         }
         return rowPriority.length-1;
     }
 
-    //下三角列优先
+    //列优先
     public int getLineIndex(int i,int j) {
         if (i>=length || j>=length) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(i,j));
         }
-        if (i >= j) {
-            return (2*length+1-j)*j/2+i-j;//矩阵下标从0,0开始存储
+        if (Math.abs(i-j)<=1) {
+            return i+2*j;//矩阵下标从0,0开始存储
         }
         return linePriority.length-1;
     }
 
     public void printArray() {
         System.out.print("行优先->"+ ArraysUtils.printArr(rowPriority));
-        System.out.print("列优先->"+ArraysUtils.printArr(linePriority));
+        System.out.print("列优先->"+ ArraysUtils.printArr(linePriority));
     }
 
     @Override
