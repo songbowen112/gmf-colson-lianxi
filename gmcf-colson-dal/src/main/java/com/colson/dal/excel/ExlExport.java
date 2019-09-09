@@ -5,9 +5,9 @@ import com.colson.dal.excel.bean.NxmlParser;
 import com.colson.dal.excel.constant.ExcelConstant;
 import com.colson.dal.exception.MyBusinessException;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 import javax.servlet.http.HttpServletResponse;
 import java.beans.IntrospectionException;
@@ -76,7 +76,7 @@ public class ExlExport {
     public static void export(List<String[]> header,List<Object[]> datas){
 		FileOutputStream out = null;
     	try {
-			out = new FileOutputStream("workbook.xls");
+			out = new FileOutputStream("workbook.xlsx");
 			getWorkbook(header,datas).write(out);
 		} catch (FileNotFoundException e) {
 			//logger.error("发生异常 msg={}","原因",e);
@@ -96,7 +96,7 @@ public class ExlExport {
     
     public static Workbook getWorkbook(List<String[]> header, List<Object[]> datas){
 			// create a new workbook
-			Workbook wb = new HSSFWorkbook();
+			Workbook wb = new SXSSFWorkbook();
 			// create a new sheet
 			Sheet s = wb.createSheet();
 			
@@ -156,7 +156,7 @@ public class ExlExport {
     	}
 
     	// create a new workbook
-		Workbook wb = new HSSFWorkbook();
+		Workbook wb = new SXSSFWorkbook();
 
 		Map<String, CellStyle> styles = createStyles(wb);
 
@@ -401,7 +401,7 @@ public class ExlExport {
 			return exportExcel(list,nxp,null,null);
 		}
     }
-	public static void printExcel(HSSFWorkbook workbook, HttpServletResponse response, String filename) throws IOException {
+	public static void printExcel(SXSSFWorkbook workbook, HttpServletResponse response, String filename) throws IOException {
 		OutputStream out = response.getOutputStream();
 		response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
 		response.setContentType("application/msexcel;charset=UTF-8");

@@ -356,4 +356,18 @@
 		</columns>
 	</wobj>
 
+	<!-- 支付通道 -->
+	<wobj id="ChannelInfoResDTO" filename="" filetype="" class="com.gomefinance.consumerfinance.pmc.omc.dto.ChannelInfoResDTO">
+		<columns>
+			<column cidx="0" cname="商户号" pname="merchantCode" type="" cformat="" handler=""></column>
+			<column cidx="1" cname="支付公司" pname="payCompanyName" type="" cformat="" handler=""></column>
+			<column cidx="2" cname="支付产品" pname="payProductName" type="" cformat="" handler=""></column>
+			<column cidx="3" cname="业务系统" pname="busSystemName" type="" cformat="" handler=""></column>
+			<column cidx="4" cname="支付通道名称" pname="payChannelName" type="" cformat="" handler=""></column>
+			<column cidx="5" cname="支付通道ID" pname="payChannelCode" type="" cformat="" handler=""></column>
+			<column cidx="6" cname="关联银行模板" pname="thirdBankTemplateName" type="" cformat="" handler=""></column>
+			<column cidx="7" cname="状态" pname="status" type="" cformat="" handler=""></column>
+		</columns>
+	</wobj>
+
 </parses>
