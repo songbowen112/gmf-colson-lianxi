@@ -1,27 +1,24 @@
 package com.colson.dal.util;
 
-import com.colson.dal.bean.CommonBean;
-import com.colson.dal.util.constant.OperationConstant;
-import org.apache.commons.lang3.ArrayUtils;
+import com.colson.dal.bean.Condition;
+import com.colson.dal.util.emum.JudgeType;
 
 import java.util.*;
 
 public class BeanUtils {
 
-    public static Map<String, String> convertRequest(List<CommonBean> beans) {
-        Map<String, String> valueMap = new HashMap<>();
-        Map<String, String> typeMap = new HashMap<>();
+    public static Map<String, Object> convertRequest(List<Condition> beans) {
+        Map<String, Object> conditions = new HashMap<>();
 
         if (null == beans || beans.isEmpty()) {
-            return valueMap;
+            return conditions;
         }
 
         StringBuilder sb = new StringBuilder();
         beans.stream().forEach(i -> {
-            String[] fullName = i.getParamName().split(".");
-            String field = convertField(fullName[0]);
-            if (OperationConstant.IN.equals(fullName[1])) {
-                String[] values = i.getParamValue().split(".");
+            Condition condition = i.analysis();
+            if (JudgeType.IN.equals(condition.getJudge())) {
+                String[] values = i.getOrs().split(".");
 
                 sb.append(field + " in\n (");
                 for (String value : values) {
@@ -31,11 +28,11 @@ public class BeanUtils {
                 sb.deleteCharAt(index);
                 sb.append(") ");
             }
-            if (OperationConstant.QUERY.equals(fullName[1])) {
+            if (JudgeType.EQ.equals(fullName[1])) {
 
             }
 
-            if (OperationConstant.BETWEEN.equals(fullName[1])) {
+            if (JudgeType.BETWEEN.equals(fullName[1])) {
 
             }
 
