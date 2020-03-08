@@ -14,6 +14,7 @@ public class MyTest {
         System.out.println(i);
         int[] a1 = {1,3,5,10,11};
         int[] a2 = {6,7,8,9,10};
+
         System.out.println(ArrayUtils.findMiddleNum2(a1, a2));
 //        Student student = new Student();
 //        List<Student> students = new ArrayList<>();

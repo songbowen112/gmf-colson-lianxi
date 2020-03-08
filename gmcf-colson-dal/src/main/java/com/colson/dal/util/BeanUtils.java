@@ -2,45 +2,89 @@ package com.colson.dal.util;
 
 import com.colson.dal.bean.Condition;
 import com.colson.dal.util.emum.JudgeType;
+import org.springframework.util.CollectionUtils;
 
 import java.util.*;
 
 public class BeanUtils {
 
-    public static Map<String, Object> convertRequest(List<Condition> beans) {
-        Map<String, Object> conditions = new HashMap<>();
+    public static void main(String[] args) {
+        Condition c = new Condition();
+        c.setCondition("f_bidding_no.eq");
+        c.setValue("GMBEC20020511470202500045");
 
-        if (null == beans || beans.isEmpty()) {
-            return conditions;
+        Condition c2 = new Condition();
+        c2.setCondition("f_status.in");
+        c2.setValues(new Object[]{1,2,3,4,5});
+
+        Condition c3 = new Condition();
+        c3.setCondition("f_type.notin");
+        c3.setValues(new Object[]{1,2,3});
+
+        Condition c4 = new Condition();
+        c4.setCondition("f_create_time.between");
+        c4.setValues(new String[]{"2020-03-08 00:00:00","2020-12-01 23:59:59"});
+
+        List<Condition> ands = new ArrayList<>();
+        ands.add(c2);
+        ands.add(c3);
+        ands.add(c4);
+        c.setAnds(ands);
+
+        System.out.println(convertRequest(c,new String()));
+    }
+
+    public static String convertRequest(Condition param,String str) {
+        if (null == param) {
+            return "";
         }
 
-        StringBuilder sb = new StringBuilder();
-        beans.stream().forEach(i -> {
-            Condition condition = i.analysis();
-            if (JudgeType.IN.equals(condition.getJudge())) {
-                String[] values = i.getOrs().split(".");
+        StringBuilder sb = new StringBuilder(str);
+        Condition condition = param.analysis();
 
-                sb.append(field + " in\n (");
-                for (String value : values) {
-                    sb.append(value + ",");
-                }
-                int index = sb.lastIndexOf(",");
-                sb.deleteCharAt(index);
-                sb.append(") ");
+        String field = param.getName();
+        Object[] values = param.getValues();
+        Object value = param.getValue();
+
+        if (JudgeType.IN.equals(condition.getJudge())) {
+
+            sb.append(field + " in\n (");
+            for (Object obj : values) {
+                sb.append(obj + ",");
             }
-            if (JudgeType.EQ.equals(fullName[1])) {
+            int index = sb.lastIndexOf(",");
+            sb.deleteCharAt(index);
+            sb.append(")");
+        }
+        if (JudgeType.NOTIN.equals(condition.getJudge())) {
 
+            sb.append(field + " not in\n (");
+            for (Object obj : values) {
+                sb.append(obj + ",");
             }
-
-            if (JudgeType.BETWEEN.equals(fullName[1])) {
-
-            }
-
-
-            valueMap.put(fullName[0], i.getParamValue());
-            typeMap.put(fullName[0], fullName[1]);
-        });
-        return null;
+            int index = sb.lastIndexOf(",");
+            sb.deleteCharAt(index);
+            sb.append(")");
+        }
+        if (JudgeType.EQ.equals(condition.getJudge())) {
+            sb.append(field + "=" + value);
+        }
+        if (JudgeType.BETWEEN.equals(condition.getJudge())) {
+            sb.append(field + " between "+ values[0] + " and " + values[1]);
+        }
+        if (!CollectionUtils.isEmpty(param.getAnds())) {
+            sb.append(" and ");
+            param.getAnds().forEach(i -> {
+                convertRequest(i,sb.toString());
+            });
+        }
+        if (!CollectionUtils.isEmpty(param.getOrs())) {
+            sb.append(" or ");
+            param.getOrs().forEach(i -> {
+                convertRequest(i,sb.toString());
+            });
+        }
+        return sb.toString();
     }
 
     private static String convertField(String fieldName) {
