@@ -1,6 +1,6 @@
 package com.colson.intergration;
 
-import com.colson.dal.bean.Student;
+import com.colson.intergration.bean.Student;
 import com.colson.intergration.util.ArrayUtils;
 
 import java.math.BigDecimal;

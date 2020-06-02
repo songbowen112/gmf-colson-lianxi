@@ -3,6 +3,11 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.2.1.RELEASE</version>
+    </parent>
 
     <groupId>gmf-colson-lianxi</groupId>
     <artifactId>gmf-colson-lianxi</artifactId>
@@ -11,11 +16,51 @@
     <modules>
         <module>gmcf-colson-dal</module>
         <module>gmcf-colson-intergration</module>
+        <module>gmcf-colson-web</module>
     </modules>
 
+    <properties>
+        <!-- maven -->
+        <start-class>com.colson.web.AppStartup</start-class>
+        <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
+
+        <gmcf.colson.dal.version>1.0-SNAPSHOT</gmcf.colson.dal.version>
+        <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
+        <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-dal</artifactId>
+                <version>${gmcf.colson.dal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-intergration</artifactId>
+                <version>${gmcf.colson.integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-web</artifactId>
+                <version>${gmcf.colson.web.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
@@ -51,12 +96,7 @@
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons -->
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-commons</artifactId>
-                <version>2.1.9.RELEASE</version>
-            </dependency>
+
         </dependencies>
     </dependencyManagement>
 </project>
