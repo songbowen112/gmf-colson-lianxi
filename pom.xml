@@ -21,22 +21,13 @@
 
     <properties>
         <!-- maven -->
-        <start-class>com.colson.web.AppStartup</start-class>
+
         <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
 
         <gmcf.colson.dal.version>1.0-SNAPSHOT</gmcf.colson.dal.version>
         <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
         <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
     </properties>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
     <dependencyManagement>
         <dependencies>
