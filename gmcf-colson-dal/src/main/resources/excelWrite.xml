@@ -370,4 +370,19 @@
 		</columns>
 	</wobj>
 
+    <!-- oa记录 -->
+    <wobj id="AttendanceRecordBean" filename="" filetype="" class="com.colson.web.bean.AttendanceRecordBean">
+        <columns>
+            <column cidx="0" cname="出勤日期" pname="date" type="" cformat="" handler=""></column>
+            <column cidx="1" cname="开始时间" pname="startTime" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="结束时间" pname="endTime" type="" cformat="" handler=""></column>
+            <column cidx="3" cname="加班小时" pname="overtimeHours" type="" cformat="" handler=""></column>
+            <column cidx="4" cname="事假小时" pname="leaveHours" type="" cformat="" handler=""></column>
+            <column cidx="5" cname="缺勤小时" pname="absenteeismHours" type="" cformat="" handler=""></column>
+            <column cidx="6" cname="缺卡次数" pname="absenteeismTimes" type="" cformat="" handler=""></column>
+            <column cidx="7" cname="备注" pname="remark" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
+
 </parses>

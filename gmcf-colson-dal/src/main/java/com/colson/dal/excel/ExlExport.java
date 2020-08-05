@@ -5,6 +5,7 @@ import com.colson.dal.excel.bean.NxmlParser;
 import com.colson.dal.excel.constant.ExcelConstant;
 import com.colson.dal.exception.MyBusinessException;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -156,7 +157,7 @@ public class ExlExport {
     	}
 
     	// create a new workbook
-		Workbook wb = new SXSSFWorkbook();
+		Workbook wb = new HSSFWorkbook();
 
 		Map<String, CellStyle> styles = createStyles(wb);
 
@@ -401,7 +402,7 @@ public class ExlExport {
 			return exportExcel(list,nxp,null,null);
 		}
     }
-	public static void printExcel(SXSSFWorkbook workbook, HttpServletResponse response, String filename) throws IOException {
+	public static void printExcel(HSSFWorkbook workbook, HttpServletResponse response, String filename) throws IOException {
 		OutputStream out = response.getOutputStream();
 		response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(filename, "UTF-8"));
 		response.setContentType("application/msexcel;charset=UTF-8");

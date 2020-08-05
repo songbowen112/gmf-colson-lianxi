@@ -215,8 +215,8 @@ public class DateUtils {
 		calendar.setTime(startdate);
 		long timeend = calendar.getTimeInMillis();
 
-		long theday = (endtime - timeend) / (1000 * 60 * 60);
-		return theday;
+		long hour = (endtime - timeend) / (1000 * 60 * 60);
+		return hour;
 	}
 
 	public static boolean isHourGreaterThan(String dateStr, String targetDateStr) throws ParseException {

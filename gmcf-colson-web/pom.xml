@@ -27,6 +27,10 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>gmf-colson-lianxi</groupId>
+            <artifactId>gmcf-colson-dal</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
