@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parses>
-    <wobj id="RepaymentDetailsBean" name="还款息拆明细" filename="" filetype="" class="com.gomefinance.consumerfinance.omc.controller.settlement.bean.RepaymentDetailsBean">
+
+    <wobj id="ProductPriceBean" name="商品定价" filename="" filetype="" class="com.colson.dal.dto.ProductBatchDTO">
         <columns>
-            <column cidx="0" cname="息拆单单号" pname="separationNo" type="" cformat="" handler=""></column>
+            <column cidx="0"  cname="SKU码" pname="skuCode" type="" cformat="" handler=""></column>
+            <column cidx="1"  cname="商品售价" pname="productPrice" type="" cformat="" handler=""></column>
         </columns>
     </wobj>
 </parses>
