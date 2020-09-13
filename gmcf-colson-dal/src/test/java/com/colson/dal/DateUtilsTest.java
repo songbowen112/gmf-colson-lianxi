@@ -3,12 +3,13 @@ package com.colson.dal;
 import org.apache.commons.lang3.time.DateUtils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtilsTest {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Date date = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         //根据秒来截取
@@ -34,7 +35,12 @@ public class DateUtilsTest {
         //IllegalArgumentException: The field 7 is not supported
 //        System.out.println(dateFormat.format(DateUtils.truncate(date, Calendar.DAY_OF_WEEK_IN_MONTH)));
         //IllegalArgumentException: The field 8 is not supported
-        System.out.println(dateFormat.format(DateUtils.truncate(date, Calendar.DAY_OF_MONTH)));
+
+        long datesub = com.colson.dal.util.DateUtils.datesub("2018-6-27 00:00:00", dateFormat.format(DateUtils.truncate(date, Calendar.DAY_OF_MONTH)));
+        System.out.println("距第一次相识已经历 "+datesub+" 个日夜");
+
+
+
     }
 
 }
