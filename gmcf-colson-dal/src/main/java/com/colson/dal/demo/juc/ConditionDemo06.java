@@ -13,57 +13,106 @@ class ShareData {
     private Condition c2 = lock.newCondition();
     private Condition c3 = lock.newCondition();
 
-    public void printA() throws Exception {
-        lock.lock();
+    public void printABC() throws Exception {
+
+
         try {
-            //1 判断
+            lock.lock();
             while (flag != 0) {
                 c1.await();
             }
-            //2 干活
-            for (int i = 0; i < 5; i++) {
-                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+            if (flag == 0) {
+                for (int i = 0; i < 5; i++) {
+                    System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+                }
+                flag = 1;
+                c2.signal();
             }
-            //3 通知
-            //注意要先改标志位
-            flag = 1;
-            c2.signal();
         } finally {
             lock.unlock();
         }
-    }
 
-    public void printB() throws Exception {
-        lock.lock();
         try {
+            lock.lock();
             while (flag != 1) {
                 c2.await();
             }
-            for (int i = 0; i < 10; i++) {
-                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+            if (flag == 1) {
+                for (int i = 0; i < 10; i++) {
+                    System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+                }
+                flag = 2;
+                c3.signal();
             }
-            flag = 2;
-            c3.signal();
         } finally {
             lock.unlock();
         }
-    }
 
-    public void printC() throws Exception {
-        lock.lock();
         try {
             while (flag != 2) {
                 c3.await();
             }
-            for (int i = 0; i < 15; i++) {
-                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+            if (flag == 2) {
+                for (int i = 0; i < 15; i++) {
+                    System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+                }
+                flag = 0;
+                c1.signal();
             }
-            flag = 0;
-            c1.signal();
         } finally {
             lock.unlock();
         }
     }
+
+//    public void printA() throws Exception {
+//        lock.lock();
+//        try {
+//            //1 判断
+//            while (flag != 0) {
+//                c1.await();
+//            }
+//            //2 干活
+//            for (int i = 0; i < 5; i++) {
+//                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+//            }
+//            //3 通知
+//            //注意要先改标志位
+//            flag = 1;
+//            c2.signal();
+//        } finally {
+//            lock.unlock();
+//        }
+//    }
+//    public void printB() throws Exception {
+//        lock.lock();
+//        try {
+//            while (flag != 1) {
+//                c2.await();
+//            }
+//            for (int i = 0; i < 10; i++) {
+//                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+//            }
+//            flag = 2;
+//            c3.signal();
+//        } finally {
+//            lock.unlock();
+//        }
+//    }
+//    public void printC() throws Exception {
+//        lock.lock();
+//        try {
+//            while (flag != 2) {
+//                c3.await();
+//            }
+//            for (int i = 0; i < 15; i++) {
+//                System.out.println(Thread.currentThread().getName() + "     " + (i + 1));
+//            }
+//            flag = 0;
+//            c1.signal();
+//        } finally {
+//            lock.unlock();
+//        }
+//    }
 }
 
 /**
@@ -80,11 +129,10 @@ public class ConditionDemo06 {
     public static void main(String[] args) {
         ShareData shareData = new ShareData();
 
-
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.printA();
+                    shareData.printABC();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,7 +141,7 @@ public class ConditionDemo06 {
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.printB();
+                    shareData.printABC();
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -102,9 +150,9 @@ public class ConditionDemo06 {
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.printC();
+                    shareData.printABC();
+                    System.out.println("--------------------------------");
                 }
-                System.out.println("--------------------------------");
             } catch (Exception e) {
                 e.printStackTrace();
             }
