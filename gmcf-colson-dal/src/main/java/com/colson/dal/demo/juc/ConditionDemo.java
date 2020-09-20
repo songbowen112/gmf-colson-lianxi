@@ -8,74 +8,52 @@ import java.util.concurrent.locks.ReentrantLock;
 
 class ShareData {
 
-    private Integer flag = 0;//标志位
+    private int number = 1;//标志位 A-1 B-2 C-3
 
     private Lock lock = new ReentrantLock();//锁
     private Condition c1 = lock.newCondition();//钥匙1
     private Condition c2 = lock.newCondition();//钥匙2
     private Condition c3 = lock.newCondition();//钥匙3
-    private Condition current = null;//当前condition
-    private Condition next = null;//下个condition
 
-    public void print() throws Exception {
-        String threadName = Thread.currentThread().getName();
-
-        if (StringUtils.isNotBlank(threadName)) {
-            if ("A".equals(threadName)) {
-                current = c1;
-                next = c2;
-                flag = 5;
-            } else if ("B".equals(threadName)) {
-                current = c2;
-                next = c3;
-                flag = 10;
-            } else if ("C".equals(threadName)) {
-                current = c3;
-                next = c1;
-                flag = 15;
-            }
-        }
-
+    public void print(int num) {
+        int num1 = num / 5;
         lock.lock();
-        while (flag != 5) {
-            current.await();
-        }
+
         try {
-            for (int i = 0; i < flag; i++) {
-                System.out.println(threadName + "     " + (i + 1));
+            // 判断
+            while (number != num1) {
+                if (num == 5) {
+                    c1.await();
+                } else if (num == 10) {
+                    c2.await();
+                } else if (num == 15) {
+                    c3.await();
+                } else {
+                    System.out.println("结束");
+                    return;
+                }
             }
-            flag = 10;
-            next.signal();
+            // 干活
+            for (int j = 1; j <= num; j++) {
+                System.out.println(Thread.currentThread().getName() + "\t" + j);
+            }
+
+            // 通知
+            if (num == 5) {
+                number = 2;
+                c2.signal();
+            } else if (num == 10) {
+                number = 3;
+                c3.signal();
+            } else {
+                number = 1;
+                c1.signal();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         } finally {
             lock.unlock();
         }
-
-
-//        try {
-//            while (flag != 0) {
-//                for (int i = 0; i < 5; i++) {
-//                    System.out.println(threadName + "     " + (i + 1));
-//                }
-//                flag = 1;
-//                c2.signal();
-//            }
-//            while (flag != 1) {
-//                for (int i = 0; i < 10; i++) {
-//                    System.out.println(threadName + "     " + (i + 1));
-//                }
-//                flag = 2;
-//                c3.signal();
-//            }
-//            while (flag != 2) {
-//                for (int i = 0; i < 15; i++) {
-//                    System.out.println(threadName + "     " + (i + 1));
-//                }
-//                flag = 0;
-//                c1.signal();
-//            }
-//        } finally {
-//            lock.unlock();
-//        }
     }
 }
 
@@ -83,7 +61,7 @@ class ShareData {
 //        lock.lock();
 //        try {
 //            //1 判断
-//            while (flag != 0) {
+//            while (flag != 1) {
 //                c1.await();
 //            }
 //            //2 干活
@@ -92,7 +70,7 @@ class ShareData {
 //            }
 //            //3 通知
 //            //注意要先改标志位
-//            flag = 1;
+//            flag = 2;
 //            c2.signal();
 //        } finally {
 //            lock.unlock();
@@ -101,13 +79,13 @@ class ShareData {
 //    public void printB() throws Exception {
 //        lock.lock();
 //        try {
-//            while (flag != 1) {
+//            while (flag != 2) {
 //                c2.await();
 //            }
 //            for (int i = 0; i < 10; i++) {
 //                System.out.println(threadName + "     " + (i + 1));
 //            }
-//            flag = 2;
+//            flag = 3;
 //            c3.signal();
 //        } finally {
 //            lock.unlock();
@@ -116,13 +94,13 @@ class ShareData {
 //    public void printC() throws Exception {
 //        lock.lock();
 //        try {
-//            while (flag != 2) {
+//            while (flag != 3) {
 //                c3.await();
 //            }
 //            for (int i = 0; i < 15; i++) {
 //                System.out.println(threadName + "     " + (i + 1));
 //            }
-//            flag = 0;
+//            flag = 1;
 //            c1.signal();
 //        } finally {
 //            lock.unlock();
@@ -146,7 +124,7 @@ public class ConditionDemo {
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.print();
+                    shareData.print(5);
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -156,7 +134,7 @@ public class ConditionDemo {
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.print();
+                    shareData.print(10);
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -166,7 +144,7 @@ public class ConditionDemo {
         new Thread(() -> {
             try {
                 for (int i = 0; i < 10; i++) {
-                    shareData.print();
+                    shareData.print(15);
                     System.out.println("--------------------------------");
                 }
             } catch (Exception e) {
