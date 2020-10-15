@@ -31,6 +31,10 @@
             <groupId>gmf-colson-lianxi</groupId>
             <artifactId>gmcf-colson-dal</artifactId>
         </dependency>
+        <dependency>
+            <groupId>gmf-colson-lianxi</groupId>
+            <artifactId>gmcf-colson-service</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -1,6 +1,6 @@
-package com.colson.web.service;
+package com.colson.service;
 
-import com.colson.web.bean.UserBean;
+import com.colson.service.bean.UserBean;
 
 public interface UserService {
 

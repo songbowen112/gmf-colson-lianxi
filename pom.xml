@@ -17,6 +17,7 @@
         <module>gmcf-colson-dal</module>
         <module>gmcf-colson-intergration</module>
         <module>gmcf-colson-web</module>
+        <module>gmcf-colson-service</module>
     </modules>
 
     <properties>
@@ -25,6 +26,7 @@
         <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
 
         <gmcf.colson.dal.version>1.0-SNAPSHOT</gmcf.colson.dal.version>
+        <gmcf.colson.service.version>1.0-SNAPSHOT</gmcf.colson.service.version>
         <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
         <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
     </properties>
@@ -35,6 +37,11 @@
                 <groupId>gmf-colson-lianxi</groupId>
                 <artifactId>gmcf-colson-dal</artifactId>
                 <version>${gmcf.colson.dal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-service</artifactId>
+                <version>${gmcf.colson.service.version}</version>
             </dependency>
             <dependency>
                 <groupId>gmf-colson-lianxi</groupId>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <context id="omc" targetRuntime="MyBatis3" defaultModelType="flat">
+
+        <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+        <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+
+        <property name="beginningDelimiter" value="`"/>
+        <property name="endingDelimiter" value="`"/>
+        <property name="javaFileEncoding" value="UTF-8"/>
+
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="false"/>
+        </commentGenerator>
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/db_test" userId="root"
+                        password="123456"/>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="true"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="com.colson.dal.model"
+                            targetProject="src/main/java">
+            <property name="constructorBased" value="false"/>
+            <property name="immutable" value="false"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+
+        <sqlMapGenerator targetPackage="sqlmapper"
+                         targetProject="src/main/resources">
+        </sqlMapGenerator>
+        <javaClientGenerator targetPackage="com.colson.dal.dao"
+                             targetProject="src/main/java" type="XMLMAPPER">
+        </javaClientGenerator>
+
+        <table tableName="t_user" domainObjectName="UserEntity" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+            <generatedKey column="f_id" sqlStatement="JDBC"/>
+            <domainObjectRenamingRule searchString="^t_" replaceString=""/>
+            <columnRenamingRule searchString="^f_" replaceString=""/>
+        </table>
+
+        <!--<table tableName="t_omc_workflow_node" domainObjectName="WorkflowNodeEntity" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"-->
+        <!--&gt;-->
+            <!--<generatedKey column="f_id" sqlStatement="JDBC"/>-->
+            <!--<domainObjectRenamingRule searchString="^t_omc" replaceString=""/>-->
+            <!--<columnRenamingRule searchString="^f_" replaceString=""/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_omc_workflow_node_route" domainObjectName="WorkflowNodeRouteEntity" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"-->
+        <!--&gt;-->
+            <!--<generatedKey column="f_id" sqlStatement="JDBC"/>-->
+            <!--<domainObjectRenamingRule searchString="^t_omc" replaceString=""/>-->
+            <!--<columnRenamingRule searchString="^f_" replaceString=""/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_omc_workflow_log" domainObjectName="WorkflowLogEntity" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"-->
+        <!--&gt;-->
+            <!--<generatedKey column="f_id" sqlStatement="JDBC"/>-->
+            <!--<domainObjectRenamingRule searchString="^t_omc" replaceString=""/>-->
+            <!--<columnRenamingRule searchString="^f_" replaceString=""/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_omc_workflow_entity" domainObjectName="WorkflowEntityEntity" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"-->
+        <!--&gt;-->
+            <!--<generatedKey column="f_id" sqlStatement="JDBC"/>-->
+            <!--<domainObjectRenamingRule searchString="^t_omc" replaceString=""/>-->
+            <!--<columnRenamingRule searchString="^f_" replaceString=""/>-->
+        <!--</table>-->
+
+        <!--<table tableName="t_omc_system_log" domainObjectName="SystemLogEntity" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false"-->
+        <!--&gt;-->
+            <!--<generatedKey column="f_id" sqlStatement="JDBC"/>-->
+            <!--<domainObjectRenamingRule searchString="^t_omc" replaceString=""/>-->
+            <!--<columnRenamingRule searchString="^f_" replaceString=""/>-->
+        <!--</table>-->
+        <!--<table tableName="t_omc_loan_asset" domainObjectName="LoanAssetEntity" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+            <generatedKey column="f_id" sqlStatement="JDBC"/>
+            <domainObjectRenamingRule searchString="^t_omc" replaceString=""/>
+            <columnRenamingRule searchString="^f_" replaceString=""/>
+        </table>
+
+        <table tableName="t_omc_loan_asset_pricing" domainObjectName="LoanAssetPricingEntity" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+            <generatedKey column="f_id" sqlStatement="JDBC"/>
+            <domainObjectRenamingRule searchString="^t_omc" replaceString=""/>
+            <columnRenamingRule searchString="^f_" replaceString=""/>
+        </table>
+
+        <table tableName="t_omc_loan_asset_repay_plan" domainObjectName="LoanAssetRepayPlanEntity" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false"
+        >
+            <generatedKey column="f_id" sqlStatement="JDBC"/>
+            <domainObjectRenamingRule searchString="^t_omc" replaceString=""/>
+            <columnRenamingRule searchString="^f_" replaceString=""/>
+        </table>-->
+    </context>
+</generatorConfiguration>

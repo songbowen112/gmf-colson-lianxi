@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parses>
 
-    <wobj id="ProductPriceBean" name="商品定价" filename="" filetype="" class="com.colson.dal.dto.ProductBatchDTO">
+    <wobj id="ProductPriceBean" name="商品定价" filename="" filetype="" class="com.colson.dal.model.ProductBatchDTO">
         <columns>
             <column cidx="0"  cname="SKU码" pname="skuCode" type="" cformat="" handler=""></column>
             <column cidx="1"  cname="商品售价" pname="productPrice" type="" cformat="" handler=""></column>
