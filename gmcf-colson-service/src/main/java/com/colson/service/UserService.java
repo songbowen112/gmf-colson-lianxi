@@ -4,5 +4,5 @@ import com.colson.service.bean.UserBean;
 
 public interface UserService {
 
-    public UserBean queryUserInfo(Integer id);
+    public UserBean queryUserInfo(Long id);
 }

@@ -11,10 +11,33 @@
     <artifactId>gmcf-colson-service</artifactId>
     <dependencies>
         <dependency>
+            <groupId>gmf-colson-lianxi</groupId>
+            <artifactId>gmcf-colson-dal</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-    </dependencies>
+        <!-- ==================== orika ==================== -->
+        <dependency>
+            <groupId>ma.glasnost.orika</groupId>
+            <artifactId>orika-core</artifactId>
+            <version>1.5.2</version>
+        </dependency>
 
+        <!-- ==================== guava ==================== -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
+
+        <!-- ==================== test ==================== -->
+        <dependency>
+            <groupId>com.gomefinance.framework</groupId>
+            <artifactId>gmf-framework-test</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

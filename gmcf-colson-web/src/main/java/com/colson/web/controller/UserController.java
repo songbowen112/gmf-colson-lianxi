@@ -26,8 +26,8 @@ public class UserController {
 
     @RequestMapping(value = "/get-user", method = RequestMethod.GET)
     @ResponseBody
-    public UserBean getUser() {
-        UserBean bean = userService.queryUserInfo(1);
+    public UserBean getUser(Long id) {
+        UserBean bean = userService.queryUserInfo(id);
         return bean;
     }
 
