@@ -23,7 +23,6 @@
         <dependency>
             <groupId>ma.glasnost.orika</groupId>
             <artifactId>orika-core</artifactId>
-            <version>1.5.2</version>
         </dependency>
 
         <!-- ==================== guava ==================== -->
@@ -33,11 +32,6 @@
             <version>21.0</version>
         </dependency>
 
-        <!-- ==================== test ==================== -->
-        <dependency>
-            <groupId>com.gomefinance.framework</groupId>
-            <artifactId>gmf-framework-test</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

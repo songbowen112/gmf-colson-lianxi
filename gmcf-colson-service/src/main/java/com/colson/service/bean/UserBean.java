@@ -5,7 +5,7 @@ public class UserBean {
     /**
      * 主键id
      */
-    private long id;
+    private Long id;
 
     /**
      * 用户名
@@ -54,24 +54,6 @@ public class UserBean {
         this.name = name;
         this.gender = gender;
         this.idCardNo = idCardNo;
-    }
-
-    /**
-     * 获取 主键id
-     *
-     * @return id 主键id
-     */
-    public long getId() {
-        return this.id;
-    }
-
-    /**
-     * 设置 主键id
-     *
-     * @param id 主键id
-     */
-    public void setId(long id) {
-        this.id = id;
     }
 
     /**
@@ -216,5 +198,23 @@ public class UserBean {
      */
     public void setDetailAddress(String detailAddress) {
         this.detailAddress = detailAddress;
+    }
+
+    /**
+     * 获取 主键id
+     *
+     * @return id 主键id
+     */
+    public Long getId() {
+        return this.id;
+    }
+
+    /**
+     * 设置 主键id
+     *
+     * @param id 主键id
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 }

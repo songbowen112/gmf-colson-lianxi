@@ -26,7 +26,7 @@ public class UserEntity {
      *
      * @mbg.generated
      */
-    private Byte gender;
+    private Integer gender;
 
     /**
      *
@@ -138,7 +138,7 @@ public class UserEntity {
      *
      * @mbg.generated
      */
-    public Byte getGender() {
+    public Integer getGender() {
         return gender;
     }
 
@@ -150,7 +150,7 @@ public class UserEntity {
      *
      * @mbg.generated
      */
-    public void setGender(Byte gender) {
+    public void setGender(Integer gender) {
         this.gender = gender;
     }
 

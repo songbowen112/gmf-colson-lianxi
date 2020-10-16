@@ -1,5 +1,6 @@
 package com.colson.service.bean.mapper;
 
+import com.google.common.base.Strings;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
  */
 @Component
 public class MapperFacadeFactory implements FactoryBean<MapperFacade> {
+
 	public MapperFacade getObject() throws Exception {
 		DefaultMapperFactory builder = new DefaultMapperFactory.Builder()
 				.mapNulls(false).build();
