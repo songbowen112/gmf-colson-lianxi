@@ -29,13 +29,37 @@ import com.colson.dal.bean.Student;
  * 5. 方法区
  *  5.1 它存储了每一个类的结构信息
  *  5.2 方法区是规范,在不同的虚拟机里实现是不一样的,最典型的就是永久代(PermGen Space)和元空间(Metaspace).
+ *
+ *  空调 k1 = new 格力();
+ *  List list = new ArrayList();
+ *  方法区 f = new 永久代();
+ *  方法区 f = new 元空间();
+ *
+ * 6. 栈 stack
+ *  6.1 栈管运行,堆管存储
+ *  6.2 栈保存哪些东西?
+ *      八种基本类型的变量+对象的引用变量+实例方法都是在函数的栈内存中分配.
+ *  6.3 Exception in thread "main" java.lang.StackOverflowError
+ *      是一个error错误
  */
 public class JVMNote {
+
+    public static void m1() {
+        m1();
+    }
+
+    public void say() {
+        System.out.println("------say---------");
+    }
 
     public static void main(String[] args) {
 
         System.out.println(Student.class.getClassLoader().getParent().getParent());
         System.out.println(Student.class.getClassLoader().getParent());
         System.out.println(Student.class.getClassLoader());
+
+        System.out.println("11111111111111");
+        m1();
+        System.out.println("22222222222222");
     }
 }
