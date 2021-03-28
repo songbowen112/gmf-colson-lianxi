@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -29,22 +29,27 @@ public class MeituanTest {
         StringBuilder s1 = new StringBuilder(str1).reverse();
         char[] chars = s1.toString().toCharArray();
         StringBuilder s2 = new StringBuilder(str2).reverse();
-        StringBuilder commonStr = new StringBuilder(s1.toString().charAt(0));
-        for (int i = 0; i < chars.length - 1; i++) {
+        String c = String.valueOf(s1.toString().charAt(0));
+        StringBuilder commonStr = new StringBuilder(c);
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < chars.length; i++) {
             if (s2.toString().startsWith(commonStr.toString())){
-                commonStr.append(chars[i]);
+                result.append(chars[i]);
+                if (i < chars.length-1) {
+                    commonStr.append(chars[i+1]);
+                }
             } else {
                 break;
             }
         }
-        if (commonStr.toString().charAt(0) == s2.toString().charAt(0)) {
-            return commonStr.reverse().toString();
+        if (StringUtils.isNotBlank(result) && result.toString().charAt(0) == s2.toString().charAt(0)) {
+            return result.reverse().toString();
         }
         return "";
     }
 
     public static void main(String[] args) {
-        String commonSuffix = findCommonSuffix("dog", "cat");
+        String commonSuffix = findCommonSuffix("7887sdsad", "7887");
         System.out.println(commonSuffix);
     }
 }

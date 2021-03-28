@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal;
 
 import java.util.*;
 
@@ -45,13 +45,6 @@ public class MeituanTest2 {
                 copy.add(next);
         }
         return copy.toString();
-    }
-
-    public static <T> List<T> copyIterator(Iterator<T> iter) {
-        List<T> copy = new ArrayList<T>();
-        while (iter.hasNext())
-            copy.add(iter.next());
-        return copy;
     }
 
     public static void main(String[] args) {

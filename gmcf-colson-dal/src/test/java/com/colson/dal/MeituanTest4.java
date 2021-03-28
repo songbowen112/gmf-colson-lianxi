@@ -1,4 +1,4 @@
-package com.colson.dal.util;
+package com.colson.dal;
 
 import java.util.ArrayList;
 import java.util.List;
