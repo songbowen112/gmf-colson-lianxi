@@ -6,7 +6,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * 1
+ * 3
  * 请根据下面定义的商品Class，设计程序能够合并名称与属性完全相同的商品。
          *示例：
          * 【合并前】的商品：
@@ -24,43 +24,43 @@ import java.util.stream.Collectors;
 public class MeituanTest3 {
 
     static List<Goods> mergeGoods(List<Goods> goodsList) {
-        Map<String, Integer> map = new HashMap<>();
+        Map<String, Goods> goodsMap = new HashMap<>();
         goodsList.forEach(i -> {
             String md5 = i.getMd5();
-            if (map.containsKey(md5)) {
-                map.put(md5,map.get(md5) + i.getCount());
+
+            if (goodsMap.containsKey(md5)) {
+                Goods goods = goodsMap.get(md5);
+                goods.setCount(goods.getCount() + i.getCount());
+                goodsMap.put(md5, goods);
             } else {
-                map.put(md5,i.getCount());
+                goodsMap.put(md5,i);
             }
         });
-
-        List<Goods> result = new ArrayList<>();
-        map.entrySet().forEach(i -> {
-            Goods g = new Goods();
-            g.setMd5(i.getKey());
-            g.setCount(i.getValue());
-            result.add(g);
-        });
-
-        return result;
+        return goodsMap.values().stream().collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
         List<Goods> list = new ArrayList<>();
-        Goods g1 = new Goods("红苹果", Arrays.asList("干脆","delicious","甜"),6);
-        Goods g2 = new Goods("蓝苹果", Arrays.asList("干脆","甜"),4);
-        Goods g3 = new Goods("红苹果", Arrays.asList("甜","干脆","delicious"),3);
-        Goods g4 = new Goods("绿苹果", Arrays.asList("甜","干脆","delicious"),5);
-        Goods g5 = new Goods("红苹果", Arrays.asList("甜","干脆","delicious","干脆"),8);
+        Goods g1 = new Goods("红苹果", Arrays.asList("脆","delicious","甜"),6);
+        Goods g2 = new Goods("蓝苹果", Arrays.asList("脆","甜"),4);
+        Goods g3 = new Goods("红苹果", Arrays.asList("甜","脆","delicious"),3);
+        Goods g4 = new Goods("红苹果", Arrays.asList("甜","脆","delicious"),5);
+        Goods g5 = new Goods("红苹果", Arrays.asList("甜","脆","delicious","脆"),8);
+        Goods g6 = new Goods("红苹果", Arrays.asList("甜","脆","delicious","脆"),8);
+        Goods g7 = new Goods("蓝苹果", Arrays.asList("甜","脆","delicious","脆"),19);
+        Goods g8 = new Goods("蓝苹果", Arrays.asList("甜","脆","delicious","脆"),19);
         list.add(g1);
         list.add(g2);
         list.add(g3);
         list.add(g4);
         list.add(g5);
+        list.add(g6);
+        list.add(g7);
+        list.add(g8);
 
         List<Goods> mergeGoods = mergeGoods(list);
         mergeGoods.forEach(i -> {
-            System.out.println(i.getMd5() + "------" + i.getCount());
+            System.out.println(i.getName() + "------" + i.getAttrs() + "------" + i.getCount());
         });
     }
 
