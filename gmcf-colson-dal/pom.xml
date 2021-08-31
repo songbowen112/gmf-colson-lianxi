@@ -84,6 +84,18 @@
             <artifactId>spring-jdbc</artifactId>
             <version>4.2.5.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>com.drewnoakes</groupId>
+            <artifactId>metadata-extractor</artifactId>
+            <version>2.16.0</version>
+        </dependency>
+        <!--HttpClient-->
+        <dependency>
+            <groupId>commons-httpclient</groupId>
+            <artifactId>commons-httpclient</artifactId>
+            <version>3.1</version>
+        </dependency>
+
     </dependencies>
 
     <!--mvn mybatis-generator:generate-->
