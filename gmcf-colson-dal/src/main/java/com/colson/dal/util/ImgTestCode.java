@@ -8,15 +8,16 @@ package com.colson.dal.util;
 import com.alibaba.fastjson.JSONObject;
 import com.drew.imaging.ImageMetadataReader;
 import com.drew.imaging.ImageProcessingException;
+import com.drew.lang.GeoLocation;
 import com.drew.metadata.Directory;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.Tag;
-import com.sun.deploy.net.HttpUtils;
-import sun.net.www.http.HttpClient;
+import com.drew.metadata.exif.GpsDirectory;
 
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -25,7 +26,7 @@ import java.io.IOException;
 public class ImgTestCode {
 
     public static void main(String[] args) throws Exception {
-        File file = new File("/Users/song/Desktop/WechatIMG850.jpeg");
+        File file = new File("/Users/song/Desktop/5680843ee44f46fd7c05cfb2f9c302.jpg");
         readImageInfo(file);
     }
 
@@ -38,7 +39,14 @@ public class ImgTestCode {
      */
     private static void readImageInfo(File file) throws ImageProcessingException, Exception {
         Metadata metadata = ImageMetadataReader.readMetadata(file);
+        GpsDirectory gpsDirectory = metadata.getDirectory(GpsDirectory.class);
+        if (Objects.nonNull(gpsDirectory)) {
+            System.out.println("---打印坐标信息---");
 
+            GeoLocation geoLocation = gpsDirectory.getGeoLocation();
+            System.out.println(geoLocation.getLongitude());
+            System.out.println(geoLocation.getLatitude());
+        }
 
         System.out.println("---打印全部详情---");
         for (Directory directory : metadata.getDirectories()) {
@@ -55,7 +63,6 @@ public class ImgTestCode {
 
 
         System.out.println("--打印常用信息---");
-
         Double lat = null;
         Double lng = null;
         for (Directory directory : metadata.getDirectories()) {
@@ -81,11 +88,8 @@ public class ImgTestCode {
         }
         System.err.println("--经纬度转地址--");
         //经纬度转地主使用百度api
-        convertGpsToLoaction(lat, lng);
-
-
-
-
+        if (null != lat && null != lng)
+            convertGpsToLoaction(lat, lng);
     }
 
 
