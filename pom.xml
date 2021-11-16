@@ -18,6 +18,7 @@
         <module>gmcf-colson-intergration</module>
         <module>gmcf-colson-web</module>
         <module>gmcf-colson-service</module>
+        <module>gmcf-colson-demo</module>
     </modules>
 
     <properties>
