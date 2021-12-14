@@ -1,6 +1,13 @@
 package com.colson.dal.util;
 
+import cn.hutool.core.lang.Snowflake;
+import cn.hutool.core.util.IdUtil;
+
 /**
+ * 雪花算法-id生成规则
+ * 软件硬性要求 1/全剧唯一 2/趋势递增 3/单调递增 4/信息安全 5/含时间戳
+ * 硬件可用性要求 1/高可用 2/低延迟 3/高QPS
+ * 使用糊涂工具包-springBoot整合雪花算法
  * @author:songbowen
  * @date:2021/6/28
  */
@@ -8,7 +15,7 @@ public class SnowFlake {
 
     //因为二进制里第一个 bit 为如果是 1，那么都是负数，但是我们生成的 id 都是正数，所以第一个 bit 统一都是 0。
 
-    //机器ID  2进制5位  32位减掉1位 31个
+    //机器ID 2进制5位  32位减掉1位 31个
     private long workerId;
     //机房ID 2进制5位  32位减掉1位 31个
     private long datacenterId;
@@ -133,5 +140,11 @@ public class SnowFlake {
 		for (int i = 0; i < 22; i++) {
 			System.out.println(worker.nextId());
 		}
+
+        System.out.println("-----------hutool工具包-----------");
+        Snowflake snowflake = IdUtil.getSnowflake(1, 1);
+        for (int i = 0; i < 22; i++) {
+            System.out.println(snowflake.nextId());
+        }
     }
 }

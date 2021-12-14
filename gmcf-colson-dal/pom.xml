@@ -96,6 +96,12 @@
             <version>3.1</version>
         </dependency>
 
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-captcha</artifactId>
+            <version>5.7.10</version>
+        </dependency>
+
     </dependencies>
 
 <!--    &lt;!&ndash;mvn mybatis-generator:generate&ndash;&gt;-->
