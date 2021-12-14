@@ -17,6 +17,10 @@ import cn.hutool.core.util.IdUtil;
  * 缺点：
  * 依赖机器时钟，如果机器时钟回拨，会导致重复ID生成。
  *
+ * 解决方案：
+ * 1/百度开源的分布式唯一ID生成器UidGenerator
+ * 2/美团点评分布式ID生成系统Leaf
+ *
  * @author:songbowen
  * @date:2021/6/28
  */
