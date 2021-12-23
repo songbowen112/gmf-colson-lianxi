@@ -15,5 +15,25 @@
         </columns>
     </wobj>
 
+    <!-- 土豆雅思 -->
+    <wobj id="TudouYSBean" filename="" filetype="" class="com.colson.web.bean.TudouYSBean">
+        <columns>
+            <column cidx="0" cname="词头" pname="chars" type="" cformat="" handler=""></column>
+            <column cidx="1" cname="音标" pname="phoneticSymbol" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="词性+词义" pname="explanationWithPrefix" type="" cformat="" handler=""></column>
+            <column cidx="3" cname="发音" pname="audioUrl" type="" cformat="" handler=""></column>
+            <column cidx="4" cname="搭配" pname="pair" type="" cformat="" handler=""></column>
+            <column cidx="5" cname="搭配翻译" pname="pairZh" type="" cformat="" handler=""></column>
+            <column cidx="6" cname="搭配发音" pname="pairAudioUrl" type="" cformat="" handler=""></column>
+            <column cidx="7" cname="例句" pname="sentence" type="" cformat="" handler=""></column>
+            <column cidx="8" cname="例句翻译" pname="sentenceZh" type="" cformat="" handler=""></column>
+            <column cidx="9" cname="测试题类型" pname="testType" type="" cformat="" handler=""></column>
+            <column cidx="10" cname="选项A" pname="optionA" type="" cformat="" handler=""></column>
+            <column cidx="11" cname="选项B" pname="optionB" type="" cformat="" handler=""></column>
+            <column cidx="12" cname="选项C" pname="optionC" type="" cformat="" handler=""></column>
+            <column cidx="13" cname="选项D" pname="explanationWithPrefix" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
 
 </parses>

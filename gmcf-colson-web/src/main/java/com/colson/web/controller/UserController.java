@@ -4,9 +4,11 @@ import com.colson.dal.excel.ExlExport;
 import com.colson.service.UserService;
 import com.colson.service.bean.UserBean;
 import com.colson.web.bean.AttendanceRecordBean;
+import com.colson.web.bean.TudouYSBean;
 import com.colson.web.util.DateUtils;
 import com.colson.web.util.OAUtil;
 import com.colson.web.util.SpringUtil;
+import com.colson.web.util.TudouUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,4 +62,23 @@ public class UserController {
 		} catch (Exception e) {
 		}
 	}
+
+    /**
+     * @brief 土豆雅思-导出
+     * @api GET localhost:10087/api/user/get-td-info
+     * @occurs songbowen
+     */
+    @RequestMapping(value = "/get-td-info", method = RequestMethod.GET)
+    @ResponseBody
+    public void queryTdExport(HttpServletResponse response) {
+
+        List<TudouYSBean> beans = TudouUtil.getBeans();
+
+        HSSFWorkbook workbook;
+        try {
+            workbook = (HSSFWorkbook) ExlExport.exportExcel(beans, "TudouYSBean");
+            ExlExport.printExcel(workbook, response, "土豆雅思-" + DateUtils.getStringDate() + ".xls");
+        } catch (Exception e) {
+        }
+    }
 }
