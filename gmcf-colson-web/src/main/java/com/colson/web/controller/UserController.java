@@ -1,14 +1,14 @@
 package com.colson.web.controller;
 
-import com.colson.dal.excel.ExlExport;
+import com.colson.util.OAUtil;
+import com.colson.util.SpringUtil;
+import com.colson.util.TudouUtil;
+import com.colson.util.excel.ExlExport;
 import com.colson.service.UserService;
 import com.colson.service.bean.UserBean;
-import com.colson.web.bean.AttendanceRecordBean;
-import com.colson.web.bean.TudouYSBean;
-import com.colson.web.util.DateUtils;
-import com.colson.web.util.OAUtil;
-import com.colson.web.util.SpringUtil;
-import com.colson.web.util.TudouUtil;
+import com.colson.util.DateUtils;
+import com.colson.common.bean.AttendanceRecordBean;
+import com.colson.common.bean.TudouYSBean;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

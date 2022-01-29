@@ -11,10 +11,10 @@
 
     <artifactId>gmcf-colson-intergration</artifactId>
     <dependencies>
-    <dependency>
-        <groupId>gmf-colson-lianxi</groupId>
-        <artifactId>gmcf-colson-dal</artifactId>
-    </dependency>
+        <dependency>
+            <groupId>gmf-colson-lianxi</groupId>
+            <artifactId>gmcf-colson-dal</artifactId>
+        </dependency>
     </dependencies>
 
 

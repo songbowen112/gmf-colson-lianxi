@@ -19,15 +19,18 @@
         <module>gmcf-colson-web</module>
         <module>gmcf-colson-service</module>
         <module>gmcf-colson-demo</module>
+        <module>gmcf-colson-util</module>
+        <module>gmcf-colson-common</module>
     </modules>
 
     <properties>
         <!-- maven -->
 
-        <spring.boot.version>2.2.1.RELEASE</spring.boot.version>
-        <spring.data.version>2.2.1.RELEASE</spring.data.version>
+        <spring.version>2.2.1.RELEASE</spring.version>
 
         <gmcf.colson.dal.version>1.0-SNAPSHOT</gmcf.colson.dal.version>
+        <gmcf.colson.common.version>1.0-SNAPSHOT</gmcf.colson.common.version>
+        <gmcf.colson.util.version>1.0-SNAPSHOT</gmcf.colson.util.version>
         <gmcf.colson.service.version>1.0-SNAPSHOT</gmcf.colson.service.version>
         <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
         <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
@@ -39,6 +42,16 @@
                 <groupId>gmf-colson-lianxi</groupId>
                 <artifactId>gmcf-colson-dal</artifactId>
                 <version>${gmcf.colson.dal.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-util</artifactId>
+                <version>${gmcf.colson.util.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>gmf-colson-lianxi</groupId>
+                <artifactId>gmcf-colson-common</artifactId>
+                <version>${gmcf.colson.common.version}</version>
             </dependency>
             <dependency>
                 <groupId>gmf-colson-lianxi</groupId>
@@ -59,12 +72,18 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring.boot.version}</version>
+                <version>${spring.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework.data</groupId>
                 <artifactId>spring-data-commons</artifactId>
-                <version>${spring.data.version}</version>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>3.1.0.RELEASE</version>
+                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.apache.commons</groupId>
