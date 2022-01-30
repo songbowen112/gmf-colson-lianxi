@@ -15,7 +15,7 @@ public class CirSeqQueue<E> extends BaseDTO {
     /**
      * 初始数据长度为100
      */
-    transient Object[] datas = new Object[9];
+    transient Object[] datas = new Object[5];
 
     /**
      * 队头指针

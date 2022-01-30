@@ -1,6 +1,7 @@
-package com.colson.intergration.bean;
+package com.colson.common.bean;
 
-import com.colson.intergration.common.biz.pkg.BaseDTO;
+
+import com.colson.common.pkg.BaseDTO;
 
 /**
  * @author songbowen

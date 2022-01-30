@@ -12,6 +12,7 @@ import com.colson.util.ArraysUtils;
  * [2 3 4 5 6]
  * [3 4 5 6 7]
  * [4 5 6 7 8]
+ * 上三角行优先存储为：[0 1 2 3 4 2 3 4 5 4 5 6 6 7 8]
  * 下三角行优先存储为：[0 1 2 2 3 4 3 4 5 6 4 5 6 7 8]
  */
 public class SymmetryMatrix<E> extends BaseDTO {

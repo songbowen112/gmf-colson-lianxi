@@ -3,19 +3,18 @@ package com.colson.demo.juc;
 import java.util.concurrent.TimeUnit;
 
 class Phone{
-
     public static synchronized void sendEmail() throws Exception {
         //JUC新枚举TimeUnit,提供各种时间类型
         TimeUnit.SECONDS.sleep(3);
-        System.out.println("*****sendEmail");
+        System.out.println(Thread.currentThread().getName() + " *****sendEmail");
     }
 
     public synchronized void sendSMS() throws Exception {
-        System.out.println("*****sendSMS");
+        System.out.println(Thread.currentThread().getName() + " *****sendSMS");
     }
 
     public void sayHello() throws Exception {
-        System.out.println("*****sayHello");
+        System.out.println(Thread.currentThread().getName() + " *****sayHello");
     }
 }
 
@@ -29,7 +28,6 @@ class Phone{
  * 6.俩个静态方法,俩部手机,请问先打印邮件还是短信---邮件
  * 7.一个静态方法,一个普通同步方法,同一部手机,请问先打印邮件还是短信---短信
  * 8.一个静态方法,一个普通同步方法,俩部手机,请问先打印邮件还是短信---短信
- *
  *
  * 1)
  * 一个对象如果有多个synchronized方法,某一时刻内,只要有一个线程去调用其中的一个synchronized方法了,

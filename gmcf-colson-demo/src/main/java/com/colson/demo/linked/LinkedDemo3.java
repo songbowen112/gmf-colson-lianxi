@@ -19,7 +19,6 @@ public class LinkedDemo3 {
         System.out.println("初始list："+list);
 
         System.out.println("第一种方式："+printDesc(list));
-
         System.out.println("第二种方式："+printDesc2(list.first,new StringBuilder()));
     }
 

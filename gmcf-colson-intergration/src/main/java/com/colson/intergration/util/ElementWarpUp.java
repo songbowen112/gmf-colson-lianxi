@@ -1,6 +1,6 @@
 package com.colson.intergration.util;
 
-import com.colson.intergration.bean.ElementDataBean;
+import com.colson.common.bean.ElementDataBean;
 
 import java.util.HashMap;
 import java.util.List;

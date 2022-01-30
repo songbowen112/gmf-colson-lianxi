@@ -1,6 +1,6 @@
 package com.colson.intergration.util;
 
-import com.colson.intergration.bean.ElementDataBean;
+import com.colson.common.bean.ElementDataBean;
 import com.colson.intergration.constant.PecElementCode;
 
 import java.util.List;

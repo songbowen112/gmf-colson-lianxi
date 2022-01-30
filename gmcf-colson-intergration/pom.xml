@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>gmf-colson-lianxi</groupId>
-            <artifactId>gmcf-colson-dal</artifactId>
+            <artifactId>gmcf-colson-common</artifactId>
         </dependency>
     </dependencies>
 

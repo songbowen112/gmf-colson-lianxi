@@ -1,6 +1,5 @@
 package com.colson.service.bean.mapper;
 
-import com.google.common.base.Strings;
 import ma.glasnost.orika.MapperFacade;
 import ma.glasnost.orika.MappingContext;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
@@ -36,7 +35,6 @@ public class MapperFacadeFactory implements FactoryBean<MapperFacade> {
 //				}
 //			}
 //		}).byDefault().register();
-
 		return builder.getMapperFacade();
 	}
 
