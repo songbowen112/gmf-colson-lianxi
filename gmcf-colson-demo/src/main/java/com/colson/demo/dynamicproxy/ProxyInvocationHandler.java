@@ -2,6 +2,7 @@ package com.colson.demo.dynamicproxy;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 
 /**
  * @author song
@@ -13,6 +14,10 @@ public class ProxyInvocationHandler implements InvocationHandler {
     //持有一个目标类的引用
     private Object targetClass;
 
+    /**
+     * 构造器
+     * @param targetClass
+     */
     public ProxyInvocationHandler(Object targetClass) {
         this.targetClass = targetClass;
     }
@@ -37,4 +42,6 @@ public class ProxyInvocationHandler implements InvocationHandler {
         System.out.println("执行方法后增强.......");
         return object;
     }
+
+
 }
