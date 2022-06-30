@@ -21,23 +21,17 @@ public class TreeNode<E> {
      */
     private transient E data;
 
-    /**
-     * 是否删除
-     */
-    private transient boolean isDelete;
-
     public TreeNode() {
     }
 
     public TreeNode(E data) {
-        this(null,null,data,false);
+        this(null,null,data);
     }
 
-    public TreeNode(TreeNode leftTreeNode, TreeNode rightTreeNode, E data, boolean isDelete) {
+    public TreeNode(TreeNode leftTreeNode, TreeNode rightTreeNode, E data) {
         this.leftTreeNode = leftTreeNode;
         this.rightTreeNode = rightTreeNode;
         this.data = data;
-        this.isDelete = isDelete;
     }
 
     /**
@@ -94,30 +88,11 @@ public class TreeNode<E> {
         this.data = data;
     }
 
-    /**
-     * 获取 是否删除
-     *
-     * @return isDelete 是否删除
-     */
-    public boolean isIsDelete() {
-        return this.isDelete;
-    }
-
-    /**
-     * 设置 是否删除
-     *
-     * @param isDelete 是否删除
-     */
-    public void setIsDelete(boolean isDelete) {
-        this.isDelete = isDelete;
-    }
-
     @Override
     public String toString() {
         return "[leftTreeNode=" + leftTreeNode +
                 ", rightTreeNode=" + rightTreeNode +
                 ", data=" + data +
-                ", isDelete=" + isDelete +
                 ']';
     }
 }

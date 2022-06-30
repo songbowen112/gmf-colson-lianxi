@@ -35,10 +35,7 @@ public class LinkedDemo {
         head = LinkedListUtils.reverse(head);
         System.out.println(LinkedListUtils.printLink(head));
 
-
-        System.out.println(LinkedListUtils.printLink(head));
         head = reverseKGroup(head,3);
-
         System.out.println(LinkedListUtils.printLink(head));
 
     }

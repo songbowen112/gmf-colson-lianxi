@@ -49,6 +49,17 @@ public class LinkedStack<E> extends BaseDTO {
     }
 
     /**
+     * 返回栈顶元素，不删除
+     * @return
+     */
+    public E peek() {
+        if (head == null) {
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(size));
+        }
+        return head.data;
+    }
+
+    /**
      * 获取栈的大小
      */
     public int size() {

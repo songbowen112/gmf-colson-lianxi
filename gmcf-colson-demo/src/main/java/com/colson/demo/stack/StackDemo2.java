@@ -3,6 +3,7 @@ package com.colson.demo.stack;
 
 import com.colson.util.constant.BracketConstant;
 import com.colson.util.stack.SeqStack;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class StackDemo2 {
     }
 
     public static boolean checkLegal(String bracket) {
-        if (null == bracket || bracket.length()%2 != 0) {
+        if (StringUtils.isEmpty(bracket) || bracket.length()%2 != 0) {
             return false;
         }
         char[] chars = bracket.toCharArray();
