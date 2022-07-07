@@ -2,8 +2,6 @@ package com.colson.util.tree;
 
 import com.colson.common.bean.TreeNode;
 
-import java.util.List;
-
 /**
  * @author song
  * @description: 树抽象类
@@ -41,26 +39,5 @@ public abstract class AbstractTree<E> {
     public int count() {
         return this.count;
     }
-
-    /**
-     * 前序遍历
-     * 根结点 -> 左孩子 -> 右孩子
-     * @param root
-     */
-    public abstract List<E> beforeOrder(TreeNode root);
-
-    /**
-     * 中序遍历
-     * 左孩子 -> 根结点 -> 右孩子
-     * @param root
-     */
-    public abstract List<E> inOrder(TreeNode root);
-
-    /**
-     * 后序遍历
-     * 左孩子 -> 右孩子 -> 根结点
-     * @param root
-     */
-    public abstract List<E> afterOrder(TreeNode root);
 
 }

@@ -25,7 +25,7 @@ public class TreeNode<E> {
     }
 
     public TreeNode(E data) {
-        this(null,null,data);
+        this(null,null, data);
     }
 
     public TreeNode(TreeNode leftTreeNode, TreeNode rightTreeNode, E data) {

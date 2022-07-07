@@ -35,12 +35,12 @@ public class BeanUtils {
         System.out.println(convertRequest(c,new String()));
     }
 
+    private static StringBuilder builder = new StringBuilder();
+
     public static String convertRequest(Condition param,String str) {
         if (null == param) {
             return "";
         }
-
-        StringBuilder sb = new StringBuilder(str);
         Condition condition = param.analysis();
 
         String field = param.getName();
@@ -48,44 +48,48 @@ public class BeanUtils {
         Object value = param.getValue();
 
         if (JudgeType.IN.equals(condition.getJudge())) {
+            builder.append(" and ");
 
-            sb.append(field + " in\n (");
+            builder.append(field + " in\n (");
             for (Object obj : values) {
-                sb.append(obj + ",");
+                builder.append(obj + ",");
             }
-            int index = sb.lastIndexOf(",");
-            sb.deleteCharAt(index);
-            sb.append(")");
+            int index = builder.lastIndexOf(",");
+            builder.deleteCharAt(index);
+            builder.append(")");
         }
         if (JudgeType.NOTIN.equals(condition.getJudge())) {
+            builder.append(" and ");
 
-            sb.append(field + " not in\n (");
+            builder.append(field + " not in\n (");
             for (Object obj : values) {
-                sb.append(obj + ",");
+                builder.append(obj + ",");
             }
-            int index = sb.lastIndexOf(",");
-            sb.deleteCharAt(index);
-            sb.append(")");
+            int index = builder.lastIndexOf(",");
+            builder.deleteCharAt(index);
+            builder.append(")");
         }
         if (JudgeType.EQ.equals(condition.getJudge())) {
-            sb.append(field + "=" + value);
+            builder.append(" and ");
+
+            builder.append(field + "=" + value);
         }
         if (JudgeType.BETWEEN.equals(condition.getJudge())) {
-            sb.append(field + " between "+ values[0] + " and " + values[1]);
+            builder.append(" and ");
+
+            builder.append(field + " between "+ values[0] + " and " + values[1]);
         }
         if (!CollectionUtils.isEmpty(param.getAnds())) {
-            sb.append(" and ");
             param.getAnds().forEach(i -> {
-                convertRequest(i,sb.toString());
+                convertRequest(i,builder.toString());
             });
         }
         if (!CollectionUtils.isEmpty(param.getOrs())) {
-            sb.append(" or ");
             param.getOrs().forEach(i -> {
-                convertRequest(i,sb.toString());
+                convertRequest(i,builder.toString());
             });
         }
-        return sb.toString();
+        return builder.toString();
     }
 
     private static String convertField(String fieldName) {

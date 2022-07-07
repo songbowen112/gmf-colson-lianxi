@@ -2,6 +2,7 @@ package com.solson.dal.tree;
 
 
 import com.colson.common.bean.TreeNode;
+import com.colson.util.BinaryTreeUtils;
 import com.colson.util.tree.BinaryTree;
 
 /**
@@ -19,22 +20,28 @@ public class BinaryTreeTest {
         tree.insert(5);
         tree.insert(6);
         tree.insert(3);
-        tree.print(root);
+        BinaryTreeUtils.print(root);
+        System.out.println(tree.count);
 
         System.out.println(tree.find(2));
         System.out.println("前序遍历：");
-        tree.beforeOrder(root);
+        BinaryTreeUtils.beforeOrder(root);
         System.out.println();
-        tree.beforeOrder2(root);
+        BinaryTreeUtils.beforeOrder2(root);
         System.out.println("\n中序遍历：");
-        tree.inOrder(root);
+        BinaryTreeUtils.inOrder(root);
         System.out.println();
-        tree.inOrder2(root);
+        BinaryTreeUtils.inOrder2(root);
         System.out.println("\n后序遍历：");
-        tree.afterOrder(root);
+        BinaryTreeUtils.afterOrder(root);
         System.out.println();
-        tree.afterOrder2(root);
+        BinaryTreeUtils.afterOrder2(root);
         System.out.println();
+
+        System.out.println(tree.delete(10));
+        BinaryTreeUtils.print(root);
+        System.out.println(tree.count);
+
     }
 
 }
