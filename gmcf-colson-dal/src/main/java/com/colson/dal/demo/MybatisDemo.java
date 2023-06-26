@@ -29,7 +29,7 @@ public class MybatisDemo {
             //第三步：打开SqlSession
             session = sqlSessionFactory.openSession();
 
-            //第四步：获取Mapper借口对象
+            //第四步：获取Mapper接口对象
             PaymentEntityMapper paymentEntityMapper = session.getMapper(PaymentEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
