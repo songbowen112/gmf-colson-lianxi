@@ -1,0 +1,281 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>template for realPaperInfo</title>
+    <style type="text/css">
+        @page{size: 1240px 1754px; margin: 150px 0 150px 0;padding: 0;}
+        @page:first{
+            margin: 0;
+        }
+        /*@font-face {*/
+        /*    font-family: 'lmyxk';*/
+        /*    src: url("/fonts/刘梦吟新楷.ttf") format("truetype");*/
+        /*}*/
+        p{ padding:0; margin:0;}
+        .container{
+            font-family:Microsoft YaHei;
+            line-height: 2.5;
+            background: #ffffff;
+            box-sizing: border-box;
+            overflow: hidden;
+            word-wrap: break-word;
+            word-break:break-all;
+            padding-left:100px;
+            padding-right:100px;
+            width:calc(100% - 200px);
+        }
+        .wrap_normal{
+            white-space: normal;
+            word-wrap: normal;
+            white-space: normal;
+            width: 100%;
+        }
+        .cover_wrap{
+            position: relative;
+            box-sizing: border-box;
+        }
+        .cover_bg_img{
+            z-index: 9;
+            position: relative;
+            width: 100%;
+            /* height: 3508px; */
+        }
+        .cover_text{
+            padding: 0 12%;
+            z-index: 10;
+            position: absolute;
+            top: 44%;
+            font-size: 58px;
+            /*color: #393939;*/
+            text-align: center;
+            width: 76%;
+            line-height: 1.2;
+            font-weight: bolder;
+            font-family: Microsoft YaHei;
+            color: white;
+        }
+        .font32_blod_center{
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .font28_blod_center{
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .font20_blod{
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .font20{
+            font-size: 20px;
+        }
+        .paddingR_30{
+            padding-right: 30px;
+        }
+        .new_page {
+            page-break-after: always;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <div class="cover_wrap">
+        <img class="cover_bg_img" src="/Users/songbowen/Desktop/sd需求笔记/封面/cover_pic.png" />
+        <div class="cover_text">${realPaperInfo.subjectName}</div>
+    </div>
+
+    <div class="container">
+        <div class="font32_blod_center">
+            ${realPaperInfo.paperName}
+        </div>
+
+        <!--  试题 开始    -->
+        <div>
+            <#if (realPaperInfo.getQuestionGroup())?exists>
+                <#list realPaperInfo.getQuestionGroup() as question>
+                    <div class="font28_blod_center">第${question_index + 1}部分 ${question.questionType.itemValue}</div>
+                    <div class="font20_blod">一、${question.questionType.itemValue}：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div>
+<!--                    <#if '${question.questionType.itemCode}' == 'SINGLE_CHOICE'>${question.questionType.itemValue}<div class="font20_blod_center">一、单项选择题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。在每小题列出的备选项中只有一项是最符合题目要求的，请将其选出。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'MULTI_CHOICE'>${question.questionType.itemValue}<div class="text_style">一、多项选择题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。在每小题列出的备选项中至少有两项是符合题目要求的，请将其选出。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'JUDGE_CHOICE'>${question.questionType.itemValue}<div class="text_style">一、判断改错题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。判断下列各题正误。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'JUDGE_ESSAY'>${question.questionType.itemValue}<div class="text_style">一、判断论述题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'ESSAY'>${question.questionType.itemValue}<div class="text_style">一、文字题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'READING_COMPREHENSION'>${question.questionType.itemValue}<div class="text_style">一、完形填空：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'MANY_TO_MANY'>${question.questionType.itemValue}<div class="text_style">一、多选多：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'COMPREHENSIVE'>${question.questionType.itemValue}<div class="text_style">一、综合题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+<!--                    <#if '${question.questionType.itemCode}' == 'FILL_BLANK'>${question.questionType.itemValue}<div class="text_style">一、填空题：本大题共${question.questionAmount}题，共 ${question.groupTotalScore}分。</div></#if>-->
+                    <#list question.getQuestionsList() as questionItem>
+                        <#if '${questionItem_index}' != '0'>
+                            <br/>
+                        </#if>
+                        <div class="font20">
+                            <div>${questionItem.orderNum}.${questionItem.content}</div>
+                            <!-- 文字题多空四行-->
+                            <#if '${question.questionType.itemCode}' == 'ESSAY'>
+                                <br/><br/><br/><br/>
+                            </#if>
+                        </div>
+                        <#if (questionItem.getQuestionContentChoiceOptionList())?exists>
+                            <div class="font20">
+                                <#list questionItem.getQuestionContentChoiceOptionList() as qOption>
+                                    <div>${qOption.optionTitle}：${qOption.content}</div>
+                                </#list>
+                            </div>
+                        </#if>
+                        <!-- 多选多去掉子题-->
+                        <#if '${question.questionType.itemCode}' != 'MANY_TO_MANY'>
+                            <#if (questionItem.getChildQuestionMainList())?exists>
+                                <#list questionItem.getChildQuestionMainList() as childQuestionItem>
+                                    <#if '${childQuestionItem_index}' != '0'>
+                                        <br/>
+                                    </#if>
+                                    <!--  判断论述题增加"论述"-->
+                                    <#if '${question.questionType.itemCode}' == 'JUDGE_ESSAY' && '${childQuestionItem_index}' == '1'>
+                                        <div class="font20">${questionItem.orderNum}-${childQuestionItem_index + 1}.论述：</div>
+                                    </#if>
+                                    <!--子题干不为空-->
+                                    <#if (childQuestionItem.getContent())?exists && childQuestionItem.getContent() != ''>
+                                        <div class="font20">
+                                            <div>${questionItem.orderNum}-${childQuestionItem_index + 1}.${childQuestionItem.content}</div>
+                                            <!-- 文字题多空四行-->
+                                            <#if '${childQuestionItem.questionType}' == 'ESSAY'>
+                                                <br/><br/><br/><br/>
+                                            </#if>
+                                            <#if (childQuestionItem.getQuestionContentChoiceOptionList())?exists>
+                                                <div class="font20">
+                                                    <#list childQuestionItem.getQuestionContentChoiceOptionList() as cOption>
+                                                        <div>${cOption.optionTitle}：${cOption.content}</div>
+                                                    </#list>
+                                                </div>
+                                            </#if>
+                                        </div>
+                                    </#if>
+                                    <!--子题干为空-->
+                                    <#if !(childQuestionItem.getContent())?exists || childQuestionItem.getContent() == ''>
+                                        <#if (childQuestionItem.getQuestionContentChoiceOptionList())?exists>
+                                            <div class="font20">
+                                                <#list childQuestionItem.getQuestionContentChoiceOptionList() as cOption>
+                                                    <!-- 完型填空选项不换行-->
+                                                    <#if '${question.questionType.itemCode}' == 'READING_COMPREHENSION'>
+                                                        <#if '${cOption_index}' == '0'>
+                                                            <span>${questionItem.orderNum}-${childQuestionItem_index + 1}.${cOption.optionTitle}：${cOption.content}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                        </#if>
+                                                        <#if '${cOption_index}' != '0'>
+                                                            <span>${cOption.optionTitle}：${cOption.content}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                                                        </#if>
+                                                    </#if>
+                                                    <#if '${question.questionType.itemCode}' != 'READING_COMPREHENSION'>
+                                                        <#if '${cOption_index}' == '0'>
+                                                            <div>${questionItem.orderNum}-${childQuestionItem_index + 1}.${cOption.optionTitle}：${cOption.content}</div>
+                                                        </#if>
+                                                        <#if '${cOption_index}' != '0'>
+                                                            <div>${cOption.optionTitle}：${cOption.content}</div>
+                                                        </#if>
+                                                    </#if>
+                                                </#list>
+                                            </div>
+                                        </#if>
+                                    </#if>
+                                    <#if (childQuestionItem.getChildQuestionMainList())?exists>
+                                        <#list childQuestionItem.getChildQuestionMainList() as childChildQuestionItem>
+                                            <!--  判断论述题增加"论述"-->
+                                            <#if '${childQuestionItem.questionType}' == 'JUDGE_ESSAY' && '${childChildQuestionItem_index}' == '1'>
+                                                <div class="font20">${questionItem.orderNum}-${childQuestionItem_index + 1}-${childChildQuestionItem_index + 1}.论述：</div>
+                                            </#if>
+                                            <div class="font20">
+                                                <!-- 文字题多空四行-->
+                                                <#if '${childChildQuestionItem.questionType}' == 'ESSAY'>
+                                                    <br/><br/><br/><br/>
+                                                </#if>
+                                                <#if (childChildQuestionItem.getQuestionContentChoiceOptionList())?exists>
+                                                    <#list childChildQuestionItem.getQuestionContentChoiceOptionList() as cOption>
+                                                        <#if '${cOption_index}' == '0'>
+                                                            <div>${questionItem.orderNum}-${childQuestionItem_index + 1}-${childChildQuestionItem_index + 1}.${cOption.optionTitle}：${cOption.content}</div>
+                                                        </#if>
+                                                        <#if '${cOption_index}' != '0'>
+                                                            <div>${cOption.optionTitle}：${cOption.content}</div>
+                                                        </#if>
+                                                    </#list>
+                                                </#if>
+                                            </div>
+                                        </#list>
+                                    </#if>
+                                </#list>
+                            </#if>
+                        </#if>
+                    </#list>
+                </#list>
+            </#if>
+        </div>
+
+        <!--换一页从头开始-->
+        <div class="new_page"></div>
+        <div class="font32_blod_center">
+            ${realPaperInfo.paperName} -【答案&解析】
+        </div>
+
+        <div>
+            <#if (realPaperInfo.getQuestionGroup())?exists>
+                <#list realPaperInfo.getQuestionGroup() as question>
+                    <div class="font28_blod_center">第${question_index + 1}部分 ${question.questionType.itemValue}</div>
+                    <#list question.getQuestionsList() as questionItem>
+                        <div class="font20">
+                            <#if (questionItem.getMainNodeSerialNumber())?exists>
+                                <p>
+                                    <span class="font20_blod">（${questionItem.score}分）${questionItem.orderNum}.【主考点】</span>
+                                    <span class="font20_blod">${questionItem.mainNodeSerialNumber} ${questionItem.mainNodeName}</span>
+                                </p>
+                            </#if>
+                            <#if (questionItem.getViceNodeSerialNumber1())?exists>
+                                <p class="font20_blod">【副考点1】${questionItem.viceNodeSerialNumber1} ${questionItem.viceNodeName1}</p>
+                            </#if>
+                            <#if (questionItem.getViceNodeSerialNumber2())?exists>
+                                <p class="font20_blod">【副考点2】${questionItem.viceNodeSerialNumber2} ${questionItem.viceNodeName2}</p>
+                            </#if>
+                            <#if (questionItem.getCorrectAnswer())?exists && questionItem.getCorrectAnswer() != ''>
+                                <div class="wrap_normal">答案：${questionItem.correctAnswer}</div>
+                            </#if>
+                            <#if (questionItem.getAnalysis())?exists && questionItem.getAnalysis() != ''>
+                                <p class="wrap_normal">解析：${questionItem.analysis}</p>
+                            </#if>
+                            <!-- 判断论述题去掉子题答案&解析-->
+                            <#if '${question.questionType.itemCode}' != 'JUDGE_ESSAY'>
+                                <#if (questionItem.getChildQuestionMainList())?exists>
+                                    <#list questionItem.getChildQuestionMainList() as childQuestionItem>
+                                        <#if '${childQuestionItem_index}' != '0'>
+                                            <br/>
+                                        </#if>
+                                        <#if (childQuestionItem.getMainNodeSerialNumber())?exists>
+                                            <p>
+                                                <span class="font20_blod">（${childQuestionItem.score}分）${questionItem.orderNum}-${childQuestionItem_index + 1}.【主考点】</span>
+                                                <span class="font20_blod">${childQuestionItem.mainNodeSerialNumber} ${childQuestionItem.mainNodeName}</span>
+                                            </p>
+                                        </#if>
+                                        <#if (childQuestionItem.getViceNodeSerialNumber1())?exists>
+                                            <p class="font20_blod">【副考点1】${childQuestionItem.viceNodeSerialNumber1} ${childQuestionItem.viceNodeName1}</p>
+                                        </#if>
+                                        <#if (childQuestionItem.getViceNodeSerialNumber2())?exists>
+                                            <p class="font20_blod">【副考点2】${childQuestionItem.viceNodeSerialNumber2} ${childQuestionItem.viceNodeName2}</p>
+                                        </#if>
+                                        <#if (childQuestionItem.getCorrectAnswer())?exists>
+                                            <div class="wrap_normal">答案：${childQuestionItem.correctAnswer}</div>
+                                        </#if>
+                                        <#if (childQuestionItem.getAnalysis())?exists>
+                                            <p class="wrap_normal">解析：${childQuestionItem.analysis}</p>
+                                        </#if>
+                                    </#list>
+                                </#if>
+                            </#if>
+                        </div>
+                        <br/>
+                    </#list>
+                </#list>
+            </#if>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
