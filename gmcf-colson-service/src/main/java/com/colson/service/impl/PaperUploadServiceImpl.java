@@ -7,14 +7,8 @@ import com.colson.common.utils.PathUtil;
 import com.colson.common.utils.PdfDocumentGenerator;
 import com.colson.common.utils.PdfUtils;
 import com.colson.dal.dao.PaperFileDAO;
-import com.colson.dal.dto.PaperDetailDTO;
-import com.colson.dal.dto.PaperInfoDTO;
-import com.colson.dal.dto.PaperSearchingDTO;
-import com.colson.dal.dto.ReqPaperFileDTO;
-import com.colson.service.PaperDownloadService;
-import com.colson.service.PaperUploadService;
-import com.colson.service.TeachPaperService;
-import com.colson.service.TikuCommonService;
+import com.colson.dal.dto.*;
+import com.colson.service.*;
 import com.colson.service.dto.DownloadPdfParamInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -29,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -46,13 +41,16 @@ public class PaperUploadServiceImpl implements PaperUploadService {
     @Autowired
     private TikuCommonService tikuCommonService;
 
+    @Autowired
+    private ValuableBookService valuableBookService;
+
     @Value("${courseTemplateAttachmentPath:/course_template/attachment/}")
     private String templateFilePath;
 
 
     @Override
     public void downloadPdf(DownloadPdfParamInfo paramInfo, String templatePath, String fontPath, String basePath) {
-        log.info("executeDownloadPdfTask ===== start, param={}", JSON.toJSONString(paramInfo));
+        log.info("downloadPdf ===== start, param={}", JSON.toJSONString(paramInfo));
         try {
             PaperSearchingDTO condition = new PaperSearchingDTO();
             condition.setInvalidFlag(paramInfo.getInvalidFlag());
@@ -61,7 +59,7 @@ public class PaperUploadServiceImpl implements PaperUploadService {
             List<Integer> provinceIds = ApiUtils.convertStringToInteger(paramInfo.getProvinceIds());
 
             if (CollectionUtils.isEmpty(subjectIds)) {
-                subjectIds = tikuCommonService.getAllSubjectId();
+                subjectIds = tikuCommonService.getAllSubjectIds();
             }
 
             if (StringUtils.isNotEmpty(paramInfo.getBeginSession()) && StringUtils.isNotEmpty(paramInfo.getEndSession())) {
@@ -72,7 +70,7 @@ public class PaperUploadServiceImpl implements PaperUploadService {
             Set<Integer> knowledgeTreeIds = tikuCommonService.queryKnowledgeTreeIdsByCondition(subjectIds,
                     provinceIds, null);
             if (CollectionUtils.isEmpty(knowledgeTreeIds)) {
-                log.error("executeDownloadPdfTask ===== 此科目/省份对应的知识树不存在!param:{}", JSON.toJSONString(paramInfo));
+                log.error("downloadPdf ===== 此科目/省份对应的知识树不存在!paramInfo={}", paramInfo);
                 return;
             }
             condition.setKnowledgeTreeIds(knowledgeTreeIds);
@@ -81,7 +79,7 @@ public class PaperUploadServiceImpl implements PaperUploadService {
             condition.setPaperType(paramInfo.getExerciseType());
 
             Integer totalNum = teachPaperService.getPaperListCountByCondition(condition);
-            log.info("executeDownloadPdfTask ===== 试卷数量, totalNum={}", totalNum);
+            log.info("downloadPdf ===== 试卷数量, totalNum={}", totalNum);
 
             Integer pageNo = 1;//当前页码
             Integer pageSize = 100;//每页显示的条目数
@@ -98,26 +96,60 @@ public class PaperUploadServiceImpl implements PaperUploadService {
                 this.batchDownloadPdf(paperList, templatePath, fontPath, basePath);
                 Thread.sleep(1000);
             }
-            log.info("executeDownloadPdfTask ===== end, param={}", JSON.toJSONString(paramInfo));
+            log.info("downloadPdf ===== end, param={}", JSON.toJSONString(paramInfo));
         } catch (Exception e) {
-            log.error("executeDownloadPdfTask ===== fail", e);
+            log.error("downloadPdf ===== fail", e);
             throw new RuntimeException(e);
         }
     }
 
     @Override
     public void downloadPdfByPaperCodes(String paperCodes, String templatePath, String fontPath, String basePath) {
-        log.info("executeDownloadPdfByPaperCodesTask ===== start, param={}", paperCodes);
+        log.info("downloadPdfByPaperCodes ===== start, param={}", paperCodes);
         try {
             List<String> paperCodeList = ApiUtils.convertStringToList(paperCodes);
             // 获取试卷list
             List<PaperInfoDTO> paperList = teachPaperService.getPaperListByPaperCodes(paperCodeList);
-            log.info("executeDownloadPdfByPaperCodesTask ===== 试卷数量, totalNum={}", paperList.size());
+            log.info("downloadPdfByPaperCodes ===== 试卷数量, totalNum={}", paperList.size());
             //批量下载pdf
             this.batchDownloadPdf(paperList, templatePath, fontPath, basePath);
-            log.info("executeDownloadPdfByPaperCodesTask ===== end, param={}", paperCodes);
+            log.info("downloadPdfByPaperCodes ===== end, param={}", paperCodes);
         } catch (Exception e) {
-            log.error("executeDownloadPdfByPaperCodesTask ===== fail", e);
+            log.error("downloadPdfByPaperCodes ===== fail", e);
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void downloadValuableBookTask(String subjectIdStr, String provinceIdStr) {
+        log.info("downloadValuableBookTask ===== start, subjectIdStr={}, provinceIdStr={}", subjectIdStr, provinceIdStr);
+        try {
+            List<Integer> subjectIds = ApiUtils.convertStringToInteger(subjectIdStr);
+            List<Integer> provinceIds = ApiUtils.convertStringToInteger(provinceIdStr);
+            if (CollectionUtils.isEmpty(subjectIds)) {
+                subjectIds = tikuCommonService.getAllSubjectIds();
+            }
+            if (CollectionUtils.isEmpty(provinceIds)) {
+                List<ResProvinceDTO> allProvinces = tikuCommonService.getAllProvinces();
+                provinceIds = allProvinces.stream().map(item -> item.getId()).collect(Collectors.toList());
+            }
+            //科目+省份对应的知识树
+            Set<Integer> knowledgeTreeIds = tikuCommonService.queryKnowledgeTreeIdsByCondition(subjectIds,
+                    provinceIds, null);
+            if (CollectionUtils.isEmpty(knowledgeTreeIds)) {
+                log.error("downloadValuableBookTask ===== 此科目/省份对应的知识树不存在!subjectIdStr={}, provinceIdStr={}", subjectIdStr, provinceIdStr);
+                return;
+            }
+            for (Integer knowledgeTreeId : knowledgeTreeIds) {
+                try {
+                    valuableBookService.batchCreateFilePath(knowledgeTreeId);
+                } catch (Exception e) {
+                    log.error("downloadValuableBookTask error ===== knowledgeTreeId:{}, e:{}", knowledgeTreeId, e);
+                }
+            }
+            log.info("downloadValuableBookTask ===== end, subjectIdStr={}, provinceIdStr={}", subjectIdStr, provinceIdStr);
+        } catch (Exception e) {
+            log.error("downloadValuableBookTask ===== fail", e);
             throw new RuntimeException(e);
         }
     }

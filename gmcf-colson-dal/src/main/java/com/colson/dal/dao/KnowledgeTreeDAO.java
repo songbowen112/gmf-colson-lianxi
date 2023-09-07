@@ -1,8 +1,8 @@
-package com.sunlands.knowledgeTree.dao;
+package com.colson.dal.dao;
 
-import com.sunlands.common.dto.ResSubjectDTO;
-import com.sunlands.knowledgeTree.dmo.*;
-import com.sunlands.knowledgeTree.dto.*;
+import com.colson.dal.demo.KnowledgeTree;
+import com.colson.dal.demo.SubjectAIRel;
+import com.colson.dal.dto.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.StatementType;
 import org.springframework.stereotype.Repository;
@@ -23,7 +23,7 @@ public interface KnowledgeTreeDAO {
             "INSERT INTO t_knowledge_tree (subject_id,creator,operator)VALUES(#{resKnowledgeTreeDTO.subjectId},#{resKnowledgeTreeDTO.operator},#{resKnowledgeTreeDTO.operator})"
     })
     @SelectKey(before = false, keyProperty = "resKnowledgeTreeDTO.id", resultType = int.class, statementType = StatementType.STATEMENT, statement = "SELECT LAST_INSERT_ID()")
-    int insertKnowledgeTree(@Param("resKnowledgeTreeDTO")ResKnowledgeTreeDTO resKnowledgeTreeDTO);
+    int insertKnowledgeTree(@Param("resKnowledgeTreeDTO") ResKnowledgeTreeDTO resKnowledgeTreeDTO);
     /**
      * 新增知识点
      * @param node
@@ -48,53 +48,6 @@ public interface KnowledgeTreeDAO {
     int updateKnowledgeNode(KnowledgeNode node);
 
     /**
-     * 保存知识树和省份、二级项目的关系
-     * @param rel
-     * @return
-     */
-    @Insert({
-            "INSERT INTO t_knowledge_tree_province_proj2nd_rel (knowledge_tree_id,province_id,project_2nd_id,creator,operator)" ,
-            "VALUES(#{knowledgeTreeId},#{provinceId},#{project2ndId},#{creator},#{operator})"
-    })
-    int saveKnowledgeTreeRel(KnowledgeTreeProvincePro2ndRel rel);
-    /**
-     * 保存重选时重置操作人
-     * @param rel
-     * @return
-     */
-    @Update({
-            "<script>" ,
-            "UPDATE t_knowledge_tree_province_proj2nd_rel SET" ,
-            "operator = #{operator}" ,
-            "WHERE knowledge_tree_id = #{knowledgeTreeId} and province_id = #{provinceId}" ,
-            "<if test=\"project2ndId == null\">and project_2nd_id is null</if>" ,
-            "<if test=\"project2ndId != null\">and project_2nd_id = #{project2ndId}</if>" ,
-            "</script>"
-    })
-    int updateKnowledgeTreeRel(KnowledgeTreeProvincePro2ndRel rel);
-    /**
-     * 根据条件查询知识树
-     * @param subjectId
-     * @param provinceId
-     * @param project2ndId
-     * @return
-     */
-    @Select({
-            "<script>" ,
-            "SELECT b.id,b.subject_id as subjectId,c.name,b.creator,b.operator,b.create_time as createTime,b.update_time as updateTime,b.delete_flag as deleteFlag" ,
-            "FROM t_knowledge_tree_province_proj2nd_rel a" ,
-            "LEFT JOIN t_knowledge_tree b on a.knowledge_tree_id = b.id and b.delete_flag = 0" ,
-            "LEFT JOIN ent_subject c on c.id = b.subject_id and c.delete_flag = 0" ,
-            "where a.delete_flag = 0 " ,
-            "and b.subject_id = #{subjectId} and a.province_id = #{provinceId}" ,
-            "<if test=\"project2ndId != null\">and a.project_2nd_id = #{project2ndId}</if>" ,
-            "<if test=\"project2ndId == null\">and a.project_2nd_id is null</if>" ,
-            "limit 1" ,
-            "</script>"
-    })
-    KnowledgeTree getKnowledgeTreeByCondition(@Param("subjectId") Integer subjectId, @Param("provinceId") Integer provinceId, @Param("project2ndId") Integer project2ndId);
-
-    /**
      * 根据条件查询知识树
      * @param subjectId
      * @param provinceId
@@ -109,23 +62,6 @@ public interface KnowledgeTreeDAO {
             "</script>"
     })
     Integer getKnowledgeTreeIdByCondition(@Param("subjectId") Integer subjectId, @Param("provinceId") Integer provinceId);
-
-    @Select({
-            "SELECT id,knowledge_tree_id as knowledgeTreeId,province_id as provinceId,project_2nd_id as project2ndId,create_time as creatTime,update_time as updateTime,creator,operator,delete_flag as deleteFlag" ,
-            " from t_knowledge_tree_province_proj2nd_rel where knowledge_tree_id = #{knowledgeTreeId} and delete_flag = 0"
-    })
-    List<KnowledgeTreeProvincePro2ndRel> queryRelListByKnowledgeTreeId(@Param("knowledgeTreeId") Integer knowledgeTreeId);
-
-    /**
-     * 查询是否存在当前关联关系
-     * @param rel
-     * @return
-     */
-    @Select({
-            "SELECT COUNT(*) from t_knowledge_tree_province_proj2nd_rel " ,
-            "where knowledge_tree_id = #{knowledgeTreeId} and province_id = #{provinceId} and project_2nd_id = #{project2ndId} and delete_flag = 0"
-    })
-    int checkKnowledgeTreeRelByCondition(KnowledgeTreeProvincePro2ndRel rel);
 
     /**
      * 删除知识树的关联二级项目和省份
@@ -193,7 +129,7 @@ public interface KnowledgeTreeDAO {
 //        "order by id desc" ,  // 排序测试用
         "</script>"
     })
-    List<ResKnowledgeNodeDTO> queryChildrenByCondition(@Param("knowledgeTreeId") Integer knowledgeTreeId,@Param("level") Integer level, @Param("parentNodeId") Integer parentNodeId,
+    List<ResKnowledgeNodeDTO> queryChildrenByCondition(@Param("knowledgeTreeId") Integer knowledgeTreeId, @Param("level") Integer level, @Param("parentNodeId") Integer parentNodeId,
                                                        @Param("invalidFlag") Integer invalidFlag);
     /**
      * add by xiayimin 20170815
@@ -311,23 +247,6 @@ public interface KnowledgeTreeDAO {
    })
    KnowledgeNode getKnowledgeNodeById(@Param("id") Integer id);
 
-   /*
-   根据treeId得到知识树下所有的末级节点（附带所有层级的父节点）
-    */
-   @Select({
-           "SELECT kn1.id as nodeId1, kn1.serial_number as serialNumber1, kn1.name as name1",
-           ",kn2.id as nodeId2, kn2.serial_number as serialNumber1, kn2.name as name2",
-           ",kn3.id as nodeId3, kn3.serial_number as serialNumber3, kn3.name as name3",
-           ",kn4.id as nodeId4, kn4.serial_number as serialNumber4, kn4.name as name4",
-           "FROM t_knowledge_node kn1",
-           "LEFT JOIN t_knowledge_node kn2 on kn1.id = kn2.parent_node_id",
-           "LEFT JOIN t_knowledge_node kn3 on kn2.id = kn3.parent_node_id",
-           "LEFT JOIN t_knowledge_node kn4 on kn3.id = kn4.parent_node_id",
-           "WHERE  kn1.knowledge_tree_id = #{treeId}",
-           "AND  kn1.level=1"
-   })
-   List<KnowNodeWithParent> getKnowNodeWithParent(@Param("treeId") Integer treeId);
-
     /**
      * 校验当前末级知识点是否挂题
      * @param knowledgeNodeId
@@ -386,18 +305,6 @@ public interface KnowledgeTreeDAO {
             "values (#{knowledgeTreeId},#{operator}, #{description})"
     })
     int insertKnowledgeTreeEditLog(@Param("knowledgeTreeId") Integer knowledgeTreeId, @Param("operator") String oprator, @Param("description") String description);
-
-    /**
-     * 根据知识树id查询最近一次修改记录
-     * @param knowledgeTreeId
-     * @return
-     */
-    @Select({
-            "SELECT id,knowledge_tree_id knowledgeTreeId,operator,operate_time operateTime,description" ,
-            "FROM t_knowledge_tree_edit_log where knowledge_tree_id = #{knowledgeTreeId}" ,
-            "ORDER BY operate_time DESC LIMIT 1;"
-    })
-    KnowledgeTreeEditLog queryKnowledgeTreeEditLogByKnowledgeTreeId(@Param("knowledgeTreeId") Integer knowledgeTreeId);
 
     /**
      * 查询省份在当前科目下的知识树
@@ -531,42 +438,8 @@ public interface KnowledgeTreeDAO {
             "</script>"})
     List<ResKnowledgeNodeDTO> queryChildrenNodeWithInvalidAndDelete(@Param("knowledgeTreeId") Integer knowledgeTreeId,@Param("level") Integer level, @Param("parentNodeId") Integer parentNodeId);
 
-    @Select({"<script>",
-            "SELECT SQL_CALC_FOUND_ROWS",
-            "   a.id as subjectId, a.`name` as subjectName, b.id as knowledgeTreeId, ",
-            "   GROUP_CONCAT(DISTINCT d.province_name ORDER BY d.id ASC) as provinces, count(DISTINCT e.id) as chargeCount",
-            "FROM ent_subject as a ",
-            "INNER JOIN t_knowledge_tree as b ON b.subject_id = a.id AND a.delete_flag = 0",
-            "INNER JOIN t_knowledge_tree_province_proj2nd_rel as c ON c.knowledge_tree_id = b.id AND c.delete_flag = 0",
-            "INNER JOIN sch_local_province as d ON d.id = c.province_id",
-            "LEFT JOIN t_knowledge_tree_charge as e ON e.knowledge_tree_id = b.id AND e.delete_flag = 0",
-            "WHERE a.delete_flag = 0",
-            "<if test=\"subjectId != null\"> AND a.id = #{subjectId} </if>" ,
-            "<if test=\"knowledgeTreeId != null\"> AND b.id = #{knowledgeTreeId}</if>" ,
-            "GROUP BY b.id",
-            "LIMIT #{startIndex}, #{pageSize}",
-            "</script>"})
-    List<KnowledgeTreeChargeDTO> listChargeInfo(@Param("subjectId") Integer subjectId,
-                                                @Param("knowledgeTreeId") Integer knowledgeTreeId,
-                                                @Param("startIndex") int startIndex,
-                                                @Param("pageSize") int pageSize);
-
-    @Select({"SELECT a.charge_teacher_id as chargeTeacherId, a.charge_teacher_name as chargeTeacherName, a.charge_teacher_email as chargeTeacherEmail",
-            "FROM t_knowledge_tree_charge as a",
-            "WHERE a.delete_flag = 0 AND a.knowledge_tree_id = #{knowledgeTreeId}"})
-    List<KnowledgeTreeChargeTeacherDTO> listKnowledgeTreeChargeTeacher(@Param("knowledgeTreeId") Integer knowledgeTreeId);
-
     @Delete({"UPDATE t_knowledge_tree_charge SET delete_flag = 1 WHERE knowledge_tree_id = #{knowledgeTreeId}"})
     void deleteKnowledgeCharge(@Param("knowledgeTreeId") Integer knowledgeTreeId);
-
-    @Insert({"<script>",
-            "INSERT INTO `t_knowledge_tree_charge`(`knowledge_tree_id`, `charge_teacher_id`, `charge_teacher_email`, `charge_teacher_name`) VALUES ",
-            "<foreach collection = \"chargeList\" item = \"charge\" separator = \",\">",
-            "(#{knowledgeTreeId}, #{charge.chargeTeacherId}, #{charge.chargeTeacherEmail}, #{charge.chargeTeacherName})",
-            "</foreach>",
-            "</script>"})
-    void insertKnowledgeCharge(@Param("knowledgeTreeId") Integer knowledgeTreeId,
-                               @Param("chargeList") List<KnowledgeTreeChargeTeacherDTO> chargeList);
 
     @Select({"SELECT knowledge_tree_id",
             "FROM t_knowledge_tree_charge",
@@ -590,6 +463,4 @@ public interface KnowledgeTreeDAO {
             "</script>"})
     List<ResSubjectDTO> listSubjectByTreeId(@Param("treeIdList") Collection<Integer> treeIdList);
 
-    @Select({"SELECT 1,1,1,1,FOUND_ROWS() as chargeCount"})
-    KnowledgeTreeChargeDTO countChargeInfo(Integer subjectId, Integer knowledgeTreeId, int startIndex, Integer pageSize);
 }

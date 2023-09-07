@@ -1,13 +1,7 @@
-package com.sunlands.analyze.docx4j;
+package com.colson.common.docx4j;
 
-import com.shangde.common.exception.BaseException;
-import com.shangde.common.exception.ExceptionCategory;
-import com.sunlands.common.util.PathUtil;
-import com.sunlands.common.util.fs.FileSystemFactory;
-import com.sunlands.common.util.fs.SunlandsFileSystem;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.lucene.queryparser.surround.query.SrndTermQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,40 +22,14 @@ public class SfsUploadHandler extends AbstractCrossDictHandler {
 
     private String fileName;
 
-    private String knowledgeTreeId;
-
-    private String examProvinceId;
-
-    private SunlandsFileSystem sunlandsFileSystem;
-
-    private String basePath;
-
-    private String charsetName;
-
-    private String sfsPath;
-
     /**
      * 构造方法
      * @param ware              CrossDictBuilder对象
      * @param fileName          文件名称
-     * @param knowledgeTreeId   知识树ID
-     * @param examProvinceId    考试省份ID
-     * @param sunlandsFileSystem          sfs工具类
-     * @param basePath          sfs上传基路径
-     * @param charsetName       文件名getBytes编码
      */
-    public SfsUploadHandler(WordMLPackageWare ware, String fileName, String knowledgeTreeId, String examProvinceId, SunlandsFileSystem sunlandsFileSystem, String basePath, String charsetName) {
+    public SfsUploadHandler(WordMLPackageWare ware, String fileName) {
         super(ware);
         this.fileName = fileName;
-        this.knowledgeTreeId = knowledgeTreeId;
-        this.examProvinceId = examProvinceId;
-        this.sunlandsFileSystem = sunlandsFileSystem;
-        this.basePath = basePath;
-        this.charsetName = charsetName;
-    }
-
-    public String getSfsPath() {
-        return this.sfsPath;
     }
 
     @Override
@@ -72,18 +40,8 @@ public class SfsUploadHandler extends AbstractCrossDictHandler {
         try {
             File tmpFile = getFile(fileName);
 
-            in = new FileInputStream(tmpFile);
-            String fileMd5 = DigestUtils.md5Hex(in);
-            String uploadPath = basePath + fileMd5 + "/" + fileName;
-            String sfsUrl = sunlandsFileSystem.createFile(uploadPath, tmpFile);
-            if (StringUtils.isNotEmpty(sfsUrl)) {
-                logger.info("upload \"{}\" to sfs: {} success, path: \"{}\"", fileName, sfsUrl, uploadPath);
-            } else {
-                logger.error("upload \"{}\" to sfs: {} failure", fileName, sfsUrl);
-            }
-            this.sfsPath = sfsUrl;
         } catch (Exception e) {
-            throw new BaseException(ExceptionCategory.Illegal_Parameter,
+            throw new RuntimeException(
                     "将上传到服务器中的文件读取出来存入sfs文件服务器时出现错误！" + e.getMessage());
         } finally {
             try {
@@ -93,7 +51,6 @@ public class SfsUploadHandler extends AbstractCrossDictHandler {
             } catch (IOException e) {
                 logger.error(e.getMessage());
             }
-            deleteFile(fileName);
         }
     }
 

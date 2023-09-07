@@ -1,4 +1,4 @@
-package com.sunlands.analyze.dto;
+package com.colson.dal.dto;
 
 
 import lombok.Data;

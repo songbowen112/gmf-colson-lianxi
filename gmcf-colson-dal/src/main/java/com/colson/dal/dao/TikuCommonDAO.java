@@ -1,5 +1,7 @@
 package com.colson.dal.dao;
 
+import com.colson.dal.dto.ResProvinceDTO;
+import com.colson.dal.dto.ResSubjectAndProvinceDTO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.StatementType;
 import org.springframework.stereotype.Repository;
@@ -90,5 +92,48 @@ public interface TikuCommonDAO {
             "group by c.id",
     })
     List<Integer> getAllSubjectId();
+
+    /**
+     * 获取所有省份列表（不包含全国）
+     *
+     * @return
+     */
+    @Select({
+            "select lp.id,lp.province_name name from sch_local_province lp where lp.delete_flag=0 and lp.province_name != '全国'"
+    })
+    List<ResProvinceDTO> getAllProvinces();
+
+    /**
+     * 根据科目id，省份id和二级项目id获取真题归属省份列表
+     * @param knowledgeTreeId
+     * @return
+     */
+    @Select({
+            "SELECT lp.id,lp.province_name name ",
+            "FROM sch_local_province lp",
+            "INNER JOIN t_question_main_exam_session_province sq ON sq.exam_province = lp.id AND sq.delete_flag = 0",
+            "INNER JOIN t_question_main qm ON qm.id = sq.t_question_main_id",
+            "WHERE qm.knowledge_tree_id = #{knowledgeTreeId}",
+            "and qm.source_type='REAL_QUESTION'",
+            "and lp.delete_flag=0 and qm.delete_flag=0 and qm.invalid_flag=0 and qm.current_version = 1",
+            "group by lp.id"
+    })
+    List<ResProvinceDTO> getProvincesByknowledgeTreeId(@Param("knowledgeTreeId") Integer knowledgeTreeId);
+
+    /**
+     * 根据知识树id查询省份列表
+     * @param knowledgeTreeId
+     * @return
+     */
+    @Select({
+            "SELECT a.id provinceId ,c.subject_id subjectId " ,
+            "from sch_local_province a " ,
+            "INNER JOIN t_knowledge_tree_province_proj2nd_rel b on a.id = b.province_id " ,
+            "INNER JOIN t_knowledge_tree c on c.id = b.knowledge_tree_id " ,
+            "where a.delete_flag = 0 and b.delete_flag = 0 and c.delete_flag = 0" ,
+            "and c.id = #{knowledgeTreeId}" ,
+            "GROUP BY a.id, c.subject_id"
+    })
+    List<ResSubjectAndProvinceDTO> queryByKnowledgeTreeId(@Param("knowledgeTreeId") Integer knowledgeTreeId);
 
 }

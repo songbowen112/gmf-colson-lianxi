@@ -1,4 +1,4 @@
-package com.sunlands.knowledgeTree.dmo;
+package com.colson.dal.demo;
 
 import java.util.Date;
 

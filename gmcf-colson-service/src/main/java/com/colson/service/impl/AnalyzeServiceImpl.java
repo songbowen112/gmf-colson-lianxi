@@ -1,24 +1,17 @@
-package com.sunlands.analyze.service.impl;
+package com.colson.service.impl;
 
-import com.sunlands.analyze.dao.AnalyzeDAO;
-import com.sunlands.analyze.docx4j.*;
-import com.sunlands.analyze.dto.AnalyzeKnowledgeNodeDTO;
-import com.sunlands.analyze.service.AnalyzeService;
-import com.sunlands.analyze.service.ShortUrlService;
-import com.sunlands.common.QuestionTypeEnum;
-import com.sunlands.common.dao.ValuableBookDAO;
-import com.sunlands.common.dto.ShortUrlResultDTO;
-import com.sunlands.common.dto.ValuableBookFileInfoDTO;
-import com.sunlands.common.service.CommonService;
-import com.sunlands.common.util.fs.FileSystemFactory;
-import com.sunlands.common.util.fs.SunlandsFileSystem;
-import com.sunlands.knowledgeTree.dto.ResKnowledgeNodeDTO;
-import com.sunlands.knowledgeTree.dto.ResKnowledgeTreeDTO;
-import com.sunlands.knowledgeTree.dto.ResProvinceDTO;
-import com.sunlands.knowledgeTree.dto.outlineRequirementEnum;
-import com.sunlands.knowledgeTree.service.KnowledgeTreeService;
+import com.colson.common.docx4j.*;
+import com.colson.common.emum.OutlineRequirementEnum;
+import com.colson.common.emum.QuestionTypeEnum;
+import com.colson.common.utils.PathUtil;
+import com.colson.dal.dao.AnalyzeDAO;
+import com.colson.dal.dao.ValuableBookDAO;
+import com.colson.dal.dto.*;
+import com.colson.service.AnalyzeService;
+import com.colson.service.TikuCommonService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +22,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -41,12 +34,6 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
     private Logger logger = LoggerFactory.getLogger(AnalyzeServiceImpl.class);
 
-	@Value("${PUBLIC_READ_URL:}")
-	private String PUBLIC_READ_URL;
-
-	@Value("${BUSINESS_TYPE:}")
-	private String BUSINESS_TYPE;
-
 	@Value("${valuableBookPath:}")
 	private String valuableBookPath;
 
@@ -54,10 +41,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	AnalyzeDAO analyzeDAO;
 
 	@Autowired
-	KnowledgeTreeService knowledgeTreeService;
-
-	@Autowired
-	CommonService commonService;
+	TikuCommonService tikuCommonService;
 
 	private AnalyzeService self;
 
@@ -67,8 +51,6 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	@Autowired
 	private ValuableBookDAO valuableBookDAO;
 
-	@Autowired
-	private ShortUrlService shortUrlService;
 
 	/**
 	 * 获取自身代理类引用对象
@@ -108,92 +90,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	@Value("${ftp.charsetName:}")
 	private String charsetName;
 
-
-	@Override
-	public List<AnalyzeKnowledgeNodeDTO> analyzeKnowledgeNode(int knowTreeId, Integer provinceId, int targetLevel, List<String> examSession) {
-		List<AnalyzeKnowledgeNodeDTO> analyzeKnowledgeNodeDTOList = analyzeDAO.analyzeExam(knowTreeId, provinceId, targetLevel, examSession);
-		Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap = new HashMap<>();
-		int totalCountSum = 0;  //所有知识点的考察次数
-		BigDecimal totalScoreSum = new BigDecimal(0); //所有知识点的考察分值
-		for (AnalyzeKnowledgeNodeDTO analyzeKnowledgeNodeDTO : analyzeKnowledgeNodeDTOList) {
-			List<AnalyzeKnowledgeNodeDTO> analyzeList = analyzeMap.computeIfAbsent(analyzeKnowledgeNodeDTO.getSerialNumber(), k -> new ArrayList<>());
-			analyzeList.add(analyzeKnowledgeNodeDTO);
-			//计算该知识树下所有知识点的考察次数和考察分值
-			totalCountSum += analyzeKnowledgeNodeDTO.getCount();
-			totalScoreSum = totalScoreSum.add(analyzeKnowledgeNodeDTO.getScore());
-		}
-
-		return analyze(analyzeMap, totalCountSum, totalScoreSum);
-	}
-
-	@Override
-	public List<String> queryExamSession(int knowTreeId, Integer provinceId) {
-		return analyzeDAO.queryExamSession(knowTreeId, provinceId);
-	}
-
-    @Override
-    public void generateAnalyzeKnowledgeWordDoc(int knowTreeId, Integer provinceId, String examProvinceName, HttpServletResponse response) throws Exception {
-        /*
-        	生成考情分析文档分为3个步骤:
-        	1. 数据查询封装
-        		1.1 调用服务获取考情分析数据
-        		1.2 调用服务获取知识树数据
-        		1.3 组织封装数据成 Word文档生成需要的数据对象
-        	2. 制备文档
-        		2.1 首页数据填充处理
-        		2.2 章节数据填充处理
-        		2.3 目录刷新处理
-        	3. 输出文档到Ftp服务器
-         */
-		logger.debug("generateAnalyzeKnowledgeWordDoc({}, {}, {}) --- start", knowTreeId, provinceId, examProvinceName);
-		// 查询考试省份名称
-		if (null == examProvinceName || examProvinceName.trim().isEmpty()) {
-			List<ResProvinceDTO> provinces = commonService.getProvincesByknowledgeTreeId(knowTreeId);
-			if (null != provinces && !provinces.isEmpty()) {
-				for (ResProvinceDTO province : provinces) {
-					if (province.getId().equals(provinceId)) {
-						examProvinceName = province.getName();
-						break;
-					}
-				}
-			}
-		}
-		// 数据查询封装
-		ResKnowledgeTreeDTO treeNode = knowledgeTreeService.getKnowledgeTreeById(knowTreeId, null);
-		// 获取层级数据map
-		Map<String, CrossDictTableData> analyzeKnowledgeMap = packageAnalyzeKnowledgeToMap(knowTreeId, provinceId);
-		// 查询考期
-		List<String> examSessions = this.queryExamSession(knowTreeId, provinceId);
-		// 组织封装首页数据
-		CrossDictHomePage homePage = getCrossDictHomePage(treeNode, examSessions, examProvinceName);
-
-		// 添加首页处理器
-		SimpleCrossDict simpleCrossDict = simpleCrossDictTemplate.clone();
-		simpleCrossDict.addHandler(new XmlHomePageHandler(homePage, simpleCrossDict));
-
-		// 创建章节处理器
-		XmlChapterHandler chapterHandler = new XmlChapterHandler(simpleCrossDict);
-		// 封装章节知识数据
-		packageChapters(chapterHandler, treeNode, analyzeKnowledgeMap);
-		// 添加章节处理器
-		simpleCrossDict.addHandler(chapterHandler);
-		// 添加目录处理器
-		simpleCrossDict.addHandler(new UpdateTOCHandler(simpleCrossDict));
-		// 输出到浏览器
-		if (null != response) {
-			simpleCrossDict.addHandler(new HttpResponseHandler(simpleCrossDict, response, "通关宝典-" + treeNode.getName() + "-" + examProvinceName));
-		} else {
-			// 添加输出到FTP处理器
-			simpleCrossDict.addHandler(new FTPUploadHandler(simpleCrossDict, "通关宝典-" + treeNode.getName() + "-" + examProvinceName + ".docx", String.valueOf(knowTreeId), String.valueOf(provinceId), FTPUtils.getInstance(ftpUsername, ftpPassword, ftpIp, ftpPort), basePath, charsetName));
-		}
-		// 处理数据, 有可能因为数据原因导致处理出现异常
-		simpleCrossDict.handle();
-		// 输出文件
-		logger.debug("generateAnalyzeKnowledgeWordDoc({}, {}, {}) --- end", knowTreeId, provinceId, examProvinceName);
-    }
-
-	@Override
-	public String generateAnalyzeKnowledgeWordDoc(int knowTreeId, Integer provinceId, String examProvinceName) throws Exception {
+	public void generateAnalyzeKnowledgeWordDoc(int knowTreeId, Integer provinceId, String examProvinceName) throws Exception {
         /*
         	生成考情分析文档分为3个步骤:
         	1. 数据查询封装
@@ -209,7 +106,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		logger.info("generateAnalyzeKnowledgeWordDoc({}, {}, {}) --- start", knowTreeId, provinceId, examProvinceName);
 		// 查询考试省份名称
 		if (null == examProvinceName || examProvinceName.trim().isEmpty()) {
-			List<ResProvinceDTO> provinces = commonService.getProvincesByknowledgeTreeId(knowTreeId);
+			List<ResProvinceDTO> provinces = tikuCommonService.getProvincesByknowledgeTreeId(knowTreeId);
 			if (null != provinces && !provinces.isEmpty()) {
 				for (ResProvinceDTO province : provinces) {
 					if (province.getId().equals(provinceId)) {
@@ -220,7 +117,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 			}
 		}
 		// 数据查询封装
-		ResKnowledgeTreeDTO treeNode = knowledgeTreeService.getKnowledgeTreeById(knowTreeId, null);
+		ResKnowledgeTreeDTO treeNode = tikuCommonService.getKnowledgeTreeById(knowTreeId, null);
 		// 获取层级数据map
 		Map<String, CrossDictTableData> analyzeKnowledgeMap = packageAnalyzeKnowledgeToMap(knowTreeId, provinceId);
 		// 查询考期
@@ -242,105 +139,53 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 添加目录处理器
 		simpleCrossDict.addHandler(new UpdateTOCHandler(simpleCrossDict));
 
-		SunlandsFileSystem instance = FileSystemFactory.getSunlandsFileSystem();
 		String fileName = "通关宝典-" + treeNode.getName() + "-" + examProvinceName + ".docx";
+		fileName = PathUtil.getCurrentPath() + File.separator + fileName;
+
 		// 添加输出到SFS处理器
-		SfsUploadHandler sfsUploadHandler = new SfsUploadHandler(simpleCrossDict, fileName, String.valueOf(knowTreeId), String.valueOf(provinceId), instance, valuableBookPath, charsetName);
+		SfsUploadHandler sfsUploadHandler = new SfsUploadHandler(simpleCrossDict, fileName);
 		simpleCrossDict.addHandler(sfsUploadHandler);
+
+		//		handle(simpleCrossDict, fileName);
 		// 处理数据, 有可能因为数据原因导致处理出现异常
 		simpleCrossDict.handle();
-
 		// 输出文件
 		logger.info("generateAnalyzeKnowledgeWordDoc({}, {}, {}) --- end", knowTreeId, provinceId, examProvinceName);
-		return PUBLIC_READ_URL + sfsUploadHandler.getSfsPath();
 	}
 
-	@Override
-	public Integer queryExistsBySubjectAndProvince(Integer knowledgeTreeId) {
-		//考试省份写死35-全国
-		Integer examProvinceId = 35;
-		// 获取层级数据map
-		Map<String, CrossDictTableData> analyzeKnowledgeMap = packageAnalyzeKnowledgeToMap(knowledgeTreeId, examProvinceId);
-		List<String> examSessions = this.queryExamSession(knowledgeTreeId, examProvinceId);
-		if (null == analyzeKnowledgeMap || CollectionUtils.isEmpty(examSessions)) {
-			return 0;
-		} else {
-			return 1;
-		}
-	}
-
-	public List<AnalyzeKnowledgeNodeDTO> analyze(Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap,
-												 int totalCountSum, BigDecimal totalScoreSum) {
-		List<AnalyzeKnowledgeNodeDTO> analyzeList = new ArrayList<>();
-		//统计一个知识点所有题型的考察分值和考察次数, 并且统计前三种常考题型
-		for (String serialNumber : analyzeMap.keySet()) {
-			//获取一个知识点的所有题型的统计数据
-			List<AnalyzeKnowledgeNodeDTO> analyzeKnowNodeList = analyzeMap.get(serialNumber);
-			//没有统计数据则跳过该知识点,实际上这个判断的结果不会为true
-			if (CollectionUtils.isEmpty(analyzeKnowNodeList)) {
-				continue;
-			}
-			//如果只有一条试题类型为空的统计结果, 说明没有真题涉及到该知识点
-			if (analyzeKnowNodeList.size() == 1 && StringUtils.isBlank(analyzeKnowNodeList.get(0).getQuestionType())) {
-				analyzeList.add(analyzeKnowNodeList.get(0));
-				continue;
-			}
-
-			//拷贝一个 AnalyzeKnowledgeNodeDTO 对象, 统计该知识点所有题型的考察次数和分值
-			AnalyzeKnowledgeNodeDTO analyzeKnowNode = copyAnalyzeDTO(analyzeKnowNodeList.get(0));
-			analyzeKnowNode.setCount(0);
-			analyzeKnowNode.setScore(new BigDecimal(0));
-			analyzeKnowNode.setQuestionTypeStatistic(new ArrayList<AnalyzeKnowledgeNodeDTO>());
-
-			analyzeList.add(analyzeKnowNode);
-
-			//按照试题数量和总分排序analyzeKnowNodeList
-			Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareByCountAndScore();
-			Collections.sort(analyzeKnowNodeList, comparator);
-
-			//将一个知识点的前三种常考题型的统计结果 放到QuestionTypeStatistic列表里
-			for (AnalyzeKnowledgeNodeDTO analyzeNodeQuestionType : analyzeKnowNodeList) {
-				if (analyzeNodeQuestionType.getQuestionType() != null
-						&& analyzeKnowNode.getQuestionTypeStatistic().size() < 3) {
-					//计算该知识点下每种题型的考察次数占比和考察分值占比
-					float countPercent = (totalCountSum == 0 || analyzeNodeQuestionType.getCount() == 0) ? 0f : (float) analyzeNodeQuestionType.getCount() / totalCountSum;
-					analyzeNodeQuestionType.setCountPercent(floatToPercent(countPercent));
-					float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeNodeQuestionType.getScore()) == 0) ? 0f : analyzeNodeQuestionType.getScore().
-							divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
-					analyzeNodeQuestionType.setScorePercent(floatToPercent(scorePercent));
-					analyzeKnowNode.getQuestionTypeStatistic().add(analyzeNodeQuestionType);
+	public void handle(WordMLPackageWare ware, String fileName) throws Exception {
+		FileInputStream in = null;
+		fileName = PathUtil.getCurrentPath() + File.separator + fileName;
+		ware.getWordMLPackage().save(new File(fileName));
+		// 将上传到服务器中的文件读取出来存入sfs文件服务器
+		try {
+			File tmpFile = getFile(fileName);
+		} catch (Exception e) {
+			throw new RuntimeException("将上传到服务器中的文件读取出来存入sfs文件服务器时出现错误！" + e.getMessage());
+		} finally {
+			try {
+				if (in != null) {
+					in.close();
 				}
-				//计算该知识点所有题型的考察次数和分值
-				analyzeKnowNode.setCount(analyzeKnowNode.getCount() + analyzeNodeQuestionType.getCount());
-				analyzeKnowNode.setScore(analyzeKnowNode.getScore().add(analyzeNodeQuestionType.getScore()));
+			} catch (IOException e) {
+				logger.error(e.getMessage());
 			}
-
-			//计算该知识点所有题型的考察次数占比和考察分值占比
-			float countPercent = (totalCountSum == 0 || analyzeKnowNode.getCount() == 0) ? 0f : (float) analyzeKnowNode.getCount() / totalCountSum;
-			analyzeKnowNode.setCountPercent(floatToPercent(countPercent));
-			float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeKnowNode.getScore()) == 0) ? 0f : analyzeKnowNode.getScore().divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
-			analyzeKnowNode.setScorePercent(floatToPercent(scorePercent));
 		}
-		//按照知识点编号排序
-		Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareBySerialNumber();
-		analyzeList.sort(comparator);
-		return analyzeList;
 	}
 
-	private AnalyzeKnowledgeNodeDTO copyAnalyzeDTO (AnalyzeKnowledgeNodeDTO analyzeKnowledgeNodeDTO) {
-		AnalyzeKnowledgeNodeDTO analyzeKnowNode = new AnalyzeKnowledgeNodeDTO();
-		analyzeKnowNode.setSerialNumber(analyzeKnowledgeNodeDTO.getSerialNumber());
-		analyzeKnowNode.setSerialNumber(analyzeKnowledgeNodeDTO.getSerialNumber());
-		analyzeKnowNode.setNodeName(analyzeKnowledgeNodeDTO.getNodeName());
-		analyzeKnowNode.setLevel(analyzeKnowledgeNodeDTO.getLevel());
-		analyzeKnowNode.setOutlineRequirement(analyzeKnowledgeNodeDTO.getOutlineRequirement());
-		return analyzeKnowNode;
+	/**
+	 * 获取保存在服务器中的文件
+	 *
+	 * @param fileName
+	 * @return
+	 */
+	private File getFile(String fileName) throws Exception {
+		File file = new File(fileName);
+		if (!file.exists()) {
+			throw new Exception(fileName + "不存在");
+		}
+		return file;
 	}
-
-	private String floatToPercent(float num){
-		return String.format("%.2f%%", num * 100) ;
-	}
-
 
 	/**
 	 * 获取题型分析数据
@@ -396,7 +241,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
      */
 	private void putDataToMap(AnalyzeKnowledgeNodeDTO analyzeKnowledgeNodeDTO, Map<String, CrossDictTableData> resultMap) {
 	    // 转换大纲要求
-        String nameByCode = outlineRequirementEnum.getNameByCode(analyzeKnowledgeNodeDTO.getOutlineRequirement());
+        String nameByCode = OutlineRequirementEnum.getNameByCode(analyzeKnowledgeNodeDTO.getOutlineRequirement());
         // 构建表基础数据对象
         CrossDictTableData crossDictTableData = new CrossDictTableData(analyzeKnowledgeNodeDTO.getLevel().toString(), nameByCode);
         // 按照题型数据封装数据对象
@@ -484,60 +329,25 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		}
 		return node;
 	}
-
-	@Override
-	public ValuableBookFileInfoDTO queryValuableBookBySubjectAndProvince(Integer subjectId, Integer provinceId) {
-		Integer knowledgeTreeId = knowledgeTreeService.getKnowledgeTreeIdByCondition(subjectId, provinceId);
-		Assert.notNull(knowledgeTreeId, "知识树id不能为空");
-		String sfsPath = null;
-		String sfsShortPath = null;
-		try {
-			//考试省份写死35-全国
-			Integer examProvinceId = 35;
-			sfsPath = this.generateAnalyzeKnowledgeWordDoc(knowledgeTreeId, examProvinceId, null);
-			ShortUrlResultDTO shortUrl = shortUrlService.createShortUrl(sfsPath);
-			sfsShortPath = shortUrl.getShortUrl();
-		} catch (Exception e) {
-			logger.error("queryFilePathBySubjectAndProvince error, e:{}", e.getMessage());
-		}
-		if (StringUtils.isNotEmpty(sfsPath)) {
-			ValuableBookFileInfoDTO valuableBookFileInfoDTO = new ValuableBookFileInfoDTO();
-			valuableBookFileInfoDTO.setSubjectId(subjectId);
-			valuableBookFileInfoDTO.setProvinceId(provinceId);
-			valuableBookFileInfoDTO.setKnowledgeTreeId(knowledgeTreeId);
-			valuableBookFileInfoDTO.setFileLink(sfsPath);
-			valuableBookFileInfoDTO.setFileShortLink(sfsShortPath);
-			return valuableBookFileInfoDTO;
-		}
-		return null;
-	}
+	
 
 	@Override
 	public ValuableBookFileInfoDTO queryValuableBookByKnowledgeTreeId(Integer knowledgeTreeId) {
 		Assert.notNull(knowledgeTreeId, "知识树id不能为空");
 		String sfsPath = null;
-		String sfsShortPath = null;
 		try {
 			//考试省份写死35-全国
 			Integer examProvinceId = 35;
-			sfsPath = this.generateAnalyzeKnowledgeWordDoc(knowledgeTreeId, examProvinceId, null);
-			ShortUrlResultDTO shortUrl = shortUrlService.createShortUrl(sfsPath);
-			sfsShortPath = shortUrl.getShortUrl();
+			this.generateAnalyzeKnowledgeWordDoc(knowledgeTreeId, examProvinceId, null);
 		} catch (Exception e) {
 			logger.error("queryFilePathBySubjectAndProvince error, e:{}", e.getMessage());
 		}
 		if (StringUtils.isNotEmpty(sfsPath)) {
 			ValuableBookFileInfoDTO valuableBookFileInfoDTO = new ValuableBookFileInfoDTO();
 			valuableBookFileInfoDTO.setFileLink(sfsPath);
-			valuableBookFileInfoDTO.setFileShortLink(sfsShortPath);
 			return valuableBookFileInfoDTO;
 		}
 		return null;
-	}
-
-	@Override
-	public ValuableBookFileInfoDTO getValuableBookBySubjectIdAndProvinceId(Integer subjectId, Integer provinceId) {
-		return valuableBookDAO.getValuableBookBySubjectIdAndProvinceId(subjectId, provinceId);
 	}
 
 	@Override
@@ -551,7 +361,96 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	}
 
 	@Override
-	public Integer insertValuableBookFileInfoDTO(ValuableBookFileInfoDTO valuableBookFileInfoDTO) {
-		return valuableBookDAO.insertValuableBookFileInfoDTO(valuableBookFileInfoDTO);
+	public List<AnalyzeKnowledgeNodeDTO> analyzeKnowledgeNode(int knowTreeId, Integer provinceId, int targetLevel, List<String> examSession) {
+		List<AnalyzeKnowledgeNodeDTO> analyzeKnowledgeNodeDTOList = analyzeDAO.analyzeExam(knowTreeId, provinceId, targetLevel, examSession);
+		Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap = new HashMap<>();
+		int totalCountSum = 0;  //所有知识点的考察次数
+		BigDecimal totalScoreSum = new BigDecimal(0); //所有知识点的考察分值
+		for (AnalyzeKnowledgeNodeDTO analyzeKnowledgeNodeDTO : analyzeKnowledgeNodeDTOList) {
+			List<AnalyzeKnowledgeNodeDTO> analyzeList = analyzeMap.computeIfAbsent(analyzeKnowledgeNodeDTO.getSerialNumber(), k -> new ArrayList<>());
+			analyzeList.add(analyzeKnowledgeNodeDTO);
+			//计算该知识树下所有知识点的考察次数和考察分值
+			totalCountSum += analyzeKnowledgeNodeDTO.getCount();
+			totalScoreSum = totalScoreSum.add(analyzeKnowledgeNodeDTO.getScore());
+		}
+		return analyze(analyzeMap, totalCountSum, totalScoreSum);
 	}
+
+	public List<String> queryExamSession(int knowTreeId, Integer provinceId) {
+		return analyzeDAO.queryExamSession(knowTreeId, provinceId);
+	}
+
+	public List<AnalyzeKnowledgeNodeDTO> analyze(Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap,
+												 int totalCountSum, BigDecimal totalScoreSum) {
+		List<AnalyzeKnowledgeNodeDTO> analyzeList = new ArrayList<>();
+		//统计一个知识点所有题型的考察分值和考察次数, 并且统计前三种常考题型
+		for (String serialNumber : analyzeMap.keySet()) {
+			//获取一个知识点的所有题型的统计数据
+			List<AnalyzeKnowledgeNodeDTO> analyzeKnowNodeList = analyzeMap.get(serialNumber);
+			//没有统计数据则跳过该知识点,实际上这个判断的结果不会为true
+			if (CollectionUtils.isEmpty(analyzeKnowNodeList)) {
+				continue;
+			}
+			//如果只有一条试题类型为空的统计结果, 说明没有真题涉及到该知识点
+			if (analyzeKnowNodeList.size() == 1 && StringUtils.isBlank(analyzeKnowNodeList.get(0).getQuestionType())) {
+				analyzeList.add(analyzeKnowNodeList.get(0));
+				continue;
+			}
+
+			//拷贝一个 AnalyzeKnowledgeNodeDTO 对象, 统计该知识点所有题型的考察次数和分值
+			AnalyzeKnowledgeNodeDTO analyzeKnowNode = copyAnalyzeDTO(analyzeKnowNodeList.get(0));
+			analyzeKnowNode.setCount(0);
+			analyzeKnowNode.setScore(new BigDecimal(0));
+			analyzeKnowNode.setQuestionTypeStatistic(new ArrayList<AnalyzeKnowledgeNodeDTO>());
+
+			analyzeList.add(analyzeKnowNode);
+
+			//按照试题数量和总分排序analyzeKnowNodeList
+			Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareByCountAndScore();
+			Collections.sort(analyzeKnowNodeList, comparator);
+
+			//将一个知识点的前三种常考题型的统计结果 放到QuestionTypeStatistic列表里
+			for (AnalyzeKnowledgeNodeDTO analyzeNodeQuestionType : analyzeKnowNodeList) {
+				if (analyzeNodeQuestionType.getQuestionType() != null
+						&& analyzeKnowNode.getQuestionTypeStatistic().size() < 3) {
+					//计算该知识点下每种题型的考察次数占比和考察分值占比
+					float countPercent = (totalCountSum == 0 || analyzeNodeQuestionType.getCount() == 0) ? 0f : (float) analyzeNodeQuestionType.getCount() / totalCountSum;
+					analyzeNodeQuestionType.setCountPercent(floatToPercent(countPercent));
+					float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeNodeQuestionType.getScore()) == 0) ? 0f : analyzeNodeQuestionType.getScore().
+							divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
+					analyzeNodeQuestionType.setScorePercent(floatToPercent(scorePercent));
+					analyzeKnowNode.getQuestionTypeStatistic().add(analyzeNodeQuestionType);
+				}
+				//计算该知识点所有题型的考察次数和分值
+				analyzeKnowNode.setCount(analyzeKnowNode.getCount() + analyzeNodeQuestionType.getCount());
+				analyzeKnowNode.setScore(analyzeKnowNode.getScore().add(analyzeNodeQuestionType.getScore()));
+			}
+
+			//计算该知识点所有题型的考察次数占比和考察分值占比
+			float countPercent = (totalCountSum == 0 || analyzeKnowNode.getCount() == 0) ? 0f : (float) analyzeKnowNode.getCount() / totalCountSum;
+			analyzeKnowNode.setCountPercent(floatToPercent(countPercent));
+			float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeKnowNode.getScore()) == 0) ? 0f : analyzeKnowNode.getScore().divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
+			analyzeKnowNode.setScorePercent(floatToPercent(scorePercent));
+		}
+		//按照知识点编号排序
+		Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareBySerialNumber();
+		analyzeList.sort(comparator);
+		return analyzeList;
+	}
+
+	private AnalyzeKnowledgeNodeDTO copyAnalyzeDTO (AnalyzeKnowledgeNodeDTO analyzeKnowledgeNodeDTO) {
+		AnalyzeKnowledgeNodeDTO analyzeKnowNode = new AnalyzeKnowledgeNodeDTO();
+		analyzeKnowNode.setSerialNumber(analyzeKnowledgeNodeDTO.getSerialNumber());
+		analyzeKnowNode.setSerialNumber(analyzeKnowledgeNodeDTO.getSerialNumber());
+		analyzeKnowNode.setNodeName(analyzeKnowledgeNodeDTO.getNodeName());
+		analyzeKnowNode.setLevel(analyzeKnowledgeNodeDTO.getLevel());
+		analyzeKnowNode.setOutlineRequirement(analyzeKnowledgeNodeDTO.getOutlineRequirement());
+		return analyzeKnowNode;
+	}
+
+	private String floatToPercent(float num){
+		return String.format("%.2f%%", num * 100) ;
+	}
+
+
 }

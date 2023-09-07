@@ -1,5 +1,9 @@
 package com.colson.service;
 
+import com.colson.dal.dto.ResKnowledgeTreeDTO;
+import com.colson.dal.dto.ResProvinceDTO;
+import com.colson.dal.dto.ResSubjectAndProvinceDTO;
+
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
@@ -23,6 +27,19 @@ public interface TikuCommonService {
 
     List<Integer> getExamSessionIdsBySession(String beginSession, String endSession);
 
-    List<Integer> getAllSubjectId();
+    List<Integer> getAllSubjectIds();
+
+    List<ResProvinceDTO> getAllProvinces();
+
+    /**
+     * 根据科目id，省份id和二级项目id获取真题归属省份列表
+     *
+     * @return
+     */
+    List<ResProvinceDTO> getProvincesByknowledgeTreeId(Integer knowledgeTreeId);
+
+    List<ResSubjectAndProvinceDTO> queryByKnowledgeTreeId(Integer knowledgeTreeId);
+
+    ResKnowledgeTreeDTO getKnowledgeTreeById(Integer knowledgeTreeId, Integer invalidFlag);
 
 }

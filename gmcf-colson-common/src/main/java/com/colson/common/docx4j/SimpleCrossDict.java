@@ -1,6 +1,6 @@
-package com.sunlands.analyze.docx4j;
+package com.colson.common.docx4j;
 
-import java.io.*;
+import java.io.InputStream;
 
 /**
  * 类描述

@@ -1,4 +1,4 @@
-package com.sunlands.analyze.docx4j;
+package com.colson.common.docx4j;
 
 import org.docx4j.XmlUtils;
 

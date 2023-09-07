@@ -1,6 +1,6 @@
-package com.sunlands.analyze.dao;
+package com.colson.dal.dao;
 
-import com.sunlands.analyze.dto.AnalyzeKnowledgeNodeDTO;
+import com.colson.dal.dto.AnalyzeKnowledgeNodeDTO;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;

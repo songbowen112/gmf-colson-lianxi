@@ -1,4 +1,4 @@
-package com.sunlands.knowledgeTree.dto;
+package com.colson.dal.dto;
 
 import java.util.Date;
 import java.util.List;

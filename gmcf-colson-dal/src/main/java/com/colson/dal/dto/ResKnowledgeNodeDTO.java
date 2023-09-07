@@ -1,5 +1,6 @@
-package com.sunlands.knowledgeTree.dto;
+package com.colson.dal.dto;
 
+import com.colson.common.emum.OutlineRequirementEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public class ResKnowledgeNodeDTO {
     private Integer invalidFlag;
     private Integer parentNodeId;
     private String description;
-    private String outlineRequirementCode = outlineRequirementEnum.getCodeByName("无");  // 大纲要求code，默认无
+    private String outlineRequirementCode = OutlineRequirementEnum.getCodeByName("无");  // 大纲要求code，默认无
     private String outlineRequirementName; // 大纲要求name
     private String parentSerialNumber;  // ？待定
     private Integer knowledgeTreeId;
@@ -32,7 +33,7 @@ public class ResKnowledgeNodeDTO {
     private Integer unAuditQuestionNum;
 
     public ResKnowledgeNodeDTO(){}
-    public ResKnowledgeNodeDTO(String serialNumber, String name, Integer level, Integer knowledgeTreeId, String creator, String operator,String parentSerialNumber) {
+    public ResKnowledgeNodeDTO(String serialNumber, String name, Integer level, Integer knowledgeTreeId, String creator, String operator, String parentSerialNumber) {
         this.serialNumber = serialNumber;
         this.name = name;
         this.level = level;
