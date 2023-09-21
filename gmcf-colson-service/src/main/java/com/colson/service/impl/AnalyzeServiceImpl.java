@@ -71,7 +71,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 
 	static {
 		try {
-			simpleCrossDictTemplate = new SimpleCrossDict(AnalyzeServiceImpl.class.getClassLoader().getResourceAsStream("通关宝典模版.docx"));
+			simpleCrossDictTemplate = new SimpleCrossDict(AnalyzeServiceImpl.class.getClassLoader().getResourceAsStream("通关宝典模版2.docx"));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -146,31 +146,10 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		SfsUploadHandler sfsUploadHandler = new SfsUploadHandler(simpleCrossDict, fileName);
 		simpleCrossDict.addHandler(sfsUploadHandler);
 
-		//		handle(simpleCrossDict, fileName);
 		// 处理数据, 有可能因为数据原因导致处理出现异常
 		simpleCrossDict.handle();
 		// 输出文件
 		logger.info("generateAnalyzeKnowledgeWordDoc({}, {}, {}) --- end", knowTreeId, provinceId, examProvinceName);
-	}
-
-	public void handle(WordMLPackageWare ware, String fileName) throws Exception {
-		FileInputStream in = null;
-		fileName = PathUtil.getCurrentPath() + File.separator + fileName;
-		ware.getWordMLPackage().save(new File(fileName));
-		// 将上传到服务器中的文件读取出来存入sfs文件服务器
-		try {
-			File tmpFile = getFile(fileName);
-		} catch (Exception e) {
-			throw new RuntimeException("将上传到服务器中的文件读取出来存入sfs文件服务器时出现错误！" + e.getMessage());
-		} finally {
-			try {
-				if (in != null) {
-					in.close();
-				}
-			} catch (IOException e) {
-				logger.error(e.getMessage());
-			}
-		}
 	}
 
 	/**
@@ -308,24 +287,29 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 * @return
 	 */
 	private CrossDictChapterKnowledge getSubKnowledge(int level, ResKnowledgeNodeDTO treeNode, Map<String, CrossDictTableData> analyzeKnowledgeMap) {
+		// todo 只保留热门知识点
 		// 创建章节知识点
 		CrossDictTableData crossDictTableData = analyzeKnowledgeMap.get(treeNode.getSerialNumber());
+		CrossDictTableData.PerRowData perRowData = crossDictTableData.getPerRowDataList().get(0);
 		CrossDictChapterKnowledge node = new CrossDictChapterKnowledge(level, treeNode.getName(), crossDictTableData);
+
+		if (StringUtils.isNotEmpty(perRowData.getInvestigateScoreProportion()) && !"-".equals(perRowData.getInvestigateScoreProportion())) {
 //		System.out.println(treeNode.getName() + treeNode.getDescription());
-		if (null != treeNode.getDescription() && !treeNode.getDescription().isEmpty()) {
-			// 将Html文本切割为字符串集合数据
-			List<String> strings = Docx4jUtils.htmlParagraphSplit(treeNode.getDescription());
-			for (String string : strings) {
-				// 向节点中添加一个段落数据
-				node.addParagraph(string);
+			if (null != treeNode.getDescription() && !treeNode.getDescription().isEmpty()) {
+				// 将Html文本切割为字符串集合数据
+				List<String> strings = Docx4jUtils.htmlParagraphSplit(treeNode.getDescription());
+				for (String string : strings) {
+					// 向节点中添加一个段落数据
+					node.addParagraph(string);
+				}
 			}
-		}
-		List<ResKnowledgeNodeDTO> children = treeNode.getChildren();
-		if (null == children || children.isEmpty()) {
-			return node;
-		}
-		for (ResKnowledgeNodeDTO child : children) {
-			node.addSubChapter(getSubKnowledge(level + 1, child, analyzeKnowledgeMap));
+			List<ResKnowledgeNodeDTO> children = treeNode.getChildren();
+			if (null == children || children.isEmpty()) {
+				return node;
+			}
+			for (ResKnowledgeNodeDTO child : children) {
+				node.addSubChapter(getSubKnowledge(level + 1, child, analyzeKnowledgeMap));
+			}
 		}
 		return node;
 	}
@@ -383,6 +367,8 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	public List<AnalyzeKnowledgeNodeDTO> analyze(Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap,
 												 int totalCountSum, BigDecimal totalScoreSum) {
 		List<AnalyzeKnowledgeNodeDTO> analyzeList = new ArrayList<>();
+		float countPercent = 0;
+		float scorePercent = 0;
 		//统计一个知识点所有题型的考察分值和考察次数, 并且统计前三种常考题型
 		for (String serialNumber : analyzeMap.keySet()) {
 			//获取一个知识点的所有题型的统计数据
@@ -403,7 +389,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 			analyzeKnowNode.setScore(new BigDecimal(0));
 			analyzeKnowNode.setQuestionTypeStatistic(new ArrayList<AnalyzeKnowledgeNodeDTO>());
 
-			analyzeList.add(analyzeKnowNode);
+//			analyzeList.add(analyzeKnowNode);
 
 			//按照试题数量和总分排序analyzeKnowNodeList
 			Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareByCountAndScore();
@@ -414,9 +400,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 				if (analyzeNodeQuestionType.getQuestionType() != null
 						&& analyzeKnowNode.getQuestionTypeStatistic().size() < 3) {
 					//计算该知识点下每种题型的考察次数占比和考察分值占比
-					float countPercent = (totalCountSum == 0 || analyzeNodeQuestionType.getCount() == 0) ? 0f : (float) analyzeNodeQuestionType.getCount() / totalCountSum;
+					countPercent = (totalCountSum == 0 || analyzeNodeQuestionType.getCount() == 0) ? 0f : (float) analyzeNodeQuestionType.getCount() / totalCountSum;
 					analyzeNodeQuestionType.setCountPercent(floatToPercent(countPercent));
-					float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeNodeQuestionType.getScore()) == 0) ? 0f : analyzeNodeQuestionType.getScore().
+					scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeNodeQuestionType.getScore()) == 0) ? 0f : analyzeNodeQuestionType.getScore().
 							divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
 					analyzeNodeQuestionType.setScorePercent(floatToPercent(scorePercent));
 					analyzeKnowNode.getQuestionTypeStatistic().add(analyzeNodeQuestionType);
@@ -427,11 +413,16 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 			}
 
 			//计算该知识点所有题型的考察次数占比和考察分值占比
-			float countPercent = (totalCountSum == 0 || analyzeKnowNode.getCount() == 0) ? 0f : (float) analyzeKnowNode.getCount() / totalCountSum;
+			countPercent = (totalCountSum == 0 || analyzeKnowNode.getCount() == 0) ? 0f : (float) analyzeKnowNode.getCount() / totalCountSum;
 			analyzeKnowNode.setCountPercent(floatToPercent(countPercent));
-			float scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeKnowNode.getScore()) == 0) ? 0f : analyzeKnowNode.getScore().divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
+			scorePercent = (BigDecimal.ZERO.compareTo(totalScoreSum) == 0 || BigDecimal.ZERO.compareTo(analyzeKnowNode.getScore()) == 0) ? 0f : analyzeKnowNode.getScore().divide(totalScoreSum, 3, BigDecimal.ROUND_HALF_UP).floatValue();
 			analyzeKnowNode.setScorePercent(floatToPercent(scorePercent));
+
+			if (countPercent >= 0.005f) {
+				analyzeList.add(analyzeKnowNode);
+			}
 		}
+
 		//按照知识点编号排序
 		Comparator<AnalyzeKnowledgeNodeDTO> comparator = new AnalyzeKnowledgeNodeDTO.CompareBySerialNumber();
 		analyzeList.sort(comparator);
@@ -453,4 +444,9 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	}
 
 
+	public static void main(String[] args) {
+		float num = 0.05f;
+		AnalyzeServiceImpl analyzeService = new AnalyzeServiceImpl();
+		System.out.println(analyzeService.floatToPercent(num));
+	}
 }
