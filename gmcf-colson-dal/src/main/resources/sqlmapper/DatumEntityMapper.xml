@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.colson.dal.dao.DatumEntityMapper">
+  <resultMap id="BaseResultMap" type="com.colson.dal.model.DatumEntity">
+    <!--@mbg.generated-->
+    <!--@Table payment-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="packageId" jdbcType="INTEGER" property="packageId" />
+    <result column="fileName" jdbcType="VARCHAR" property="fileName" />
+    <result column="prefix" jdbcType="VARCHAR" property="prefix" />
+    <result column="fileUrl" jdbcType="VARCHAR" property="fileUrl" />
+    <result column="pro2Id" jdbcType="INTEGER" property="proj2Id" />
+    <result column="pro2Name" jdbcType="VARCHAR" property="proj2Name" />
+  </resultMap>
+
+    <select id="selectDatumBundleList" resultMap="BaseResultMap">
+    SELECT t.package_id packageId, d.id id,d.file_name fileName,t.pro2Id, t.pro2Name,
+        prefix as prefix,
+        file_path as fileUrl, create_time
+    FROM
+  ent_datum_bundle_detail d
+  INNER JOIN (
+     SELECT
+      id AS bundleId,
+      t.package_id,
+        t.pro2Id, t.pro2Name
+     FROM
+      ent_datum_bundle
+      INNER JOIN (
+          SELECT
+           package_id,
+           res_id,
+    t.pro2Id, t.pro2Name
+          FROM
+           ent_package_res join
+          (
+                SELECT
+                 ep.id packageId, pro2.id pro2Id, pro2.name pro2Name
+                FROM
+                 ent_package ep
+                 JOIN ent_college_projs projs ON ep.college_proj_id = projs.id
+                 JOIN ent_proj_2nd pro2 ON pro2.id = projs.proj_2nd_id
+                WHERE
+                 projs.id in (31,60,61,62,136,155,511,641,1001,1285,1286,1293,1884)
+<!--#                  ( SELECT college_proj_id FROM ent_package WHERE id = 1826240 )-->
+<!--#                   AND ep.status_code = 'PS_ON_SALE'-->
+           ) t on package_id = t.packageId
+        AND res_type_code = 'DATUM'
+           AND delete_flag = 0
+      ) t ON id = t.res_id
+     WHERE
+      status_code = 'AVAILABLE'
+      AND delete_flag = 0
+     GROUP BY
+      bundleId
+  ) t ON d.bundle_id = t.bundleId AND d.delete_flag = 0;
+    </select>
+
+</mapper>

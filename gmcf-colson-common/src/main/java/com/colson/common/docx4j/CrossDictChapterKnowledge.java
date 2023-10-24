@@ -23,6 +23,11 @@ public class CrossDictChapterKnowledge {
     private String chapterName;
 
     /**
+     * 标签
+     */
+    private String label;
+
+    /**
      * 思维导图图片
      */
     private byte[] imageBytes;
@@ -58,8 +63,19 @@ public class CrossDictChapterKnowledge {
         this.tableDataList = tableDataList;
     }
 
+    public CrossDictChapterKnowledge(int chapterLevel, String chapterName, String label, CrossDictTableData tableDataList) {
+        this.chapterLevel = chapterLevel;
+        this.chapterName = chapterName;
+        this.label = label;
+        this.tableDataList = tableDataList;
+    }
+
     public int getChapterLevel() {
         return chapterLevel;
+    }
+
+    public String getLabel() {
+        return label;
     }
 
     public String getChapterName() {

@@ -11,6 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 
+/**
+ * 通关宝典下载
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:/spring/applicationContext.xml"})
 public class ValuableBookTest {
@@ -21,6 +24,8 @@ public class ValuableBookTest {
     @Test
     public void downloadValuableBookTask() {
         String subjectIdStr = "";
+//        String subjectIdStr = "2,24,25,17";
+//        String subjectIdStr = "2";
         String provinceIdStr = "";
         paperUploadService.downloadValuableBookTask(subjectIdStr, provinceIdStr);
     }

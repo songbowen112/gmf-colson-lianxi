@@ -110,13 +110,13 @@ public class TikuCommonServiceImpl implements TikuCommonService {
         int hasQuestion = this.hasQuestion(knowledgeTree.getId());
         resKnowledgeTreeDTO.setHasQuestionFlag(hasQuestion);
         // 查询文字题&判断论述题是否开启AI判分标志位
-        SubjectAIRel subjectAIRel = knowledgeTreeDAO.selectAIJudgementBySubjectId(resKnowledgeTreeDTO.getSubjectId());
-        if (subjectAIRel != null) {
-            resKnowledgeTreeDTO.setEssayAIFlag(subjectAIRel.getEssayAIFlag());
-            resKnowledgeTreeDTO.setJudgeEssayAIFlag(subjectAIRel.getJudgeEssayAIFlag());
-            resKnowledgeTreeDTO.setOrderFillBlankAIFlag(subjectAIRel.getOrderFillBlankAIFlag());
-            resKnowledgeTreeDTO.setDisorderFillBlankAIFlag(subjectAIRel.getDisorderFillBlankAIFlag());
-        }
+//        SubjectAIRel subjectAIRel = knowledgeTreeDAO.selectAIJudgementBySubjectId(resKnowledgeTreeDTO.getSubjectId());
+//        if (subjectAIRel != null) {
+//            resKnowledgeTreeDTO.setEssayAIFlag(subjectAIRel.getEssayAIFlag());
+//            resKnowledgeTreeDTO.setJudgeEssayAIFlag(subjectAIRel.getJudgeEssayAIFlag());
+//            resKnowledgeTreeDTO.setOrderFillBlankAIFlag(subjectAIRel.getOrderFillBlankAIFlag());
+//            resKnowledgeTreeDTO.setDisorderFillBlankAIFlag(subjectAIRel.getDisorderFillBlankAIFlag());
+//        }
         return resKnowledgeTreeDTO;
     }
 

@@ -12,14 +12,18 @@
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://localhost:3306/ent_portal_prod"/>
-                <property name="username" value="root"/>
-                <property name="password" value="123"/>
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/ent_portal_prod"/>-->
+                <property name="url" value="jdbc:mysql://172.16.116.61:33061/ent_portal_prod?useUnicode=true&amp;characterEncoding=utf8"/>
+<!--                <property name="username" value="root"/>-->
+                <property name="username" value="ent_base_r"/>
+<!--                <property name="password" value="123"/>-->
+                <property name="password" value="pJpRdP80jI2nF9"/>
             </dataSource>
         </environment>
     </environments>
     <mappers>
         <mapper resource="sqlmapper/PaymentEntityMapper.xml"></mapper>
         <mapper resource="sqlmapper/AttachmentEntityMapper.xml"></mapper>
+        <mapper resource="sqlmapper/DatumEntityMapper.xml"></mapper>
     </mappers>
 </configuration>

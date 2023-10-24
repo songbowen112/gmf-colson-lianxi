@@ -25,7 +25,7 @@ public class XmlHomePageHandler extends AbstractCrossDictHandler {
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(2, XmlUtils.unmarshalString(xmlExamProvince(this.homePage.getExamProvince())));
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(3, XmlUtils.unmarshalString(xmlRealCoverDate(this.homePage.getRealCoverDate())));
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(13, XmlUtils.unmarshalString(xmlMainSubject(this.homePage.getSubject())));
-        this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(15, XmlUtils.unmarshalString(xmlTitle("通关宝典")));
+        this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(15, XmlUtils.unmarshalString(xmlTitle("牛哥自考高频考点")));
     }
 
     private String xmlSubject(String subject) {

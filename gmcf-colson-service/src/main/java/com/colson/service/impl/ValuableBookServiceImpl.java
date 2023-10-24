@@ -32,12 +32,12 @@ public class ValuableBookServiceImpl implements ValuableBookService {
     private TikuCommonService tikuCommonService;
 
     @Override
-    public void batchCreateFilePath(Integer knowledgeTreeId) {
+    public void batchCreateFilePath(Integer knowledgeTreeId, List<String> examSessionLimit) {
 //        ValuableBookFileInfoDTO bookFileInfoDTO = analyzeService.getValuableBookByKnowledgeTreeId(knowledgeTreeId);
 //        if (null != bookFileInfoDTO) {
 //            return;
 //        }
-        ValuableBookFileInfoDTO valuableBookFileInfoDTO = analyzeService.queryValuableBookByKnowledgeTreeId(knowledgeTreeId);
+        ValuableBookFileInfoDTO valuableBookFileInfoDTO = analyzeService.queryValuableBookByKnowledgeTreeId(knowledgeTreeId, examSessionLimit);
 //        if (null != valuableBookFileInfoDTO) {
 //            List<ResSubjectAndProvinceDTO> resSubjectAndProvinceDTOS = tikuCommonService.queryByKnowledgeTreeId(knowledgeTreeId);
 //            for (ResSubjectAndProvinceDTO resSubjectAndProvinceDTO : resSubjectAndProvinceDTOS) {

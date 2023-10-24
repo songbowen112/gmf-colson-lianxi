@@ -57,8 +57,19 @@ public interface AnalyzeDAO {
 			"AND q.source_type = 'REAL_QUESTION'",
 			"AND rel.exam_province = #{examProvinceId}",
 			"AND q.knowledge_tree_id = #{knowTreeId}",
+			"and s.year >= #{year} and s.month >= #{month}",
 			"GROUP BY rel.exam_session",
 			"ORDER BY s.`session` + 0 DESC"
 	})
-	List<String> queryExamSession(@Param("knowTreeId")int knowTreeId, @Param("examProvinceId") Integer examProvinceId);
+	List<String> queryExamSession(@Param("knowTreeId")int knowTreeId, @Param("examProvinceId") Integer examProvinceId, @Param("year") Integer year, @Param("month") Integer month);
+
+	@Select({
+			"select tes.session examSession " ,
+					"from t_question_main_exam_session_province  tqmesp" ,
+					"inner join t_exam_session tes on tqmesp.exam_session = tes.id" ,
+					"where tqmesp.exam_province = 35 and tes.year >= #{year} and tes.month >= #{month} and tes.delete_flag=0 and tqmesp.delete_flag=0" ,
+					"group by tes.session"
+	})
+	List<String> queryExamSessionByYearAndMonth(@Param("year") Integer year, @Param("month") Integer month);
+	
 }

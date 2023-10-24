@@ -49,7 +49,7 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
      * @throws JAXBException
      */
     private void printChapter(CrossDictChapterKnowledge chapter) throws Exception {
-        this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(XmlUtils.unmarshalString(xmlChapterTitle(chapter.getChapterLevel(), chapter.getChapterName())));
+        this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(XmlUtils.unmarshalString(xmlChapterTitle(chapter.getChapterLevel(), chapter.getChapterName(), chapter.getLabel())));
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(XmlUtils.unmarshalString(xmlParagraphBeforeTable(chapter.getChapterLevel())));
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(XmlUtils.unmarshalString(xmlTableDataList(chapter.getTableDataList())));
         this.ware.getWordMLPackage().getMainDocumentPart().getContent().add(XmlUtils.unmarshalString(xmlChapterDescription("")));
@@ -1221,7 +1221,7 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
      * @param chapterName 章节标题名称:
      * @return
      */
-    private String xmlChapterTitle(int level, String chapterName) {
+    private String xmlChapterTitle(int level, String chapterName, String label) {
         // &符号会引发xml解析异常, 先这么解决吧
         chapterName = chapterName.replaceAll("&", "and");
         if (chapterName.contains("<")) {
@@ -1255,6 +1255,13 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
                         "                                <w:rFonts w:ascii=\"微软雅黑\" w:hAnsi=\"微软雅黑\" w:hint=\"eastAsia\"/>\n" +
                         "                            </w:rPr>\n" +
                         "                            <w:t>" + chapterName + "</w:t>\n" +
+                        "                        </w:r>\n" +
+                        "                        <w:r w:rsidRPr=\"00E442BD\">\n" +
+                        "                            <w:rPr>\n" +
+                        "                                <w:rFonts w:ascii=\"微软雅黑\" w:hAnsi=\"微软雅黑\" w:hint=\"eastAsia\"/>\n" +
+                        "                                <w:color w:val=\"FF0000\"/>\n" +
+                        "                            </w:rPr>\n" +
+                        "                            <w:t>" + label + "</w:t>\n" +
                         "                        </w:r>\n" +
                         "                        <w:proofErr w:type=\"spellEnd\"/>\n" +
                         "                    </w:p>";
@@ -1294,6 +1301,13 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
                         "                            </w:rPr>\n" +
                         "                            <w:t>" + chapterName + "</w:t>\n" +
                         "                        </w:r>\n" +
+                        "                        <w:r w:rsidRPr=\"00E442BD\">\n" +
+                        "                            <w:rPr>\n" +
+                        "                                <w:rFonts w:ascii=\"微软雅黑\" w:hAnsi=\"微软雅黑\" w:hint=\"eastAsia\"/>\n" +
+                        "                                <w:color w:val=\"FF0000\"/>\n" +
+                        "                            </w:rPr>\n" +
+                        "                            <w:t>" + label + "</w:t>\n" +
+                        "                        </w:r>\n" +
                         "                        <w:bookmarkEnd w:id=\"2\"/>\n" +
                         "                        <w:proofErr w:type=\"spellEnd\"/>\n" +
                         "                    </w:p>";
@@ -1327,6 +1341,13 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
                         "                            </w:rPr>\n" +
                         "                            <w:t>" + chapterName + "</w:t>\n" +
                         "                        </w:r>\n" +
+                        "                        <w:r w:rsidRPr=\"00E442BD\">\n" +
+                        "                            <w:rPr>\n" +
+                        "                                <w:rFonts w:ascii=\"微软雅黑\" w:hAnsi=\"微软雅黑\" w:hint=\"eastAsia\"/>\n" +
+                        "                                <w:color w:val=\"FF0000\"/>\n" +
+                        "                            </w:rPr>\n" +
+                        "                            <w:t>" + label + "</w:t>\n" +
+                        "                        </w:r>\n" +
                         "                    </w:p>";
                 break;
             case 4:
@@ -1349,6 +1370,13 @@ public class XmlChapterHandler extends AbstractCrossDictHandler {
                         "                                <w:szCs w:val=\"24\"/>\n" +
                         "                            </w:rPr>\n" +
                         "                            <w:t>" + chapterName + "</w:t>\n" +
+                        "                        </w:r>\n" +
+                        "                        <w:r w:rsidRPr=\"00E442BD\">\n" +
+                        "                            <w:rPr>\n" +
+                        "                                <w:rFonts w:ascii=\"微软雅黑\" w:hAnsi=\"微软雅黑\" w:hint=\"eastAsia\"/>\n" +
+                        "                                <w:color w:val=\"FF0000\"/>\n" +
+                        "                            </w:rPr>\n" +
+                        "                            <w:t>" + label + "</w:t>\n" +
                         "                        </w:r>\n" +
                         "                        <w:bookmarkEnd w:id=\"5\"/>\n" +
                         "                    </w:p>";

@@ -12,6 +12,7 @@ import com.colson.service.TikuCommonService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
+import org.jsoup.helper.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,7 +91,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	@Value("${ftp.charsetName:}")
 	private String charsetName;
 
-	public void generateAnalyzeKnowledgeWordDoc(int knowTreeId, Integer provinceId, String examProvinceName) throws Exception {
+	public void generateAnalyzeKnowledgeWordDoc(int knowTreeId, Integer provinceId, String examProvinceName, List<String> examSessionLimit) throws Exception {
         /*
         	生成考情分析文档分为3个步骤:
         	1. 数据查询封装
@@ -118,10 +119,13 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		}
 		// 数据查询封装
 		ResKnowledgeTreeDTO treeNode = tikuCommonService.getKnowledgeTreeById(knowTreeId, null);
+
 		// 获取层级数据map
-		Map<String, CrossDictTableData> analyzeKnowledgeMap = packageAnalyzeKnowledgeToMap(knowTreeId, provinceId);
+		Map<String, CrossDictTableData> analyzeKnowledgeMap = packageAnalyzeKnowledgeToMap(knowTreeId, provinceId, examSessionLimit);
 		// 查询考期
-		List<String> examSessions = this.queryExamSession(knowTreeId, provinceId);
+		Integer year = 13;
+		Integer month = 4;
+		List<String> examSessions = this.queryExamSession(knowTreeId, provinceId, year, month);
 		Assert.isTrue(!CollectionUtils.isEmpty(examSessions),"考期不存在");
 		// 组织封装首页数据
 		CrossDictHomePage homePage = getCrossDictHomePage(treeNode, examSessions, examProvinceName);
@@ -139,7 +143,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		// 添加目录处理器
 		simpleCrossDict.addHandler(new UpdateTOCHandler(simpleCrossDict));
 
-		String fileName = "通关宝典-" + treeNode.getName() + "-" + examProvinceName + ".docx";
+		String fileName = "牛哥自考高频考点-" + treeNode.getName() + "-" + examProvinceName + ".docx";
 		fileName = PathUtil.getCurrentPath() + File.separator + fileName;
 
 		// 添加输出到SFS处理器
@@ -171,15 +175,16 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 * @param knowledgeId       知识树ID
 	 * @param provinceId        考试省份ID
 	 */
-	private Map<String, CrossDictTableData> packageAnalyzeKnowledgeToMap(int knowledgeId, int provinceId) {
+	private Map<String, CrossDictTableData> packageAnalyzeKnowledgeToMap(int knowledgeId, int provinceId, List<String> examSessionLimit) {
 		int initialCapacity = 16;
 		int maxLevel = 4;
 		Map<String, CrossDictTableData> resultMap = new HashMap<>(initialCapacity);
+
 		for (int i = 1; i <= maxLevel; i++) {
 		    // 遍历查询层级数据, 共4层
 			List<AnalyzeKnowledgeNodeDTO> analyzeKnowledgeNodeDTOS = null;
 			try {
-				analyzeKnowledgeNodeDTOS = getSelf().analyzeKnowledgeNode(knowledgeId, provinceId, i, new ArrayList<>());
+				analyzeKnowledgeNodeDTOS = getSelf().analyzeKnowledgeNode(knowledgeId, provinceId, i, examSessionLimit);
 			} catch (Exception e) {
 				logger.error("查询考情分析错误, 知识树id: {}, 考试省份id: {}, 层级: {}, 错误消息: {}", knowledgeId, provinceId, i, e.getMessage());
 				continue;
@@ -288,12 +293,48 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	 */
 	private CrossDictChapterKnowledge getSubKnowledge(int level, ResKnowledgeNodeDTO treeNode, Map<String, CrossDictTableData> analyzeKnowledgeMap) {
 		// todo 只保留热门知识点
+
 		// 创建章节知识点
 		CrossDictTableData crossDictTableData = analyzeKnowledgeMap.get(treeNode.getSerialNumber());
-		CrossDictTableData.PerRowData perRowData = crossDictTableData.getPerRowDataList().get(0);
-		CrossDictChapterKnowledge node = new CrossDictChapterKnowledge(level, treeNode.getName(), crossDictTableData);
 
-		if (StringUtils.isNotEmpty(perRowData.getInvestigateScoreProportion()) && !"-".equals(perRowData.getInvestigateScoreProportion())) {
+		/*
+			高频定义：考察次数>=12次
+			高分值定义：考察分值/考察次数>=3
+		*/
+		String label = "";
+		String investigateTimes = "";
+		String investigateScore = "";
+		CrossDictTableData.PerRowData perRowData = null;
+		if (crossDictTableData != null) {
+			perRowData = crossDictTableData.getPerRowDataList().get(0);
+			investigateTimes = perRowData.getInvestigateTimes();//考察次数
+			investigateScore = perRowData.getInvestigateScore();//考察分值
+		}
+
+		Boolean highFrequencyFlag = false;
+		Boolean highScoreFlag = false;
+		if (StringUtils.isNotEmpty(investigateTimes) && !"-".equals(investigateTimes)) {
+			Double times = Double.valueOf(investigateTimes);
+			if (times >= 12) {
+				highFrequencyFlag = true;
+			}
+			if (StringUtils.isNotEmpty(investigateScore) && !"-".equals(investigateScore)) {
+				Double score = Double.valueOf(investigateScore);
+				if(score/times >= 3) {
+					highScoreFlag = true;
+				}
+			}
+		}
+		if (highFrequencyFlag && highScoreFlag) {
+			label = "（高频/高分值）";
+		} else if (highFrequencyFlag) {
+			label = "（高频）";
+		} else if (highScoreFlag) {
+			label = "（高分值）";
+		}
+		CrossDictChapterKnowledge node = new CrossDictChapterKnowledge(level, treeNode.getName(), label, crossDictTableData);
+
+		if (null != perRowData && StringUtils.isNotEmpty(perRowData.getInvestigateScoreProportion()) && !"-".equals(perRowData.getInvestigateScoreProportion())) {
 //		System.out.println(treeNode.getName() + treeNode.getDescription());
 			if (null != treeNode.getDescription() && !treeNode.getDescription().isEmpty()) {
 				// 将Html文本切割为字符串集合数据
@@ -316,13 +357,13 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 	
 
 	@Override
-	public ValuableBookFileInfoDTO queryValuableBookByKnowledgeTreeId(Integer knowledgeTreeId) {
+	public ValuableBookFileInfoDTO queryValuableBookByKnowledgeTreeId(Integer knowledgeTreeId, List<String> examSessionLimit) {
 		Assert.notNull(knowledgeTreeId, "知识树id不能为空");
 		String sfsPath = null;
 		try {
 			//考试省份写死35-全国
 			Integer examProvinceId = 35;
-			this.generateAnalyzeKnowledgeWordDoc(knowledgeTreeId, examProvinceId, null);
+			this.generateAnalyzeKnowledgeWordDoc(knowledgeTreeId, examProvinceId, null, examSessionLimit);
 		} catch (Exception e) {
 			logger.error("queryFilePathBySubjectAndProvince error, e:{}", e.getMessage());
 		}
@@ -360,8 +401,8 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		return analyze(analyzeMap, totalCountSum, totalScoreSum);
 	}
 
-	public List<String> queryExamSession(int knowTreeId, Integer provinceId) {
-		return analyzeDAO.queryExamSession(knowTreeId, provinceId);
+	public List<String> queryExamSession(int knowTreeId, Integer provinceId, Integer year, Integer month) {
+		return analyzeDAO.queryExamSession(knowTreeId, provinceId, year, month);
 	}
 
 	public List<AnalyzeKnowledgeNodeDTO> analyze(Map<String, List<AnalyzeKnowledgeNodeDTO>> analyzeMap,

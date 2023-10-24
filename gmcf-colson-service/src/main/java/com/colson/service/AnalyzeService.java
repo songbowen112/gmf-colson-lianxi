@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AnalyzeService {
 
-	ValuableBookFileInfoDTO queryValuableBookByKnowledgeTreeId(Integer knowledgeTreeId);
+	ValuableBookFileInfoDTO queryValuableBookByKnowledgeTreeId(Integer knowledgeTreeId, List<String> examSessionLimit);
 
 	ValuableBookFileInfoDTO getValuableBookBySubjectAndProvinceAndKnowledgeTree(Integer subjectId, Integer provinceId, Integer knowledgeTreeId);
 

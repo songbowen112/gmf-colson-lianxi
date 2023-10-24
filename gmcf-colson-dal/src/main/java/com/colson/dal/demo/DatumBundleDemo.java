@@ -1,9 +1,9 @@
 package com.colson.dal.demo;
 
 import com.colson.dal.dao.AttachmentEntityMapper;
-import com.colson.dal.dao.PaymentEntityMapper;
+import com.colson.dal.dao.DatumEntityMapper;
 import com.colson.dal.model.AttachmentEntity;
-import com.colson.dal.model.PaymentEntity;
+import com.colson.dal.model.DatumEntity;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -22,10 +22,10 @@ import java.util.stream.Collectors;
 
 /**
  * @author song
- * @description: t_attachment取资料下载到本地
- * @date 2021/12/28 上午10:58
+ * @description: ent_datum_bundle_detail取资料下载到本地
+ * @date 2023/10/24 上午10:58
  */
-public class AttachmentDemo {
+public class DatumBundleDemo {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -40,33 +40,33 @@ public class AttachmentDemo {
             session = sqlSessionFactory.openSession();
 
             //第四步：获取Mapper接口对象
-            AttachmentEntityMapper attachmentEntityMapper = session.getMapper(AttachmentEntityMapper.class);
+            DatumEntityMapper datumEntityMapper = session.getMapper(DatumEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/attachment/";
+            String rootPath = "/Users/songbowen/datum/";
 
 
-            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentList();
-            Map<Integer, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getRoundId));
-            for (Map.Entry<Integer, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
-                Integer roundId = integerListEntry.getKey();
-                List<AttachmentEntity> entryValue = integerListEntry.getValue();
-                String roundName = entryValue.get(0).getRoundName();
-                String dirPath = rootPath + roundId + "_" + roundName;
+            List<DatumEntity> datumEntities = datumEntityMapper.selectDatumBundleList();
+            Map<Integer, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getProj2Id));
+            for (Map.Entry<Integer, List<DatumEntity>> integerListEntry : collect.entrySet()) {
+                Integer proj2Id = integerListEntry.getKey();
+                List<DatumEntity> entryValue = integerListEntry.getValue();
+                String proj2Name = entryValue.get(0).getProj2Name();
+                String dirPath = rootPath + proj2Id + "_" + proj2Name;
                 System.out.println("---------dirPath:" + dirPath);
                 File file = new File(dirPath);
                 if (!file.exists()) {
                     file.mkdir();
                 }
-                for (AttachmentEntity attachmentEntity : entryValue) {
-                    if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
+                for (DatumEntity datumEntity : entryValue) {
+                    if (StringUtils.isEmpty(datumEntity.getFileName())) {
                         continue;
                     }
-                    String filePath = dirPath + File.separator + attachmentEntity.getFileName();
+                    String filePath = dirPath + File.separator + datumEntity.getFileName();
                     FileOutputStream fos = new FileOutputStream(filePath);
 
                     try {
-                        String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
+                        String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
                         downloadFile(path, fos);
                     } finally {
                         if (fos != null) {

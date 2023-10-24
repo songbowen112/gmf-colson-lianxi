@@ -6,6 +6,7 @@ import com.colson.common.utils.ApiUtils;
 import com.colson.common.utils.PathUtil;
 import com.colson.common.utils.PdfDocumentGenerator;
 import com.colson.common.utils.PdfUtils;
+import com.colson.dal.dao.AnalyzeDAO;
 import com.colson.dal.dao.PaperFileDAO;
 import com.colson.dal.dto.*;
 import com.colson.service.*;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class PaperUploadServiceImpl implements PaperUploadService {
 
     @Autowired
-    private PaperFileDAO paperFileDAO;
+    private AnalyzeDAO analyzeDAO;
 
     @Autowired
     private PaperDownloadService paperDownloadService;
@@ -140,9 +141,15 @@ public class PaperUploadServiceImpl implements PaperUploadService {
                 log.error("downloadValuableBookTask ===== 此科目/省份对应的知识树不存在!subjectIdStr={}, provinceIdStr={}", subjectIdStr, provinceIdStr);
                 return;
             }
+
+            /*	覆盖考期：2013年4月至2023年4月（每年的4月、10月两次）	*/
+            int year = 13;
+            int month = 4;
+            List<String> examSessionLimit = analyzeDAO.queryExamSessionByYearAndMonth(year, month);
+
             for (Integer knowledgeTreeId : knowledgeTreeIds) {
                 try {
-                    valuableBookService.batchCreateFilePath(knowledgeTreeId);
+                    valuableBookService.batchCreateFilePath(knowledgeTreeId, examSessionLimit);
                 } catch (Exception e) {
                     log.error("downloadValuableBookTask error ===== knowledgeTreeId:{}, e:{}", knowledgeTreeId, e);
                 }
