@@ -1,9 +1,7 @@
 package com.colson.dal.demo;
 
 import com.colson.common.emum.SubjectCodeEnum;
-import com.colson.dal.dao.AttachmentEntityMapper;
 import com.colson.dal.dao.DatumEntityMapper;
-import com.colson.dal.model.AttachmentEntity;
 import com.colson.dal.model.DatumEntity;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
@@ -26,7 +24,7 @@ import java.util.stream.Collectors;
  * @description: ent_datum_bundle_detail取资料下载到本地
  * @date 2023/10/24 上午10:58
  */
-public class DatumBundleDemo {
+public class DatumBundleDemo2 {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -44,31 +42,22 @@ public class DatumBundleDemo {
             DatumEntityMapper datumEntityMapper = session.getMapper(DatumEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/datum/";
+            String rootPath = "/Users/songbowen/Desktop/资料/datum/";
 
-            String subjectName = paperDetailDTO.getOriginalSubjectName();
-            String paperName = paperDetailDTO.getPaperName().replace("/", "-");
-            String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
-            String subjectPath = subjectCode + "_" + subjectName;
-
-            String pathUrl = "/Users/songbowen/Desktop/真题pdf" + File.separator + subjectPath;
-            File pathFile = new File(pathUrl);
-            if (!pathFile.exists()) {
-                pathFile.mkdirs();
-            }
 
             List<DatumEntity> datumEntities = datumEntityMapper.selectDatumBundleList();
-            Map<Integer, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getProj2Id));
-            for (Map.Entry<Integer, List<DatumEntity>> integerListEntry : collect.entrySet()) {
-                Integer proj2Id = integerListEntry.getKey();
-                List<DatumEntity> entryValue = integerListEntry.getValue();
-                String proj2Name = entryValue.get(0).getProj2Name();
-                String dirPath = rootPath + proj2Id + "_" + proj2Name;
+            Map<String, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getSubjectName));
+            for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect.entrySet()) {
+                String subjectName = integerListEntry.getKey();
+                String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+                String subjectPath = subjectCode + "_" + subjectName;
+                String dirPath = rootPath + subjectPath;
                 System.out.println("---------dirPath:" + dirPath);
-                File file = new File(dirPath);
-                if (!file.exists()) {
-                    file.mkdir();
+                File pathFile = new File(dirPath);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
                 }
+                List<DatumEntity> entryValue = integerListEntry.getValue();
                 for (DatumEntity datumEntity : entryValue) {
                     if (StringUtils.isEmpty(datumEntity.getFileName())) {
                         continue;

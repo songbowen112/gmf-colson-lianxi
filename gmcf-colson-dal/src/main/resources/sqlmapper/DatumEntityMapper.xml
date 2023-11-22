@@ -11,12 +11,14 @@
     <result column="fileUrl" jdbcType="VARCHAR" property="fileUrl" />
     <result column="pro2Id" jdbcType="INTEGER" property="proj2Id" />
     <result column="pro2Name" jdbcType="VARCHAR" property="proj2Name" />
+    <result column="subjectId" jdbcType="INTEGER" property="subjectId" />
+    <result column="subjectName" jdbcType="VARCHAR" property="subjectName" />
   </resultMap>
 
     <select id="selectDatumBundleList" resultMap="BaseResultMap">
     SELECT t.package_id packageId, d.id id,d.file_name fileName,t.pro2Id, t.pro2Name,
-        prefix as prefix,
-        file_path as fileUrl, create_time
+        prefix as prefix,d.subject_id subjectId, es.name subjectName,
+        file_path as fileUrl, d.create_time
     FROM
   ent_datum_bundle_detail d
   INNER JOIN (
@@ -41,9 +43,10 @@
                  JOIN ent_college_projs projs ON ep.college_proj_id = projs.id
                  JOIN ent_proj_2nd pro2 ON pro2.id = projs.proj_2nd_id
                 WHERE
-                 projs.id in (31,60,61,62,136,155,511,641,1001,1285,1286,1293,1884)
+<!--                 projs.id in (31,60,61,62,136,155,511,641,1001,1285,1286,1293,1884)-->
 <!--#                  ( SELECT college_proj_id FROM ent_package WHERE id = 1826240 )-->
 <!--#                   AND ep.status_code = 'PS_ON_SALE'-->
+         pro2.proj_1st_id =32
            ) t on package_id = t.packageId
         AND res_type_code = 'DATUM'
            AND delete_flag = 0
@@ -53,7 +56,8 @@
       AND delete_flag = 0
      GROUP BY
       bundleId
-  ) t ON d.bundle_id = t.bundleId AND d.delete_flag = 0;
+  ) t ON d.bundle_id = t.bundleId AND d.delete_flag = 0
+    inner join ent_subject es on d.subject_id = es.id and es.delete_flag = 0
     </select>
 
 </mapper>

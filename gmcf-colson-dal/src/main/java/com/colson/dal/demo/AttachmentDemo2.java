@@ -1,9 +1,8 @@
 package com.colson.dal.demo;
 
+import com.colson.common.emum.SubjectCodeEnum;
 import com.colson.dal.dao.AttachmentEntityMapper;
-import com.colson.dal.dao.PaymentEntityMapper;
 import com.colson.dal.model.AttachmentEntity;
-import com.colson.dal.model.PaymentEntity;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +24,7 @@ import java.util.stream.Collectors;
  * @description: t_attachment取资料下载到本地
  * @date 2021/12/28 上午10:58
  */
-public class AttachmentDemo {
+public class AttachmentDemo2 {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -43,20 +42,21 @@ public class AttachmentDemo {
             AttachmentEntityMapper attachmentEntityMapper = session.getMapper(AttachmentEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/attachment/";
+            String rootPath = "/Users/songbowen/Desktop/资料/attachment/";
 
 
             List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentList();
-            Map<Integer, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getRoundId));
-            for (Map.Entry<Integer, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
-                Integer roundId = integerListEntry.getKey();
+            Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
+            for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
                 List<AttachmentEntity> entryValue = integerListEntry.getValue();
-                String roundName = entryValue.get(0).getRoundName();
-                String dirPath = rootPath + roundId + "_" + roundName;
+                String subjectName = integerListEntry.getKey();
+                String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+                String subjectPath = subjectCode + "_" + subjectName;
+                String dirPath = rootPath + subjectPath;
                 System.out.println("---------dirPath:" + dirPath);
-                File file = new File(dirPath);
-                if (!file.exists()) {
-                    file.mkdir();
+                File pathFile = new File(dirPath);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
                 }
                 for (AttachmentEntity attachmentEntity : entryValue) {
                     if (StringUtils.isEmpty(attachmentEntity.getFileName())) {

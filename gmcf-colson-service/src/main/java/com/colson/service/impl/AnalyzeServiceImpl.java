@@ -3,6 +3,7 @@ package com.colson.service.impl;
 import com.colson.common.docx4j.*;
 import com.colson.common.emum.OutlineRequirementEnum;
 import com.colson.common.emum.QuestionTypeEnum;
+import com.colson.common.emum.SubjectCodeEnum;
 import com.colson.common.utils.PathUtil;
 import com.colson.dal.dao.AnalyzeDAO;
 import com.colson.dal.dao.ValuableBookDAO;
@@ -144,7 +145,18 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		simpleCrossDict.addHandler(new UpdateTOCHandler(simpleCrossDict));
 
 		String fileName = "牛哥自考高频考点-" + treeNode.getName() + "-" + examProvinceName + ".docx";
-		fileName = PathUtil.getCurrentPath() + File.separator + fileName;
+
+		String subjectName = treeNode.getName();
+		String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+		String subjectPath = subjectCode + "_" + subjectName;
+
+		String pathUrl = "/Users/songbowen/Desktop/资料/通关宝典word" + File.separator + subjectPath;
+		File pathFile = new File(pathUrl);
+		if (!pathFile.exists()) {
+			pathFile.mkdirs();
+		}
+
+		fileName = pathUrl + File.separator + fileName;
 
 		// 添加输出到SFS处理器
 		SfsUploadHandler sfsUploadHandler = new SfsUploadHandler(simpleCrossDict, fileName);

@@ -22,6 +22,7 @@ public class PaperDownloadServiceImpl implements PaperDownloadService {
     public PaperDetailDTO getPaperInfoByPaperCode(String paperCode) {
         PaperDetailDTO paperByPaperCode = paperService.getPaperByPaperCode(paperCode);
         String subjectName = paperByPaperCode.getSubjectName();
+        paperByPaperCode.setOriginalSubjectName(subjectName);
         //科目名称超过十个字换行
         if (StringUtils.isNotEmpty(subjectName) && subjectName.length() > 10) {
             StringBuffer stringBuffer = new StringBuffer(subjectName);

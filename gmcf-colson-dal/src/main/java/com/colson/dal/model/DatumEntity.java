@@ -16,6 +16,10 @@ public class DatumEntity {
 
     private String proj2Name;
 
+    private Integer subjectId;
+
+    private String subjectName;
+
     public Integer getId() {
         return id;
     }
@@ -70,5 +74,21 @@ public class DatumEntity {
 
     public void setProj2Name(String proj2Name) {
         this.proj2Name = proj2Name;
+    }
+
+    public Integer getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(Integer subjectId) {
+        this.subjectId = subjectId;
+    }
+
+    public String getSubjectName() {
+        return subjectName;
+    }
+
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 }

@@ -2,6 +2,7 @@ package com.colson.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.colson.common.constants.TeachConstants;
+import com.colson.common.emum.SubjectCodeEnum;
 import com.colson.common.utils.ApiUtils;
 import com.colson.common.utils.PathUtil;
 import com.colson.common.utils.PdfDocumentGenerator;
@@ -183,9 +184,19 @@ public class PaperUploadServiceImpl implements PaperUploadService {
             PdfDocumentGenerator pdfGenerator = new PdfDocumentGenerator();
             ByteArrayInputStream byteArrayInputStream = pdfGenerator.generateStream(templatePath, fontPath, map);
 
+            String subjectName = paperDetailDTO.getOriginalSubjectName();
             String paperName = paperDetailDTO.getPaperName().replace("/", "-");
+            String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+            String subjectPath = subjectCode + "_" + subjectName;
+
+            String pathUrl = "/Users/songbowen/Desktop/资料/真题pdf" + File.separator + subjectPath;
+            File pathFile = new File(pathUrl);
+            if (!pathFile.exists()) {
+                pathFile.mkdirs();
+            }
+
             //添加水印
-            String fileUrl = PathUtil.getCurrentPath() + File.separator + paperName + ".pdf";
+            String fileUrl = pathUrl + File.separator + paperName + ".pdf";
             PdfUtils.addWaterMarkByFile(byteArrayInputStream, fileUrl, "自考备考 就找牛哥", basePath);
             System.out.println("------------fileUrl:" + fileUrl);
             try {
