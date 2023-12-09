@@ -1,4 +1,4 @@
-package com.colson.dal.demo;
+package com.colson.dal.dto;
 
 import java.util.Date;
 

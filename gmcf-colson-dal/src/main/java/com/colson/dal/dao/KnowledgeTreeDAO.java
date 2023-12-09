@@ -1,7 +1,7 @@
 package com.colson.dal.dao;
 
-import com.colson.dal.demo.KnowledgeTree;
-import com.colson.dal.demo.SubjectAIRel;
+import com.colson.dal.dto.KnowledgeTree;
+import com.colson.dal.dto.SubjectAIRel;
 import com.colson.dal.dto.*;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.StatementType;

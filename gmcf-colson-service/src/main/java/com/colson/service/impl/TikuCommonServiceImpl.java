@@ -5,17 +5,10 @@ import com.colson.common.constants.TeachConstants;
 import com.colson.common.emum.OutlineRequirementEnum;
 import com.colson.dal.dao.KnowledgeTreeDAO;
 import com.colson.dal.dao.TikuCommonDAO;
-import com.colson.dal.demo.KnowledgeTree;
-import com.colson.dal.demo.SubjectAIRel;
+import com.colson.dal.dto.KnowledgeTree;
 import com.colson.dal.dto.*;
 import com.colson.service.TikuCommonService;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 

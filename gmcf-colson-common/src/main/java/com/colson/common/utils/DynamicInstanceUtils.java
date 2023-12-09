@@ -20,7 +20,7 @@ public class DynamicInstanceUtils {
     public static Object getInstance(String className) throws CannotCompileException, IllegalAccessException, InstantiationException, NotFoundException {
         //创建一个类模板
         ClassPool pool = ClassPool.getDefault();
-        CtClass ctClass = pool.makeClass("DynamicEntity");
+        CtClass ctClass = pool.makeClass(className);
 
         CtField name = new CtField(pool.get(String.class.getCanonicalName()), "name", ctClass);
         name.setModifiers(Modifier.PRIVATE);
@@ -72,7 +72,7 @@ public class DynamicInstanceUtils {
 
     public static void main(String[] args) {
         try {
-            Object instance = DynamicInstanceUtils.getInstance("");
+            Object instance = DynamicInstanceUtils.getInstance("DynamicEntity");
 
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("age", "123");
