@@ -44,4 +44,35 @@ from (select IFNULL(c.main_teach_unit_id, t.id)       AS teachUnitId,
          where a.file_url is not null;
   </select>
 
+  <select id="selectAttachmentListByFileName" resultMap="BaseResultMap">
+    select
+       a.id as id,
+       a.file_name as fileName,
+       a.prefix as prefix,
+       a.file_url as fileUrl,
+       er.id                                                              roundId,
+       er.name                                                            roundName,
+       em.subject_id subjectId,
+       es.name subjectName
+from (select IFNULL(c.main_teach_unit_id, t.id)       AS teachUnitId,
+             GROUP_CONCAT(DISTINCT t.id)              AS teachUnitIdStr,
+             GROUP_CONCAT(DISTINCT t.teach_unit_name) AS teachUnitName
+      from t_teach_unit t
+               LEFT JOIN t_teach_unit_combine_detail c ON t.id = c.teach_unit_id AND c.delete_flag = 0
+      where t.teach_type_code = 'Z'
+        and t.status = 1
+      group by teachUnitId) tu
+         INNER JOIN t_teach_unit t on tu.teachUnitId = t.id
+         INNER JOIN ent_round er on er.id = t.round_id and er.delete_flag = 0
+        INNER JOIN ent_module em on er.module_id = em.id and em.delete_flag = 0
+        INNER JOIN ent_college_projs ecp on em.college_proj_id = ecp.id and ecp.delete_flag = 0
+        INNER JOIN ent_subject es on em.subject_id = es.id and es.delete_flag = 0
+         LEFT JOIN t_teach_unit_resource_rel nltu ON t.id = nltu.new_live_teach_unit_id AND nltu.delete_flag = 0
+         LEFT JOIN t_attachment a on a.business_id = tu.teachUnitId
+         where ecp.proj_1st_id=32 and a.file_url is not null and (a.file_name like '%密训%'
+                                               or a.file_name like '%急救%'
+                                               or a.file_name like '%押题%'
+                                               or a.file_name like '%压轴%') ;
+  </select>
+
 </mapper>

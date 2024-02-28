@@ -9,4 +9,6 @@ import java.util.List;
 public interface AttachmentEntityMapper {
 
     List<AttachmentEntity> selectAttachmentList();
+
+    List<AttachmentEntity> selectAttachmentListByFileName();
 }

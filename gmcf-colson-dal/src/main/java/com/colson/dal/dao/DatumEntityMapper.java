@@ -10,4 +10,6 @@ import java.util.List;
 public interface DatumEntityMapper {
 
     List<DatumEntity> selectDatumBundleList();
+
+    List<DatumEntity> selectDatumBundleListByFileName();
 }
