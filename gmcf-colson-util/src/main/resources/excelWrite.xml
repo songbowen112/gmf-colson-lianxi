@@ -2,7 +2,7 @@
 <parses>
 
     <!-- oa记录 -->
-    <wobj id="AttendanceRecordBean" filename="" filetype="" class="com.colson.web.bean.AttendanceRecordBean">
+    <wobj id="AttendanceRecordBean" filename="" filetype="" class="com.colson.common.bean.AttendanceRecordBean">
         <columns>
             <column cidx="0" cname="出勤日期" pname="date" type="" cformat="" handler=""></column>
             <column cidx="1" cname="开始时间" pname="startTime" type="" cformat="" handler=""></column>
@@ -16,7 +16,7 @@
     </wobj>
 
     <!-- 土豆雅思 -->
-    <wobj id="TudouYSBean" filename="" filetype="" class="com.colson.web.bean.TudouYSBean">
+    <wobj id="TudouYSBean" filename="" filetype="" class="com.colson.common.bean.TudouYSBean">
         <columns>
             <column cidx="0" cname="词头" pname="chars" type="" cformat="" handler=""></column>
             <column cidx="1" cname="音标" pname="phoneticSymbol" type="" cformat="" handler=""></column>
@@ -32,6 +32,15 @@
             <column cidx="11" cname="选项B" pname="optionB" type="" cformat="" handler=""></column>
             <column cidx="12" cname="选项C" pname="optionC" type="" cformat="" handler=""></column>
             <column cidx="13" cname="选项D" pname="explanationWithPrefix" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
+    <!-- 资料路径文件明细 -->
+    <wobj id="FilePathBean" filename="" filetype="" class="com.colson.common.bean.FilePathBean">
+        <columns>
+            <column cidx="0" cname="一级目录" pname="firstDir" type="" cformat="" handler=""></column>
+            <column cidx="1" cname="二级目录" pname="secondDir" type="" cformat="" handler=""></column>
+            <column cidx="2" cname="文件名" pname="fullFileName" type="" cformat="" handler=""></column>
         </columns>
     </wobj>
 

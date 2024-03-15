@@ -85,12 +85,11 @@ public class OAUtil {
 	public static void main(String[] args) {
 
 		List<AttendanceRecordBean> beans = OAUtil.getBeans();
-
 		try {
 			HSSFWorkbook workbook = (HSSFWorkbook) ExlExport.exportExcel(beans, "AttendanceRecordBean");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
 		getBeans();
 	}
 }

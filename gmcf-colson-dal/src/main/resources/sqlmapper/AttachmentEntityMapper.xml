@@ -69,10 +69,17 @@ from (select IFNULL(c.main_teach_unit_id, t.id)       AS teachUnitId,
         INNER JOIN ent_subject es on em.subject_id = es.id and es.delete_flag = 0
          LEFT JOIN t_teach_unit_resource_rel nltu ON t.id = nltu.new_live_teach_unit_id AND nltu.delete_flag = 0
          LEFT JOIN t_attachment a on a.business_id = tu.teachUnitId
-         where ecp.proj_1st_id=32 and a.file_url is not null and (a.file_name like '%密训%'
-                                               or a.file_name like '%急救%'
-                                               or a.file_name like '%押题%'
-                                               or a.file_name like '%压轴%') ;
+         where ecp.proj_1st_id=32 and a.file_url is not null
+<!--      and a.file_name like '%笔记%'-->
+<!--         and (a.file_name like '%密训%'-->
+<!--           or a.file_name like '%急救%'-->
+<!--           or a.file_name like '%押题%'-->
+<!--           or a.file_name like '%压轴%') ;-->
+      and (a.file_name like '%补漏百题斩%'
+      or a.file_name like '%考学一点通%'
+      or a.file_name like '%考前黄金卷%'
+      or a.file_name like '%决胜3小时%'
+      or a.file_name like '%考前60分-主观题带背%')
   </select>
 
 </mapper>

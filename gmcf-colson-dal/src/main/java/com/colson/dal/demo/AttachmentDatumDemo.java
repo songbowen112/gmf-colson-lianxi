@@ -50,11 +50,15 @@ public class AttachmentDatumDemo {
 
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/资料/押题急救密卷/";
+            //补漏百题斩包含：补漏百题斩、考学一点通、考前黄金卷、决胜3小时、考前60分-主观题带背
+            String dirName = "补漏百题斩/";
+            String rootPath = "/Users/songbowen/Desktop/资料/" + dirName;
 
             //根据这四个文件名分类：密训  急救  押题  压轴
             List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentListByFileName();
+            System.out.println("------Attachment资料有：" + attachmentEntities.size() + "个");
             List<DatumEntity> datumBundleList = datumEntityMapper.selectDatumBundleListByFileName();
+            System.out.println("------Datum资料有：" + datumBundleList.size() + "个");
 
             Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
             Map<String, List<DatumEntity>> collect2 = datumBundleList.stream().collect(Collectors.groupingBy(DatumEntity::getSubjectName));
@@ -70,50 +74,23 @@ public class AttachmentDatumDemo {
                 if (!pathFile.exists()) {
                     pathFile.mkdirs();
                 }
-                for (AttachmentEntity attachmentEntity : entryValue) {
-                    if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
-                        continue;
-                    }
-                    String filePath = dirPath + File.separator + attachmentEntity.getFileName();
-                    FileOutputStream fos1 = new FileOutputStream(filePath);
+                //处理Attachment文件
+                AttachmentDatumDemo.dealAttachment(entryValue, dirPath);
+            }
+            for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect2.entrySet()) {
+                List<DatumEntity> entryValue = integerListEntry.getValue();
+                String subjectName = integerListEntry.getKey();
+                String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+                String subjectPath = subjectCode + "_" + subjectName;
+                String dirPath = rootPath + subjectPath;
 
-                    try {
-                        String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
-                        File newFile = new File(path);
-                        if (newFile.exists()) {
-                            continue;
-                        }
-                        downloadFile(path, fos1);
-                    } finally {
-                        if (fos1 != null) {
-                            fos1.close();
-                        }
-                    }
+                System.out.println("---------dirPath:" + dirPath);
+                File pathFile = new File(dirPath);
+                if (!pathFile.exists()) {
+                    pathFile.mkdirs();
                 }
-                List<DatumEntity> datumEntities = collect2.get(subjectName);
-                if (!CollectionUtils.isEmpty(datumEntities)) {
-                    for (DatumEntity datumEntity : datumEntities) {
-                        if (StringUtils.isEmpty(datumEntity.getFileName())) {
-                            continue;
-                        }
-                        String filePath = dirPath + File.separator + datumEntity.getFileName();
-                        FileOutputStream fos2 = new FileOutputStream(filePath);
-
-                        try {
-                            String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
-                            File newFile = new File(path);
-                            if (newFile.exists()) {
-                                continue;
-                            }
-                            downloadFile(path, fos2);
-                        } finally {
-                            if (fos2 != null) {
-                                fos2.close();
-                            }
-                        }
-                    }
-                }
-
+                //处理datum文件
+                AttachmentDatumDemo.dealDatum(entryValue, dirPath);
             }
             System.out.println("finish");
 
@@ -122,6 +99,74 @@ public class AttachmentDatumDemo {
         } finally {
             if (null != session) {
                 session.close();
+            }
+        }
+    }
+
+    private static void dealAttachment(List<AttachmentEntity> list, String dirPath) {
+        if (!CollectionUtils.isEmpty(list)) {
+            for (AttachmentEntity attachmentEntity : list) {
+                if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
+                    continue;
+                }
+                String filePath = dirPath + File.separator + attachmentEntity.getFileName();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(filePath);
+
+                    String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
+                    File newFile = new File(path);
+                    if (newFile.exists()) {
+                        continue;
+                    }
+                    downloadFile(path, fos);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void dealDatum(List<DatumEntity> list, String dirPath) {
+        if (!CollectionUtils.isEmpty(list)) {
+            for (DatumEntity datumEntity : list) {
+                if (StringUtils.isEmpty(datumEntity.getFileName())) {
+                    continue;
+                }
+                String filePath = dirPath + File.separator + datumEntity.getFileName();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(filePath);
+
+                    String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
+                    File newFile = new File(path);
+                    if (newFile.exists()) {
+                        continue;
+                    }
+                    downloadFile(path, fos);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }

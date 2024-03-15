@@ -103,10 +103,17 @@
         bundleId
         ) t ON d.bundle_id = t.bundleId AND d.delete_flag = 0
         inner join ent_subject es on d.subject_id = es.id and es.delete_flag = 0
-      where 1=1 and (d.file_name like '%密训%'
-      or d.file_name like '%急救%'
-      or d.file_name like '%押题%'
-      or d.file_name like '%压轴%')
+      where 1=1 and d.file_path is not null
+<!--      and d.file_name like '%笔记%'-->
+<!--      and (d.file_name like '%密训%'-->
+<!--      or d.file_name like '%急救%'-->
+<!--      or d.file_name like '%押题%'-->
+<!--      or d.file_name like '%压轴%')-->
+      and (d.file_name like '%补漏百题斩%'
+      or d.file_name like '%考学一点通%'
+      or d.file_name like '%考前黄金卷%'
+      or d.file_name like '%决胜3小时%'
+      or d.file_name like '%考前60分-主观题带背%')
   </select>
 
 </mapper>

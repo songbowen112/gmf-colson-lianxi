@@ -34,6 +34,7 @@ public class TudouUtil {
 		try {
 			HSSFWorkbook workbook = (HSSFWorkbook) ExlExport.exportExcel(beans, "TudouYSBean");
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 }

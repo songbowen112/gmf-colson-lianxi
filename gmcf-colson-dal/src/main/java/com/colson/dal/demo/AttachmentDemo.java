@@ -45,7 +45,6 @@ public class AttachmentDemo {
             //第五步：调用Mapper接口对象的方法操作数据库
             String rootPath = "/Users/songbowen/attachment/";
 
-
             List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentList();
             Map<Integer, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getRoundId));
             for (Map.Entry<Integer, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
