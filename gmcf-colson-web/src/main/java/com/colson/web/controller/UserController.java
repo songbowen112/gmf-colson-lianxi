@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -87,11 +88,11 @@ public class UserController {
      */
     @RequestMapping(value = "/get-filePath", method = RequestMethod.GET)
     @ResponseBody
-    public void queryFilePathExport(HttpServletResponse response) {
+    public void queryFilePathExport(HttpServletResponse response, @RequestParam("dirName") String dirName) {
 //        String dirName = "押题急救密卷";
 //        String dirName = "官方笔记";
         // 补漏百题斩 考学一点通 考前黄金卷 决胜3小时 考前60分-主观题带背
-        String dirName = "补漏百题斩";
+//        String dirName = "补漏百题斩";
         List<FilePathBean> beans = FilePathUtil.getBeans(dirName);
 
         HSSFWorkbook workbook;

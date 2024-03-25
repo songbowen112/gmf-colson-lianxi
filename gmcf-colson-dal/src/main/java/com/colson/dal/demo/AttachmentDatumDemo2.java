@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
  * @description:
  * t_attachment取资料下载到本地
  * ent_datum_bundle_detail取资料下载到本地
- * 根据文件名筛选
+ * 根据创建时间筛选
  * @date 2021/12/28 上午10:58
  */
-public class AttachmentDatumDemo {
+public class AttachmentDatumDemo2 {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -54,10 +54,11 @@ public class AttachmentDatumDemo {
             String dirName = "补漏百题斩/";
             String rootPath = "/Users/songbowen/Desktop/资料/" + dirName;
 
+            String createTime = "2023-10-01";
             //根据这四个文件名分类：密训  急救  押题  压轴
-            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentListByFileName();
+            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentListByCreateTime(createTime);
             System.out.println("------Attachment资料有：" + attachmentEntities.size() + "个");
-            List<DatumEntity> datumBundleList = datumEntityMapper.selectDatumBundleListByFileName();
+            List<DatumEntity> datumBundleList = datumEntityMapper.selectDatumBundleListByCreateTime(createTime);
             System.out.println("------Datum资料有：" + datumBundleList.size() + "个");
 
             Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
@@ -75,7 +76,7 @@ public class AttachmentDatumDemo {
                     pathFile.mkdirs();
                 }
                 //处理Attachment文件
-                AttachmentDatumDemo.dealAttachment(entryValue, dirPath);
+                AttachmentDatumDemo2.dealAttachment(entryValue, dirPath);
             }
             for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect2.entrySet()) {
                 List<DatumEntity> entryValue = integerListEntry.getValue();
@@ -90,7 +91,7 @@ public class AttachmentDatumDemo {
                     pathFile.mkdirs();
                 }
                 //处理datum文件
-                AttachmentDatumDemo.dealDatum(entryValue, dirPath);
+                AttachmentDatumDemo2.dealDatum(entryValue, dirPath);
             }
             System.out.println("finish");
 

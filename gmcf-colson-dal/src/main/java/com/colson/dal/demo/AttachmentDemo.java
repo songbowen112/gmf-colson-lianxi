@@ -66,6 +66,10 @@ public class AttachmentDemo {
 
                     try {
                         String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
+                        File newFile = new File(path);
+                        if (newFile.exists()) {
+                            continue;
+                        }
                         downloadFile(path, fos);
                     } finally {
                         if (fos != null) {

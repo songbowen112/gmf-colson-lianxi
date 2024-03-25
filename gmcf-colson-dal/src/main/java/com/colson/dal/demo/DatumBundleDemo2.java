@@ -67,6 +67,10 @@ public class DatumBundleDemo2 {
 
                     try {
                         String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
+                        File newFile = new File(path);
+                        if (newFile.exists()) {
+                            continue;
+                        }
                         downloadFile(path, fos);
                     } finally {
                         if (fos != null) {

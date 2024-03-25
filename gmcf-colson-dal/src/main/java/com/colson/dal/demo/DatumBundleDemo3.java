@@ -1,8 +1,8 @@
 package com.colson.dal.demo;
 
 import com.colson.common.emum.SubjectCodeEnum;
-import com.colson.dal.dao.AttachmentEntityMapper;
-import com.colson.dal.model.AttachmentEntity;
+import com.colson.dal.dao.DatumEntityMapper;
+import com.colson.dal.model.DatumEntity;
 import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,10 +21,10 @@ import java.util.stream.Collectors;
 
 /**
  * @author song
- * @description: t_attachment取资料下载到本地
- * @date 2021/12/28 上午10:58
+ * @description: ent_datum_bundle_detail取资料下载到本地
+ * @date 2023/10/24 上午10:58
  */
-public class AttachmentDemo2 {
+public class DatumBundleDemo3 {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -39,16 +39,15 @@ public class AttachmentDemo2 {
             session = sqlSessionFactory.openSession();
 
             //第四步：获取Mapper接口对象
-            AttachmentEntityMapper attachmentEntityMapper = session.getMapper(AttachmentEntityMapper.class);
+            DatumEntityMapper datumEntityMapper = session.getMapper(DatumEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/资料/attachment/";
+            String rootPath = "/Users/songbowen/Desktop/资料/datum/";
 
-
-            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentList();
-            Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
-            for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
-                List<AttachmentEntity> entryValue = integerListEntry.getValue();
+            String createTime = "2023-10-01";
+            List<DatumEntity> datumEntities = datumEntityMapper.selectDatumBundleListByCreateTime(createTime);
+            Map<String, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getSubjectName));
+            for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect.entrySet()) {
                 String subjectName = integerListEntry.getKey();
                 String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
                 String subjectPath = subjectCode + "_" + subjectName;
@@ -58,15 +57,16 @@ public class AttachmentDemo2 {
                 if (!pathFile.exists()) {
                     pathFile.mkdirs();
                 }
-                for (AttachmentEntity attachmentEntity : entryValue) {
-                    if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
+                List<DatumEntity> entryValue = integerListEntry.getValue();
+                for (DatumEntity datumEntity : entryValue) {
+                    if (StringUtils.isEmpty(datumEntity.getFileName())) {
                         continue;
                     }
-                    String filePath = dirPath + File.separator + attachmentEntity.getFileName();
+                    String filePath = dirPath + File.separator + datumEntity.getFileName();
                     FileOutputStream fos = new FileOutputStream(filePath);
 
                     try {
-                        String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
+                        String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
                         File newFile = new File(path);
                         if (newFile.exists()) {
                             continue;

@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
  * @description: t_attachment取资料下载到本地
  * @date 2021/12/28 上午10:58
  */
-public class AttachmentDemo2 {
+public class AttachmentDemo3 {
 
     public static void main(String[] args) {
         SqlSession session = null;
@@ -44,8 +44,8 @@ public class AttachmentDemo2 {
             //第五步：调用Mapper接口对象的方法操作数据库
             String rootPath = "/Users/songbowen/Desktop/资料/attachment/";
 
-
-            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentList();
+            String createTime = "2023-10-01";
+            List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentListByCreateTime(createTime);
             Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
             for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
                 List<AttachmentEntity> entryValue = integerListEntry.getValue();
