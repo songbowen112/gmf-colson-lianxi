@@ -18,7 +18,7 @@ public class LinkedDemo2 {
         list.add(2);
         System.out.println(list);
 
-        delNodeIs(list.first,2);
+        delNodeIs(list.head,2);
         System.out.println(list);
     }
 

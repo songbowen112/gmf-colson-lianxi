@@ -6,8 +6,8 @@ package com.solson.dal;
 public class ArraysSortTest {
 
     public static void main(String[] args) {
-        int[] a = {1,3,5,7,9};
-        int[] b = {2,4,6,8,10};
+        int[] a = {1,3,9,100};
+        int[] b = {2,3,4,5,6,7,8,21,22,44};
 
         int[] result = new int[a.length+b.length];
         int i = 0;//a数组的下标

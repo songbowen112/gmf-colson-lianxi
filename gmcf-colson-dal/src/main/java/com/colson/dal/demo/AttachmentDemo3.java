@@ -12,6 +12,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.util.List;
@@ -58,27 +59,7 @@ public class AttachmentDemo3 {
                 if (!pathFile.exists()) {
                     pathFile.mkdirs();
                 }
-                for (AttachmentEntity attachmentEntity : entryValue) {
-                    if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
-                        continue;
-                    }
-                    String filePath = dirPath + File.separator + attachmentEntity.getFileName();
-                    FileOutputStream fos = new FileOutputStream(filePath);
-
-                    try {
-                        String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
-                        File newFile = new File(path);
-                        if (newFile.exists()) {
-                            continue;
-                        }
-                        downloadFile(path, fos);
-                    } finally {
-                        if (fos != null) {
-                            fos.close();
-                        }
-                    }
-
-                }
+                dealAttachment(entryValue,dirPath);
             }
             System.out.println("finish");
 
@@ -87,6 +68,40 @@ public class AttachmentDemo3 {
         } finally {
             if (null != session) {
                 session.close();
+            }
+        }
+    }
+
+    private static void dealAttachment(List<AttachmentEntity> list, String dirPath) {
+        if (!CollectionUtils.isEmpty(list)) {
+            for (AttachmentEntity attachmentEntity : list) {
+                if (StringUtils.isEmpty(attachmentEntity.getFileName())) {
+                    continue;
+                }
+                String filePath = dirPath + File.separator + attachmentEntity.getFileName();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(filePath);
+
+                    String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
+                    File newFile = new File(path);
+                    if (newFile.exists()) {
+                        continue;
+                    }
+                    downloadFile(path, fos);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }

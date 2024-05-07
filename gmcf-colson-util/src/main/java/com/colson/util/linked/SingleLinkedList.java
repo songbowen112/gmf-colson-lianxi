@@ -12,7 +12,7 @@ public class SingleLinkedList<E> extends BaseDTO {
     /**
      * 头结点
      */
-    public transient Node<E> first;
+    public transient Node<E> head;
 
     public SingleLinkedList() {
     }
@@ -22,11 +22,11 @@ public class SingleLinkedList<E> extends BaseDTO {
      * @return
      */
     public int size() {
-        if (null == first) {
+        if (null == head) {
             return 0;
         }
         int i = 1;
-        Node<E> next = first.next;
+        Node<E> next = head.next;
         while (null != next) {
             i++;
             next = next.next;
@@ -51,18 +51,18 @@ public class SingleLinkedList<E> extends BaseDTO {
      * 7. null < 1 < 2 < 3 < 4 < 5   null //不满足遍历条件
      */
     public void reverse() {
-        if(first == null) {
+        if(head == null) {
             return;
         }
         Node pre = null;
-        Node next = first.next;
-        while (first.next != null) {
-            first.next = pre;
-            pre = first;
-            first = next;
-            next = first.next;
+        Node next = head.next;
+        while (head.next != null) {
+            head.next = pre;
+            pre = head;
+            head = next;
+            next = head.next;
         }
-        first.next = pre;
+        head.next = pre;
     }
 
     /**
@@ -70,10 +70,10 @@ public class SingleLinkedList<E> extends BaseDTO {
      * @return
      */
     public Node<E> getLastNode() {
-        if (null == first) {
+        if (null == head) {
             return null;
         }
-        Node node = first;
+        Node node = head;
         while (null != node.next) {
             node = node.next;
         }
@@ -86,8 +86,8 @@ public class SingleLinkedList<E> extends BaseDTO {
      */
     public void add(E data) {
         Node<E> node = new Node(data,null);
-        if (null == first) {
-            first = node;
+        if (null == head) {
+            head = node;
         } else {
             getLastNode().next = node;
         }
@@ -103,12 +103,12 @@ public class SingleLinkedList<E> extends BaseDTO {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         Node<E> node = new Node(data,null);
-        if (null == first) {
-            first = node;
+        if (null == head) {
+            head = node;
         } else {
             if (index == 0) {
-                node.next = first;
-                first = node;
+                node.next = head;
+                head = node;
             } else if (index == this.size()) {
                 node(index-1).next = node;
             } else {
@@ -140,7 +140,7 @@ public class SingleLinkedList<E> extends BaseDTO {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
         if (index == 0) {
-            first = first.next;
+            head = head.next;
         } else if (index == this.size()-1) {
             node(index-1).next = null;
         } else {
@@ -180,7 +180,7 @@ public class SingleLinkedList<E> extends BaseDTO {
         if (index<0 || index>=this.size()) {
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
         }
-        Node<E> node = first;
+        Node<E> node = head;
         for (int i=0;i<index;i++) {
             node = node.next;
         }
@@ -195,7 +195,7 @@ public class SingleLinkedList<E> extends BaseDTO {
      */
     public int indexOf(E data) {
         int index = 0;
-        Node<E> node = first;
+        Node<E> node = head;
         while (null != node) {
             if (data.equals(node.data)) {
                 return index;
@@ -212,7 +212,7 @@ public class SingleLinkedList<E> extends BaseDTO {
         for (int i=0;i<this.size();i++) {
             sb.append(this.get(i)+",");
         }
-        return first ==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
+        return head ==null?"[]":"[" + sb.substring(0,sb.length()-1) + ']';
     }
 
     /**
@@ -232,11 +232,11 @@ public class SingleLinkedList<E> extends BaseDTO {
         public E data;
         public Node<E> next;
 
-        Node() {
+        public Node() {
             this.next = null;
         }
 
-        Node(E data, Node<E> next) {
+        public Node(E data, Node<E> next) {
             this.data = data;
             this.next = next;
         }

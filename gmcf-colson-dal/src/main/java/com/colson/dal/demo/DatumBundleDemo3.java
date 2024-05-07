@@ -12,6 +12,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.util.List;
@@ -58,27 +59,7 @@ public class DatumBundleDemo3 {
                     pathFile.mkdirs();
                 }
                 List<DatumEntity> entryValue = integerListEntry.getValue();
-                for (DatumEntity datumEntity : entryValue) {
-                    if (StringUtils.isEmpty(datumEntity.getFileName())) {
-                        continue;
-                    }
-                    String filePath = dirPath + File.separator + datumEntity.getFileName();
-                    FileOutputStream fos = new FileOutputStream(filePath);
-
-                    try {
-                        String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
-                        File newFile = new File(path);
-                        if (newFile.exists()) {
-                            continue;
-                        }
-                        downloadFile(path, fos);
-                    } finally {
-                        if (fos != null) {
-                            fos.close();
-                        }
-                    }
-
-                }
+                dealDatum(entryValue,dirPath);
             }
             System.out.println("finish");
 
@@ -87,6 +68,40 @@ public class DatumBundleDemo3 {
         } finally {
             if (null != session) {
                 session.close();
+            }
+        }
+    }
+
+    private static void dealDatum(List<DatumEntity> list, String dirPath) {
+        if (!CollectionUtils.isEmpty(list)) {
+            for (DatumEntity datumEntity : list) {
+                if (StringUtils.isEmpty(datumEntity.getFileUrl()) || StringUtils.isEmpty(datumEntity.getPrefix())) {
+                    continue;
+                }
+                String filePath = dirPath + File.separator + datumEntity.getFileName();
+                FileOutputStream fos = null;
+                try {
+                    fos = new FileOutputStream(filePath);
+
+                    String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
+                    File newFile = new File(path);
+                    if (newFile.exists()) {
+                        continue;
+                    }
+                    downloadFile(path, fos);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
+                    if (fos != null) {
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
             }
         }
     }
