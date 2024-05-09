@@ -1,5 +1,8 @@
 package com.solson.dal;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * 给定一个金额
  * 有面值 1元 5元 10元 20元 50元 100元 的纸币
@@ -37,6 +40,11 @@ public class MoneyTest {
             System.out.print(i);
             System.out.print("  ");
         }
+        Set<Integer> set = new HashSet();
+        set.add(1);
+        set.add(12);
+        set.add(3);
+        System.out.println(set.contains(1));
 
     }
 }
