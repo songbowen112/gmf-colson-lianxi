@@ -43,9 +43,9 @@ public class AttachmentDemo3 {
             AttachmentEntityMapper attachmentEntityMapper = session.getMapper(AttachmentEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/资料/attachment/";
+            String rootPath = "/Users/songbowen/Desktop/私活/资料/attachment/";
 
-            String createTime = "2023-10-01";
+            String createTime = "2024-05-15";
             List<AttachmentEntity> attachmentEntities = attachmentEntityMapper.selectAttachmentListByCreateTime(createTime);
             Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
             for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
