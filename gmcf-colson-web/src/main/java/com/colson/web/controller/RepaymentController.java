@@ -16,9 +16,15 @@ public class RepaymentController {
     @Autowired
     private RepaymentService repaymentService;
 
-    @PostMapping(value = "/repayment", name = "通用还款接口")
+    @PostMapping(value = "/repayment/v1", name = "正常还款接口-策略模式")
     public ResponseEntity<String> process(@RequestBody RepaymentContext context) {
         repaymentService.process(context);
+        return ResponseEntity.ok("success");
+    }
+
+    @PostMapping(value = "/repayment/v2", name = "正常还款接口-装饰者模式")
+    public ResponseEntity<String> processRepayment(@RequestBody RepaymentContext context) {
+        repaymentService.processRepayment(context);
         return ResponseEntity.ok("success");
     }
 }

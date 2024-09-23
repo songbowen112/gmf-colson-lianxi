@@ -1,18 +1,22 @@
 package com.colson.service.decorator;
 
 import com.colson.service.context.RepaymentContext;
-import com.colson.service.template.RepaymentTemplate;
+import com.colson.service.strategy.RepaymentStrategy;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
 public class LoggingRepaymentDecorator extends RepaymentDecorator {
 
-    public LoggingRepaymentDecorator(RepaymentTemplate decoratedTemplate) {
-        super(decoratedTemplate);
+    public LoggingRepaymentDecorator(@Qualifier("lanhaiRepaymentTemplate") RepaymentStrategy decoratedRepaymentStrategy) {
+        super(decoratedRepaymentStrategy);
     }
 
     @Override
-    protected void additionalProcess(RepaymentContext context) {
-        System.out.println("Additional process...");
+    public void repayment(RepaymentContext context) {
+        System.out.println(" Logging before repayment...");
+        super.repayment(context);
+        System.out.println(" Logging after repayment...");
+
     }
 }

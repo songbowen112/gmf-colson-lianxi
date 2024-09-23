@@ -1,20 +1,19 @@
 package com.colson.service.decorator;
 
 import com.colson.service.context.RepaymentContext;
-import com.colson.service.template.RepaymentTemplate;
+import com.colson.service.strategy.RepaymentStrategy;
 
-public abstract class RepaymentDecorator extends RepaymentTemplate {
-    protected RepaymentTemplate decoratedTemplate;
+public abstract class RepaymentDecorator implements RepaymentStrategy {
 
-    public RepaymentDecorator(RepaymentTemplate decoratedTemplate) {
-        this.decoratedTemplate = decoratedTemplate;
+    protected final RepaymentStrategy decoratedRepaymentStrategy;
+
+    public RepaymentDecorator(RepaymentStrategy decoratedRepaymentStrategy) {
+        this.decoratedRepaymentStrategy = decoratedRepaymentStrategy;
     }
 
     @Override
-    public void doProcess(RepaymentContext context) {
-        decoratedTemplate.process(context);// 处理基础逻辑
-        additionalProcess(context);// 扩展的功能
+    public void repayment(RepaymentContext context) {
+        decoratedRepaymentStrategy.repayment(context);// 处理基础逻辑
     }
 
-    protected abstract void additionalProcess(RepaymentContext context);
 }

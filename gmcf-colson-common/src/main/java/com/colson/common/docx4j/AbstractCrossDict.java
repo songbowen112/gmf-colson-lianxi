@@ -1,11 +1,13 @@
 package com.colson.common.docx4j;
 
+import org.apache.commons.io.IOUtils;
 import org.docx4j.openpackaging.exceptions.Docx4JException;
 import org.docx4j.openpackaging.packages.WordprocessingMLPackage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -55,9 +57,22 @@ public abstract class AbstractCrossDict implements CrossDictBuilder, WordMLPacka
         logger.debug("load success");
     }
 
+//    @Override
+//    public void loadTemplate(InputStream inputStream) throws Exception {
+//        this.wordMLPackage = WordprocessingMLPackage.load(inputStream);
+//        this.bak = (WordprocessingMLPackage) this.wordMLPackage.clone();
+//    }
+
     @Override
     public void loadTemplate(InputStream inputStream) throws Exception {
-        this.wordMLPackage = WordprocessingMLPackage.load(inputStream);
+        // 将输入流保存为临时文件
+        File tempFile = File.createTempFile("temp", ".docx");
+        try (FileOutputStream fos = new FileOutputStream(tempFile)) {
+            IOUtils.copy(inputStream, fos);
+        }
+
+        // 使用临时文件加载
+        this.wordMLPackage = WordprocessingMLPackage.load(tempFile);
         this.bak = (WordprocessingMLPackage) this.wordMLPackage.clone();
     }
 
