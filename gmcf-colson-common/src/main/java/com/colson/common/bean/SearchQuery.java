@@ -10,7 +10,6 @@ public class SearchQuery implements Serializable {
     private List<Condition> conditions;
     private List<String> includeFields;
     private List<String> excludeFields;
-    private PageQuery pageQuery;
 
     public SearchQuery() {
     }
@@ -70,10 +69,6 @@ public class SearchQuery implements Serializable {
         return this.excludeFields;
     }
 
-    public PageQuery getPageQuery() {
-        return this.pageQuery;
-    }
-
     public void setConditions(List<Condition> conditions) {
         this.conditions = conditions;
     }
@@ -86,7 +81,4 @@ public class SearchQuery implements Serializable {
         this.excludeFields = excludeFields;
     }
 
-    public void setPageQuery(PageQuery pageQuery) {
-        this.pageQuery = pageQuery;
-    }
 }

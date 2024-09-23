@@ -16,15 +16,9 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-commons -->
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-captcha</artifactId>
-            <version>5.7.10</version>
         </dependency>
 
         <dependency>
@@ -120,5 +114,6 @@
             <artifactId>okhttp</artifactId>
         </dependency>
     </dependencies>
+
 
 </project>

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.2.1.RELEASE</version>
+        <version>2.7.13</version>
     </parent>
 
     <groupId>gmf-colson-lianxi</groupId>
@@ -26,7 +26,7 @@
     <properties>
         <!-- maven -->
 
-        <spring.version>2.2.1.RELEASE</spring.version>
+        <spring.version>2.7.13</spring.version>
 
         <gmcf.colson.dal.version>1.0-SNAPSHOT</gmcf.colson.dal.version>
         <gmcf.colson.common.version>1.0-SNAPSHOT</gmcf.colson.common.version>
@@ -34,6 +34,8 @@
         <gmcf.colson.service.version>1.0-SNAPSHOT</gmcf.colson.service.version>
         <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
         <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
+        <maven.compiler.plugin.version>3.9.0</maven.compiler.plugin.version>
+        <java.version>1.8</java.version>
     </properties>
 
     <dependencyManagement>
@@ -75,8 +77,18 @@
                 <version>${spring.version}</version>
             </dependency>
             <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-commons</artifactId>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-aop</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-redis</artifactId>
+                <version>${spring.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
                 <version>${spring.version}</version>
             </dependency>
 <!--            <dependency>-->
@@ -85,16 +97,18 @@
 <!--                <version>${spring.version}</version>-->
 <!--            </dependency>-->
             <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-test</artifactId>
-                <version>3.1.0.RELEASE</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- Apache Commons Lang -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.1</version>
+                <version>3.12.0</version> <!-- Latest stable version -->
             </dependency>
+            <!-- Apache POI for Excel and other Office document manipulation -->
             <dependency>
                 <groupId>org.apache.poi</groupId>
                 <artifactId>poi-ooxml</artifactId>
@@ -144,7 +158,7 @@
             <dependency>
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
-                <version>3.11.0</version>
+                <version>4.9.3</version>
             </dependency>
 
             <dependency>
@@ -152,6 +166,27 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>5.1.47</version>
             </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-captcha</artifactId>
+                <version>5.8.21</version> <!-- 最新稳定版本 -->
+                <scope>compile</scope> <!-- 默认 scope 是 compile，不需要更改 -->
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin.version}</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

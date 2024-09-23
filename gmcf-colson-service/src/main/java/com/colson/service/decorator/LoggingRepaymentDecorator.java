@@ -5,6 +5,9 @@ import com.colson.service.strategy.RepaymentStrategy;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+/**
+ * 日志装饰器
+ */
 @Component
 public class LoggingRepaymentDecorator extends RepaymentDecorator {
 
