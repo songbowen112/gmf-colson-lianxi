@@ -49,7 +49,7 @@ public class DatumBundleDemo2 {
             Map<String, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getSubjectName));
             for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect.entrySet()) {
                 String subjectName = integerListEntry.getKey();
-                String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+                String subjectCode = SubjectCodeEnum.getCode(subjectName);
                 String subjectPath = subjectCode + "_" + subjectName;
                 String dirPath = rootPath + subjectPath;
                 System.out.println("---------dirPath:" + dirPath);

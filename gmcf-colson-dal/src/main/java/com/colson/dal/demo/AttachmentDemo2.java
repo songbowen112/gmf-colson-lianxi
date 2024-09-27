@@ -50,7 +50,7 @@ public class AttachmentDemo2 {
             for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
                 List<AttachmentEntity> entryValue = integerListEntry.getValue();
                 String subjectName = integerListEntry.getKey();
-                String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+                String subjectCode = SubjectCodeEnum.getCode(subjectName);
                 String subjectPath = subjectCode + "_" + subjectName;
                 String dirPath = rootPath + subjectPath;
                 System.out.println("---------dirPath:" + dirPath);

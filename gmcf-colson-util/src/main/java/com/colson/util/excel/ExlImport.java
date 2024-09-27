@@ -28,13 +28,13 @@ import java.util.*;
 
 public class ExlImport {
 	public static final String fileName = "/excelRead.xml";
-	public static <T> List<T> exlList(String xlsPath,String parserId) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
+	public static <T> List<T> exlList(String xlsPath, String parserId) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException {
 		//获取解析器
 		NxmlParser nxp = nanalysis().get(parserId);
-		return excelImport(xlsPath,nxp);
+		return excelImport(xlsPath, nxp);
     }
 
-    public static  <T> List<T> excelImport(String xlsPath,NxmlParser nxp) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
+    public static  <T> List<T> excelImport(String xlsPath, NxmlParser nxp) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException, InvocationTargetException {
 		List<T> list = new ArrayList<T>();
 		FileInputStream fileIn = new FileInputStream(xlsPath);
 

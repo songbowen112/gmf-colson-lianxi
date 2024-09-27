@@ -186,7 +186,7 @@ public class PaperUploadServiceImpl implements PaperUploadService {
 
             String subjectName = paperDetailDTO.getOriginalSubjectName();
             String paperName = paperDetailDTO.getPaperName().replace("/", "-");
-            String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+            String subjectCode = SubjectCodeEnum.getCode(subjectName);
             String subjectPath = subjectCode + "_" + subjectName;
 
             String pathUrl = "/Users/songbowen/Desktop/资料/真题pdf" + File.separator + subjectPath;

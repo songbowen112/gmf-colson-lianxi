@@ -911,4 +911,8 @@ public class SubjectCodeEnum {
     public static void setMap(Map<String, String> map) {
         SubjectCodeEnum.map = map;
     }
+
+    public static String getCode(String name) {
+        return map.get(name);
+    }
 }

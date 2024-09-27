@@ -147,7 +147,7 @@ public class AnalyzeServiceImpl implements AnalyzeService {
 		String fileName = "牛哥自考高频考点-" + treeNode.getName() + "-" + examProvinceName + ".docx";
 
 		String subjectName = treeNode.getName();
-		String subjectCode = SubjectCodeEnum.getMap().get(subjectName);
+		String subjectCode = SubjectCodeEnum.getCode(subjectName);
 		String subjectPath = subjectCode + "_" + subjectName;
 
 		String pathUrl = "/Users/songbowen/Desktop/资料/通关宝典word" + File.separator + subjectPath;
