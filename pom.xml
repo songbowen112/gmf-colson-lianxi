@@ -35,6 +35,7 @@
         <gmcf.colson.web.version>1.0-SNAPSHOT</gmcf.colson.web.version>
         <gmcf.colson.integration.version>1.0-SNAPSHOT</gmcf.colson.integration.version>
         <maven.compiler.plugin.version>3.9.0</maven.compiler.plugin.version>
+        <hutool.version>5.8.16</hutool.version>
         <java.version>1.8</java.version>
     </properties>
 
@@ -169,10 +170,15 @@
 
             <dependency>
                 <groupId>cn.hutool</groupId>
-                <artifactId>hutool-captcha</artifactId>
-                <version>5.8.21</version> <!-- 最新稳定版本 -->
-                <scope>compile</scope> <!-- 默认 scope 是 compile，不需要更改 -->
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
+<!--            <dependency>-->
+<!--                <groupId>cn.hutool</groupId>-->
+<!--                <artifactId>hutool-captcha</artifactId>-->
+<!--                <version>5.8.21</version> &lt;!&ndash; 最新稳定版本 &ndash;&gt;-->
+<!--                <scope>compile</scope> &lt;!&ndash; 默认 scope 是 compile，不需要更改 &ndash;&gt;-->
+<!--            </dependency>-->
         </dependencies>
     </dependencyManagement>
 
