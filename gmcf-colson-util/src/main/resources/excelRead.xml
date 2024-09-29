@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parses>
 
-    <wobj id="ProductPriceBean" name="商品定价" filename="" filetype="" class="com.colson.dal.model.ProductBatchDTO">
+    <wobj id="DatumEntity" name="datum资料" filename="" filetype="" class="com.colson.dal.model.DatumEntity">
         <columns>
-            <column cidx="0"  cname="SKU码" pname="skuCode" type="" cformat="" handler=""></column>
-            <column cidx="1"  cname="商品售价" pname="productPrice" type="" cformat="" handler=""></column>
+            <column cidx="0"  cname="packageId" pname="packageId" type="" cformat="" handler=""></column>
+            <column cidx="1"  cname="id" pname="id" type="" cformat="" handler=""></column>
+            <column cidx="2"  cname="fileName" pname="fileName" type="" cformat="" handler=""></column>
+            <column cidx="3"  cname="pro2Id" pname="pro2Id" type="" cformat="" handler=""></column>
+            <column cidx="4"  cname="pro2Name" pname="pro2Name" type="" cformat="" handler=""></column>
+            <column cidx="5"  cname="prefix" pname="prefix" type="" cformat="" handler=""></column>
+            <column cidx="6"  cname="subjectId" pname="subjectId" type="" cformat="" handler=""></column>
+            <column cidx="7"  cname="subjectName" pname="subjectName" type="" cformat="" handler=""></column>
+            <column cidx="8"  cname="fileUrl" pname="fileUrl" type="" cformat="" handler=""></column>
+            <column cidx="9"  cname="create_time" pname="create_time" type="" cformat="" handler=""></column>
+        </columns>
+    </wobj>
+
+    <wobj id="AttachmentEntity" name="attachment资料" filename="" filetype="" class="com.colson.dal.model.AttachmentEntity">
+        <columns>
+            <column cidx="0"  cname="id" pname="id" type="" cformat="" handler=""></column>
+            <column cidx="1"  cname="fileName" pname="fileName" type="" cformat="" handler=""></column>
+            <column cidx="2"  cname="prefix" pname="prefix" type="" cformat="" handler=""></column>
+            <column cidx="3"  cname="fileUrl" pname="fileUrl" type="" cformat="" handler=""></column>
+            <column cidx="4"  cname="roundId" pname="roundId" type="" cformat="" handler=""></column>
+            <column cidx="5"  cname="roundName" pname="roundName" type="" cformat="" handler=""></column>
+            <column cidx="6"  cname="subjectId" pname="subjectId" type="" cformat="" handler=""></column>
+            <column cidx="7"  cname="subjectName" pname="subjectName" type="" cformat="" handler=""></column>
         </columns>
     </wobj>
 </parses>

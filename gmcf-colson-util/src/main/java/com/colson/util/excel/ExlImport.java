@@ -130,7 +130,6 @@ public class ExlImport {
 			list.add((T) object);
 		}
 		fileIn.close();
-		System.out.println(JSON.toJSON(list).toString());
 		return list;
 	}
 	public static Map<String, NxmlParser> nanalysis(){
