@@ -74,12 +74,12 @@ public class DatumBundleDemo4 {
                     continue;
                 }
                 String filePath = dirPath + File.separator + datumEntity.getFileName();
+                File newFile = new File(filePath);
+                if (newFile.exists()) {
+                    System.out.println("---------无需处理:" + filePath);
+                    continue;
+                }
                 try(FileOutputStream fos = new FileOutputStream(filePath)) {
-                    File newFile = new File(filePath);
-                    if (newFile.exists()) {
-                        System.out.println("---------无需处理:" + filePath);
-                        continue;
-                    }
                     String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
                     System.out.println("---------开始下载:" + path);
                     downloadFile(path, fos);
