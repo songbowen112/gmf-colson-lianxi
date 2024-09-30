@@ -43,7 +43,7 @@ public class DatumBundleDemo3 {
             DatumEntityMapper datumEntityMapper = session.getMapper(DatumEntityMapper.class);
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/私活/资料/datum/";
+            String rootPath = "/Users/songbowen/Desktop/personal/资料/datum/";
 
             String createTime = "2024-05-15";
             List<DatumEntity> datumEntities = datumEntityMapper.selectDatumBundleListByCreateTime(createTime);

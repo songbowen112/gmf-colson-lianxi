@@ -33,10 +33,10 @@ public class AttachmentDemo4 {
 
     public static void main(String[] args) {
         try {
-            List<AttachmentEntity> attachmentEntities = ExlImport.exlList("/Users/songbowen/Desktop/私活/attachment.xlsx", "AttachmentEntity");
+            List<AttachmentEntity> attachmentEntities = ExlImport.exlList("/Users/songbowen/Desktop/personal/attachment.xlsx", "AttachmentEntity");
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/私活/资料/attachment/";
+            String rootPath = "/Users/songbowen/Desktop/personal/资料/attachment/";
 
             Map<String, List<AttachmentEntity>> collect = attachmentEntities.stream().collect(Collectors.groupingBy(AttachmentEntity::getSubjectName));
             for (Map.Entry<String, List<AttachmentEntity>> integerListEntry : collect.entrySet()) {
@@ -75,12 +75,12 @@ public class AttachmentDemo4 {
                 }
                 String filePath = dirPath + File.separator + attachmentEntity.getFileName();
                 try(FileOutputStream fos = new FileOutputStream(filePath);) {
-                    String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
-                    File newFile = new File(path);
+                    File newFile = new File(filePath);
                     if (newFile.exists()) {
-                        System.out.println("---------无需处理:" + path);
+                        System.out.println("---------无需处理:" + filePath);
                         continue;
                     }
+                    String path = attachmentEntity.getPrefix() + attachmentEntity.getFileUrl();
                     System.out.println("---------开始下载:" + path);
                     downloadFile(path, fos);
                 } catch (FileNotFoundException e) {

@@ -32,11 +32,11 @@ public class DatumBundleDemo4 {
 
     public static void main(String[] args) {
         try {
-            List<DatumEntity> datumEntities = ExlImport.exlList("/Users/songbowen/Desktop/私活/datum.xlsx", "DatumEntity");
+            List<DatumEntity> datumEntities = ExlImport.exlList("/Users/songbowen/Desktop/personal/datum.xlsx", "DatumEntity");
             System.out.println(JSON.toJSONString(datumEntities));
 
             //第五步：调用Mapper接口对象的方法操作数据库
-            String rootPath = "/Users/songbowen/Desktop/私活/资料/datum/";
+            String rootPath = "/Users/songbowen/Desktop/personal/资料/datum/";
 
             Map<String, List<DatumEntity>> collect = datumEntities.stream().collect(Collectors.groupingBy(DatumEntity::getSubjectName));
             for (Map.Entry<String, List<DatumEntity>> integerListEntry : collect.entrySet()) {
@@ -75,12 +75,12 @@ public class DatumBundleDemo4 {
                 }
                 String filePath = dirPath + File.separator + datumEntity.getFileName();
                 try(FileOutputStream fos = new FileOutputStream(filePath)) {
-                    String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
-                    File newFile = new File(path);
+                    File newFile = new File(filePath);
                     if (newFile.exists()) {
-                        System.out.println("---------无需处理:" + path);
+                        System.out.println("---------无需处理:" + filePath);
                         continue;
                     }
+                    String path = datumEntity.getPrefix() + datumEntity.getFileUrl();
                     System.out.println("---------开始下载:" + path);
                     downloadFile(path, fos);
                 } catch (FileNotFoundException e) {
