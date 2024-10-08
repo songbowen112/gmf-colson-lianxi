@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class MultiThreadedAttachmentProcessor {
@@ -105,20 +106,26 @@ public class MultiThreadedAttachmentProcessor {
     }
 
     private static void downloadFile(String downloadUrl, OutputStream out) throws IOException {
-        OkHttpClient client = new OkHttpClient();
-        Call call = client.newCall(new Request.Builder().url(downloadUrl).build());
-        try (Response execute = call.execute()) {
-            if (execute.isSuccessful()) {
-                try (InputStream is = Objects.requireNonNull(execute.body(), "下载文件为空").byteStream()) {
-                    if (null != is) {
-                        byte[] arr = new byte[10240];
-                        int offset = 0;
-                        while ((offset = is.read(arr)) != -1) {
-                            out.write(arr, 0, offset);
-                        }
-                    }
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(60, TimeUnit.SECONDS) // 连接超时时间
+                .readTimeout(60, TimeUnit.SECONDS)    // 读取超时时间
+                .build();
+
+        Request request = new Request.Builder()
+                .url(downloadUrl)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            InputStream is = response.body().byteStream();
+            byte[] arr = new byte[4096];
+            int offset;
+
+            try {
+                while ((offset = is.read(arr)) != -1) {
+                    out.write(arr, 0, offset);
                 }
-            } else {
+            } finally {
+                out.flush();
             }
         }
     }
