@@ -25,6 +25,8 @@ import java.util.stream.Collectors;
 public class MultiThreadedAttachmentProcessor {
 
     public static void main(String[] args) {
+        String data = "{\"openId\":\"222151\",\"creditApplyId\":\"\",\"amount\":10000,\"totalPeriod\":12,\"repayType\":\"4\",\"productId\":\"111\"}";
+
         // 假设你已经获得了 attachmentEntities
         List<AttachmentEntity> attachmentEntities = null;
         try {
