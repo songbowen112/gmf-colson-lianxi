@@ -1,7 +1,6 @@
 package com.colson.web.test;
 
 import com.colson.common.utils.PathUtil;
-import com.colson.service.AttachmentService;
 import com.colson.service.PaperUploadService;
 import com.colson.service.dto.DownloadPdfParamInfo;
 import org.apache.commons.lang3.StringUtils;
@@ -12,7 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
-import java.util.ArrayList;
 
 /**
  * 真题下载
